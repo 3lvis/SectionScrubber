@@ -17,7 +17,7 @@ An optional longer description of <PODNAME>
 * Markdown format.
 * Don't worry about the indent, we strip it!
 DESC
-s.homepage         = "https://github.com/<GITHUB_USERNAME>/Podname"
+s.homepage         = "https://github.com/<GITHUB_USERNAME>/<PODNAME>"
 s.license          = 'MIT'
 s.author           = { "<AUTHOR_NAME>" => "<AUTHOR_EMAIL>" }
 s.source           = { :git => "https://github.com/<GITHUB_USERNAME>/<PODNAME>.git", :tag => s.version.to_s }
