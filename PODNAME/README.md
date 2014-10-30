@@ -1,4 +1,4 @@
-# Podname
+# <PODNAME>
 
 [![CI Status](http://img.shields.io/travis/<AUTHOR_USERNAME>/<PODNAME>.svg?style=flat)](https://travis-ci.org/<AUTHOR_USERNAME>/<PODNAME>)
 [![Version](https://img.shields.io/cocoapods/v/<PODNAME>.svg?style=flat)](http://cocoadocs.org/docsets/<PODNAME>)
