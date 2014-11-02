@@ -8,11 +8,11 @@
 
 @import XCTest;
 
-@interface DemoTests : XCTestCase
+@interface Tests : XCTestCase
 
 @end
 
-@implementation DemoTests
+@implementation Tests
 
 - (void)setUp
 {
