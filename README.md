@@ -2,7 +2,7 @@
 
 Use the contents of the `PODNAME` folder and replace the needed parts.
 
-`<PODNAME>`, `<AUTHOR_NAME>`, `<COMPANY_NAME>`, `<TWITTER_USERNAME>`
+`<PODNAME>`, `<AUTHOR_NAME>`, `<AUTHOR_EMAIL>`, `<USERNAME>`
 
 ## Author
 
