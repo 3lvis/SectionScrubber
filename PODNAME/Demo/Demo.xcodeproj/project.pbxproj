@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14B564731A06D87B00342CDA /* .travis.yml in Resources */ = {isa = PBXBuildFile; fileRef = 14B564721A06D87B00342CDA /* .travis.yml */; };
 		14C4182E1A01919C00636FD6 /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 14C4182D1A01919C00636FD6 /* Tests.m */; };
 		14C4183C1A019A1500636FD6 /* CONTRIBUTING.md in Sources */ = {isa = PBXBuildFile; fileRef = 14C418381A019A1500636FD6 /* CONTRIBUTING.md */; };
 		14C4183D1A019A1500636FD6 /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 14C418391A019A1500636FD6 /* LICENSE.md */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		14B564721A06D87B00342CDA /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = .travis.yml; path = ../.travis.yml; sourceTree = "<group>"; };
 		14C418261A01919C00636FD6 /* DemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		14C4182C1A01919C00636FD6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14C4182D1A01919C00636FD6 /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 		14C418401A019A1B00636FD6 /* Metadata */ = {
 			isa = PBXGroup;
 			children = (
+				14B564721A06D87B00342CDA /* .travis.yml */,
 				14C418381A019A1500636FD6 /* CONTRIBUTING.md */,
 				14C418391A019A1500636FD6 /* LICENSE.md */,
 				14C4183A1A019A1500636FD6 /* PODNAME.podspec */,
@@ -145,6 +148,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14B564731A06D87B00342CDA /* .travis.yml in Resources */,
 				14C4183D1A019A1500636FD6 /* LICENSE.md in Resources */,
 				14C4183E1A019A1500636FD6 /* PODNAME.podspec in Resources */,
 			);
@@ -299,6 +303,7 @@
 				14C418361A01919C00636FD6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
