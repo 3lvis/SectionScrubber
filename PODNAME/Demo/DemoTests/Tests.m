@@ -1,9 +1,6 @@
 //
-//  DemoTests.m
-//  DemoTests
+//  Tests.m
 //
-//  Created by Elvis Nunez on 10/29/14.
-//  Copyright (c) 2014 ANDY. All rights reserved.
 //
 
 @import XCTest;
