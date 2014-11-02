@@ -15,10 +15,10 @@ To run the example project, clone the repo, and open the `.xcodeproj` from the D
 
 ## Installation
 
-<PODNAME> is available through [CocoaPods](http://cocoapods.org). To install
+**<PODNAME>** is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
-pod "<PODNAME>"
+`pod "<PODNAME>"`
 
 ## Author
 
@@ -26,5 +26,5 @@ pod "<PODNAME>"
 
 ## License
 
-<PODNAME> is available under the MIT license. See the LICENSE file for more info.
+**<PODNAME>** is available under the MIT license. See the LICENSE file for more info.
 
