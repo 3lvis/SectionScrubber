@@ -1,5 +1,5 @@
 language: objective-c
-xcode_project: Demo/Demo.xcodeproj
+xcode_project: Tests/Tests.xcodeproj
 matrix:
   include:
     - xcode_sdk: iphonesimulator
