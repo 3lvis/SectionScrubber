@@ -24,4 +24,10 @@
     [super tearDown];
 }
 
+- (void)testSampleTest
+{
+    NSArray *array;
+    XCTAssertNil(array);
+}
+
 @end

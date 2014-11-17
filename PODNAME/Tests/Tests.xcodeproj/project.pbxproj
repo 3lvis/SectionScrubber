@@ -17,7 +17,7 @@
 
 /* Begin PBXFileReference section */
 		14B564721A06D87B00342CDA /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = .travis.yml; path = ../.travis.yml; sourceTree = "<group>"; };
-		14C418261A01919C00636FD6 /* DemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		14C418261A01919C00636FD6 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		14C4182C1A01919C00636FD6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14C4182D1A01919C00636FD6 /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		14C418381A019A1500636FD6 /* CONTRIBUTING.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = CONTRIBUTING.md; path = ../CONTRIBUTING.md; sourceTree = "<group>"; };
@@ -42,7 +42,7 @@
 			children = (
 				14C418401A019A1B00636FD6 /* Metadata */,
 				14C418371A01974300636FD6 /* Source */,
-				14C4182A1A01919C00636FD6 /* DemoTests */,
+				14C4182A1A01919C00636FD6 /* Tests */,
 				14C4181C1A01919C00636FD6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -50,18 +50,18 @@
 		14C4181C1A01919C00636FD6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				14C418261A01919C00636FD6 /* DemoTests.xctest */,
+				14C418261A01919C00636FD6 /* Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		14C4182A1A01919C00636FD6 /* DemoTests */ = {
+		14C4182A1A01919C00636FD6 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				14C4182D1A01919C00636FD6 /* Tests.m */,
 				14C4182B1A01919C00636FD6 /* Supporting Files */,
 			);
-			path = DemoTests;
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		14C4182B1A01919C00636FD6 /* Supporting Files */ = {
@@ -95,9 +95,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		14C418251A01919C00636FD6 /* DemoTests */ = {
+		14C418251A01919C00636FD6 /* Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 14C418341A01919C00636FD6 /* Build configuration list for PBXNativeTarget "DemoTests" */;
+			buildConfigurationList = 14C418341A01919C00636FD6 /* Build configuration list for PBXNativeTarget "Tests" */;
 			buildPhases = (
 				14C418221A01919C00636FD6 /* Sources */,
 				14C418231A01919C00636FD6 /* Frameworks */,
@@ -107,9 +107,9 @@
 			);
 			dependencies = (
 			);
-			name = DemoTests;
+			name = Tests;
 			productName = DemoTests;
-			productReference = 14C418261A01919C00636FD6 /* DemoTests.xctest */;
+			productReference = 14C418261A01919C00636FD6 /* Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -126,7 +126,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 14C418151A01919C00636FD6 /* Build configuration list for PBXProject "Demo" */;
+			buildConfigurationList = 14C418151A01919C00636FD6 /* Build configuration list for PBXProject "Tests" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -138,7 +138,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				14C418251A01919C00636FD6 /* DemoTests */,
+				14C418251A01919C00636FD6 /* Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -265,7 +265,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = DemoTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -278,7 +278,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = DemoTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -287,7 +287,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		14C418151A01919C00636FD6 /* Build configuration list for PBXProject "Demo" */ = {
+		14C418151A01919C00636FD6 /* Build configuration list for PBXProject "Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				14C4182F1A01919C00636FD6 /* Debug */,
@@ -296,7 +296,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		14C418341A01919C00636FD6 /* Build configuration list for PBXNativeTarget "DemoTests" */ = {
+		14C418341A01919C00636FD6 /* Build configuration list for PBXNativeTarget "Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				14C418351A01919C00636FD6 /* Debug */,
