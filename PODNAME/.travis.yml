@@ -1,9 +1,5 @@
 language: objective-c
-xcode_project: Tests/Tests.xcodeproj
-matrix:
-  include:
-    - xcode_sdk: iphonesimulator
-      xcode_scheme: Demo
+script: xctool -workspace Tests/Tests.xcworkspace -scheme Tests -sdk iphonesimulator build test
 before_install:
   - brew update
   - brew unlink xctool
