@@ -8,11 +8,11 @@ An optional longer description of <PODNAME>
 * Markdown format.
 * Don't worry about the indent, we strip it!
 DESC
-s.homepage         = "https://github.com/<USERNAME>/<PODNAME>"
+s.homepage         = "https://github.com/hyperoslo/<PODNAME>"
 s.license          = 'MIT'
 s.author           = { "<AUTHOR_NAME>" => "<AUTHOR_EMAIL>" }
-s.source           = { :git => "https://github.com/<USERNAME>/<PODNAME>.git", :tag => s.version.to_s }
-s.social_media_url = 'https://twitter.com/<USERNAME>'
+s.source           = { :git => "https://github.com/hyperoslo/<PODNAME>.git", :tag => s.version.to_s }
+s.social_media_url = 'https://twitter.com/hyperoslo'
 
 s.platform     = :ios, '7.0'
 s.requires_arc = true
