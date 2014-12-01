@@ -10,7 +10,7 @@ An optional longer description of <PODNAME>
 DESC
 s.homepage         = "https://github.com/hyperoslo/<PODNAME>"
 s.license          = 'MIT'
-s.author           = { "Hyper AS" => "<AUTHOR_EMAIL>" }
+s.author           = { "Hyper AS" => "teknologi@hyper.no" }
 s.source           = { :git => "https://github.com/hyperoslo/<PODNAME>.git", :tag => s.version.to_s }
 s.social_media_url = 'https://twitter.com/hyperoslo'
 

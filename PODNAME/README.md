@@ -18,7 +18,7 @@ it, simply add the following line to your Podfile:
 
 ## Author
 
-Hyper AS, <AUTHOR_EMAIL>
+Hyper AS, teknologi@hyper.no
 
 ## License
 
