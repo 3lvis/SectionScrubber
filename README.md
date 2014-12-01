@@ -2,7 +2,7 @@
 
 Use the contents of the `PODNAME` folder and replace the needed parts.
 
-`<PODNAME>`, `<AUTHOR_NAME>`, `<AUTHOR_EMAIL>`, `hyperoslo`
+`<PODNAME>`, `Hyper AS`, `<AUTHOR_EMAIL>`, `hyperoslo`
 
 ## Author
 

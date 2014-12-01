@@ -18,7 +18,7 @@ it, simply add the following line to your Podfile:
 
 ## Author
 
-<AUTHOR_NAME>, <AUTHOR_EMAIL>
+Hyper AS, <AUTHOR_EMAIL>
 
 ## License
 
