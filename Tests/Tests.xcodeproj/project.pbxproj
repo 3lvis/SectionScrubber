@@ -117,7 +117,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0610;
-				ORGANIZATIONNAME = ANDY;
+				ORGANIZATIONNAME = Hyper;
 				TargetAttributes = {
 					14C418251A01919C00636FD6 = {
 						CreatedOnToolsVersion = 6.1;
