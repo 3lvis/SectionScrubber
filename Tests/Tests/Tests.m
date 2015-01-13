@@ -1,7 +1,3 @@
-//
-//  Tests.m
-//
-
 @import XCTest;
 
 @interface Tests : XCTestCase
