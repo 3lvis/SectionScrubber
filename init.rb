@@ -12,7 +12,8 @@ ignored_file_types = ['.xccheckout',
                       '.xcodeproj',
                       '.xcworkspace',
                       '.xcuserdatad',
-                      '.xcuserstate']
+                      '.xcuserstate',
+                      '.rb']
 
 file_names.each do |file_name|
     if !ignored_file_types.include?(File.extname(file_name))
