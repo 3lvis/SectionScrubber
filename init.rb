@@ -27,7 +27,7 @@ File.rename("#{folder_path}/PODNAME.podspec", "#{folder_path}/#{pod_name}.podspe
 
 git_directory = "#{folder_path}/.git"
 FileUtils.rm_rf git_directory
+FileUtils.rm('init.rb')
 
 system("git init && git add . && git commit -am 'Initial commit'")
 system("git remote add origin https://github.com/hyperoslo/#{pod_name}.git")
-FileUtils.rm('init.rb')
