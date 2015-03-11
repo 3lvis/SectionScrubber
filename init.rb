@@ -7,7 +7,7 @@ folder_path = Dir.pwd
 print 'pod name > '
 pod_name = gets.chop
 
-file_names = Dir["#{Dir.pwd}/**/*.*"]
+file_names = Dir["#{folder_path}/**/*.*"]
 ignored_file_types = ['.xccheckout',
                       '.xcodeproj',
                       '.xcworkspace',
