@@ -25,7 +25,7 @@ end
 
 File.rename("#{folder_path}/PODNAME.podspec", "#{folder_path}/#{pod_name}.podspec")
 
-git_directory = "#{Dir.pwd}/.git"
+git_directory = "#{folder_path}/.git"
 FileUtils.rm_rf git_directory
 
 system("git init && git add . && git commit -am 'Initial commit'")
