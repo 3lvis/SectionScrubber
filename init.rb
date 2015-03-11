@@ -1,3 +1,5 @@
+#!/usr/bin/ruby
+
 require 'fileutils'
 
 folder_path = Dir.pwd
