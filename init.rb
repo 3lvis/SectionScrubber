@@ -14,11 +14,11 @@ ignored_file_types = ['.xccheckout',
                       '.rb']
 
 file_names.each do |file_name|
-    if !ignored_file_types.include?(File.extname(file_name))
-        text = File.read(file_name)
-        new_contents = text.gsub(/<PODNAME>/, pod_name)
-        File.open(file_name, "w") {|file| file.puts new_contents }
-    end
+  if !ignored_file_types.include?(File.extname(file_name))
+    text = File.read(file_name)
+    new_contents = text.gsub(/<PODNAME>/, pod_name)
+    File.open(file_name, "w") {|file| file.puts new_contents }
+  end
 end
 
 File.rename("#{Dir.pwd}/PODNAME.podspec", "#{Dir.pwd}/#{pod_name}.podspec")
