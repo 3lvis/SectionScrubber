@@ -1,10 +1,6 @@
 Pod::Spec.new do |s|
 s.name             = "<PODNAME>"
 s.version          = "0.1"
-s.summary          = "<PODDESCRIPTION>"
-s.description      = <<-DESC
-<PODDESCRIPTION>
-DESC
 s.homepage         = "https://github.com/hyperoslo/<PODNAME>"
 s.license          = 'MIT'
 s.author           = { "Hyper AS" => "teknologi@hyper.no" }
