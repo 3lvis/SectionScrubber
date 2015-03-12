@@ -18,7 +18,7 @@ it, simply add the following line to your Podfile:
 
 ## Author
 
-Hyper Interaktiv AS, teknologi@hyper.no
+Hyper, teknologi@hyper.no
 
 ## License
 
