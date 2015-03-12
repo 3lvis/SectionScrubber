@@ -1,5 +1,5 @@
 language: objective-c
-language: objective-c
+# podfile: Tests/Podfile
 before_install:
 - gem install cocoapods -v '0.36'
 
