@@ -1,5 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "<PODNAME>"
+  s.summary          = "A short description of <PODNAME>."
   s.version          = "0.1"
   s.homepage         = "https://github.com/hyperoslo/<PODNAME>"
   s.license          = 'MIT'
