@@ -7,6 +7,10 @@ folder_path = Dir.pwd
 print 'pod name > '
 pod_name = gets.chop
 
+author_name = 'Hyper Interaktiv AS'
+author_email = 'ios@hyper.no'
+username = 'hyperoslo'
+
 file_names = Dir["#{folder_path}/**/*.*"]
 ignored_file_types = ['.xccheckout',
                       '.xcodeproj',
@@ -18,7 +22,12 @@ ignored_file_types = ['.xccheckout',
 file_names.each do |file_name|
   if !ignored_file_types.include?(File.extname(file_name))
     text = File.read(file_name)
+
     new_contents = text.gsub(/<PODNAME>/, pod_name)
+    new_contents = new_contents.gsub(/<AUTHOR_NAME>/, author_name)
+    new_contents = new_contents.gsub(/<AUTHOR_EMAIL>/, author_email)
+    new_contents = new_contents.gsub(/<USERNAME>/, username)
+
     File.open(file_name, "w") {|file| file.puts new_contents }
   end
 end
@@ -30,4 +39,4 @@ FileUtils.rm_rf git_directory
 FileUtils.rm('init.rb')
 
 system("git init && git add . && git commit -am 'Initial commit'")
-system("git remote add origin https://github.com/hyperoslo/#{pod_name}.git")
+system("git remote add origin https://github.com/#{username}/#{pod_name}.git")
