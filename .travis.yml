@@ -4,7 +4,7 @@ before_install:
 - gem install cocoapods -v '0.36'
 
 # Use when you have third party dependencies (CocoaPods generates a workspace)
-# script: xctool -workspace Tests/Tests.xcworkspace -scheme Tests -sdk iphonesimulator build test
+# script: xctool -workspace Pod/Pod.xcworkspace -scheme Tests -sdk iphonesimulator build test
 
 # Use when you don't have third party dependencies
-# script: xctool -project Tests/Tests.xcodeproj -scheme Tests -sdk iphonesimulator build test
+# script: xctool -project Pod/Pod.xcodeproj -scheme Tests -sdk iphonesimulator build test

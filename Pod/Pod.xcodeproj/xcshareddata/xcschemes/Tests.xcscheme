@@ -9,20 +9,6 @@
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "146D72921AB782920058798C"
-               BuildableName = "Pod.app"
-               BlueprintName = "Pod"
-               ReferencedContainer = "container:Pod.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
             buildForProfiling = "NO"
             buildForArchiving = "NO"
             buildForAnalyzing = "YES">
@@ -56,9 +42,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "146D72921AB782920058798C"
-            BuildableName = "Pod.app"
-            BlueprintName = "Pod"
+            BlueprintIdentifier = "146D72AB1AB782920058798C"
+            BuildableName = "Tests.xctest"
+            BlueprintName = "Tests"
             ReferencedContainer = "container:Pod.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -72,16 +58,15 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "146D72921AB782920058798C"
-            BuildableName = "Pod.app"
-            BlueprintName = "Pod"
+            BlueprintIdentifier = "146D72AB1AB782920058798C"
+            BuildableName = "Tests.xctest"
+            BlueprintName = "Tests"
             ReferencedContainer = "container:Pod.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -91,16 +76,15 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "146D72921AB782920058798C"
-            BuildableName = "Pod.app"
-            BlueprintName = "Pod"
+            BlueprintIdentifier = "146D72AB1AB782920058798C"
+            BuildableName = "Tests.xctest"
+            BlueprintName = "Tests"
             ReferencedContainer = "container:Pod.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

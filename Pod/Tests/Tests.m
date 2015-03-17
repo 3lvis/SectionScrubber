@@ -7,9 +7,16 @@
 
 @implementation PodTests
 
-- (void)testExample
+- (void)testPassingExample
 {
-    XCTAssert(YES, @"Pass");
+    NSArray *array;
+    XCTAssertNil(array);
+}
+
+- (void)testFailingExample
+{
+    NSArray *array;
+    XCTAssertNotNil(array);
 }
 
 @end
