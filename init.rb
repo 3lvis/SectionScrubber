@@ -11,8 +11,6 @@ else
   pod_name = gets.chop
 end 
 
-
-
 author_name = 'Hyper Interaktiv AS'
 author_email = 'ios@hyper.no'
 username = 'hyperoslo'
