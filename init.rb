@@ -5,7 +5,7 @@ require 'fileutils'
 def prompt(message)
   print "#{message} > "
   input = gets.chomp
-  input = nil if input.strip == ''
+  input = nil if input.strip.empty?
   input
 end
 
