@@ -2,18 +2,19 @@
 
 require 'fileutils'
 
+def prompt(message)
+  print "#{message} > "
+  input = gets.chomp
+  input = nil if input.strip.empty?
+  input
+end
+
 folder_path = Dir.pwd
 
-if ARGV[0]
-  pod_name = ARGV[0]
-else
-  print 'pod name > '
-  pod_name = gets.chop
-end 
-
-author_name = 'Hyper Interaktiv AS'
-author_email = 'ios@hyper.no'
-username = 'hyperoslo'
+pod_name = ARGV.shift || prompt('pod name') || 'MyPod'
+author_name = prompt('author') || 'Hyper Interaktiv AS'
+author_email = prompt('e-mail') || 'ios@hyper.no'
+username = prompt('username') || 'hyperoslo'
 
 file_names = Dir["#{folder_path}/**/*.*"]
 ignored_file_types = ['.xccheckout',
