@@ -4,8 +4,12 @@ require 'fileutils'
 
 folder_path = Dir.pwd
 
-print 'pod name > '
-pod_name = gets.chop
+if ARGV[0]
+  pod_name = ARGV[0]
+else
+  print 'pod name > '
+  pod_name = gets.chop
+end 
 
 author_name = 'Hyper Interaktiv AS'
 author_email = 'ios@hyper.no'
