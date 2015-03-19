@@ -9,7 +9,7 @@ def prompt(message)
   input
 end
 
-folder_path = Dir.pwd
+folder_path = __dir__
 
 pod_name = ARGV.shift || prompt('pod name') || 'MyPod'
 author_name = prompt('author') || 'Hyper Interaktiv AS'
