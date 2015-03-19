@@ -6,5 +6,5 @@ before_install:
 script: xctool -project Pod/Pod.xcodeproj -scheme Tests -sdk iphonesimulator build test
 
 # Use when you have third party dependencies (CocoaPods generates a workspace)
-# podfile: Tests/Podfile
+# podfile: Pod/Podfile
 # script: xctool -workspace Pod/Pod.xcworkspace -scheme Tests -sdk iphonesimulator build test
