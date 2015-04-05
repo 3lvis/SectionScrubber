@@ -1,6 +1,6 @@
 language: objective-c
 before_install:
-- gem install cocoapods -v '0.36'
+- gem install cocoapods
 
 # Use when you don't have third party dependencies
 script: xctool -project Pod/Pod.xcodeproj -scheme Tests -sdk iphonesimulator build test
