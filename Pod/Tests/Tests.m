@@ -1,11 +1,11 @@
 @import UIKit;
 @import XCTest;
 
-@interface PodTests : XCTestCase
+@interface Tests : XCTestCase
 
 @end
 
-@implementation PodTests
+@implementation Tests
 
 - (void)testPassingExample
 {
