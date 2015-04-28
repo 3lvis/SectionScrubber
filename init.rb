@@ -3,7 +3,7 @@
 require 'fileutils'
 
 def prompt(message, default)
-  print "#{message} (press enter to use: #{default}) > "
+  print "#{message} (or press enter to use: #{default}) > "
   input = gets.chomp
   input = nil if input.strip.empty?
   input
