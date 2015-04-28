@@ -2,8 +2,8 @@
 
 require 'fileutils'
 
-def prompt(message)
-  print "#{message} > "
+def prompt(message, default)
+  print "#{message} (press enter to use: #{default}) > "
   input = gets.chomp
   input = nil if input.strip.empty?
   input
@@ -11,10 +11,15 @@ end
 
 folder_path = __dir__
 
-pod_name = ARGV.shift || prompt('pod name') || 'MyPod'
-author_name = prompt('author') || 'Hyper Interaktiv AS'
-author_email = prompt('e-mail') || 'ios@hyper.no'
-username = prompt('username') || 'hyperoslo'
+default_pod_name = 'MyPod'
+default_author_name = 'Hyper Interaktiv AS'
+default_author_email = 'ios@hyper.no'
+default_username = 'hyperoslo'
+
+pod_name = ARGV.shift || prompt('pod name', default_pod_name) || default_pod_name
+author_name = prompt('author', default_author_name) || default_author_name
+author_email = prompt('e-mail', default_author_email) || default_author_email
+username = prompt('username', default_username) || default_username
 
 file_names = Dir["#{folder_path}/**/*.*"]
 ignored_file_types = ['.xccheckout',
