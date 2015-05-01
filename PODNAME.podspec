@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.author           = { "<AUTHOR_NAME>" => "<AUTHOR_EMAIL>" }
   s.source           = { :git => "https://github.com/<USERNAME>/<PODNAME>.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/<USERNAME>'
-  s.platform     = :ios, '7.0'
+  s.platform     = :ios, '8.0'
   s.requires_arc = true
   s.source_files = 'Source/**/*'
 # s.frameworks = 'UIKit', 'MapKit'
