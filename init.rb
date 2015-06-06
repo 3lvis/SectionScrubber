@@ -12,9 +12,9 @@ end
 folder_path = __dir__
 
 default_pod_name = 'MyPod'
-default_author_name = 'Hyper Interaktiv AS'
-default_author_email = 'ios@hyper.no'
-default_username = 'hyperoslo'
+default_author_name = 'Bakken & Bæck AS'
+default_author_email = 'post@bakkenbaeck.com'
+default_username = 'bakkenbaeck'
 
 pod_name = ARGV.shift || prompt('pod name', default_pod_name) || default_pod_name
 author_name = prompt('author', default_author_name) || default_author_name
