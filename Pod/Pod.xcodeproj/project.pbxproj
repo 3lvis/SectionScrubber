@@ -70,8 +70,8 @@
 		146D728A1AB782920058798C = {
 			isa = PBXGroup;
 			children = (
-				14C1365B1AB784BC00B7B07A /* Source */,
 				14C136501AB7849300B7B07A /* Metadata */,
+				14C1365B1AB784BC00B7B07A /* Source */,
 				142A42241B2312B600AFE37D /* App */,
 				146D72AF1AB782920058798C /* Tests */,
 				146D72941AB782920058798C /* Products */,
@@ -92,9 +92,9 @@
 		146D72AF1AB782920058798C /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				146D72B01AB782920058798C /* Supporting Files */,
-				14A139B31AEFC72B00AD732F /* Tests.swift */,
 				14A139B21AEFC72B00AD732F /* Tests-Bridging-Header.h */,
+				14A139B31AEFC72B00AD732F /* Tests.swift */,
+				146D72B01AB782920058798C /* Supporting Files */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
