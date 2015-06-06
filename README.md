@@ -20,10 +20,12 @@ it, simply add the following line to your Podfile:
 pod '<PODNAME>'
 ```
 
+## License
+
+**<PODNAME>** is available under the MIT license. See the LICENSE file for more info.
+
 ## Author
 
 <AUTHOR_NAME>, <AUTHOR_EMAIL>
 
-## License
-
-**<PODNAME>** is available under the MIT license. See the LICENSE file for more info.
+![Labs](https://raw.githubusercontent.com/bakkenbaeck/pod-template/master/Images/labs-banner.png)
