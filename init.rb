@@ -27,16 +27,19 @@ ignored_file_types = ['.xccheckout',
                       '.xcworkspace',
                       '.xcuserdatad',
                       '.xcuserstate',
+                      '.lproj',
+                      '.xcassets',
+                      '.appiconset',
                       '.rb']
 
 file_names.each do |file_name|
   if !ignored_file_types.include?(File.extname(file_name))
     text = File.read(file_name)
 
-    new_contents = text.gsub(/<PODNAME>/, pod_name)
-    new_contents = new_contents.gsub(/<AUTHOR_NAME>/, author_name)
-    new_contents = new_contents.gsub(/<AUTHOR_EMAIL>/, author_email)
-    new_contents = new_contents.gsub(/<USERNAME>/, username)
+    new_contents = text.scrub.gsub(/<PODNAME>/, pod_name)
+    new_contents = new_contents.scrub.gsub(/<AUTHOR_NAME>/, author_name)
+    new_contents = new_contents.scrub.gsub(/<AUTHOR_EMAIL>/, author_email)
+    new_contents = new_contents.scrub.gsub(/<USERNAME>/, username)
 
     File.open(file_name, "w") {|file| file.puts new_contents }
   end
