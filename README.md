@@ -26,6 +26,6 @@ pod '<PODNAME>'
 
 ## Author
 
-<AUTHOR_NAME>, <AUTHOR_EMAIL>
+<AUTHOR_NAME>, [@<USERNAME>](https://twitter.com/<USERNAME>)
 
 ![Labs](https://raw.githubusercontent.com/bakkenbaeck/pod-template/master/Images/labs-banner.png)
