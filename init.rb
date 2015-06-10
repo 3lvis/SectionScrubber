@@ -30,6 +30,7 @@ ignored_file_types = ['.xccheckout',
                       '.lproj',
                       '.xcassets',
                       '.appiconset',
+                      '.xctemplate',
                       '.rb']
 
 file_names.each do |file_name|
