@@ -170,9 +170,9 @@
 		146D728B1AB782920058798C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				CLASSPREFIX = BB;
+				CLASSPREFIX = PREFIX;
 				LastUpgradeCheck = 0620;
-				ORGANIZATIONNAME = "Bakken & Bæck AS";
+				ORGANIZATIONNAME = "COMPANY NAME";
 				TargetAttributes = {
 					142A42221B2312B600AFE37D = {
 						CreatedOnToolsVersion = 6.3.2;
