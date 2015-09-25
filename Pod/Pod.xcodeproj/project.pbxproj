@@ -171,6 +171,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = PREFIX;
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = "COMPANY NAME";
 				TargetAttributes = {
@@ -403,6 +404,7 @@
 				142A423B1B2312B600AFE37D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		146D728E1AB782920058798C /* Build configuration list for PBXProject "Pod" */ = {
 			isa = XCConfigurationList;
