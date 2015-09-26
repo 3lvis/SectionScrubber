@@ -170,10 +170,10 @@
 		146D728B1AB782920058798C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				CLASSPREFIX = PREFIX;
+				CLASSPREFIX = "";
 				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0620;
-				ORGANIZATIONNAME = "COMPANY NAME";
+				ORGANIZATIONNAME = "";
 				TargetAttributes = {
 					142A42221B2312B600AFE37D = {
 						CreatedOnToolsVersion = 6.3.2;
