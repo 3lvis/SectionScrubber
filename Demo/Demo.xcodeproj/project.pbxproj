@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		14A139B41AEFC72B00AD732F /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A139B31AEFC72B00AD732F /* Tests.swift */; };
 		14DABAA31BD5839E0096CF14 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DABAA21BD5839E0096CF14 /* AppDelegate.swift */; };
-		14DABAA61BD5839E0096CF14 /* SwiftDemo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 14DABAA41BD5839E0096CF14 /* SwiftDemo.xcdatamodeld */; };
 		14DABAA81BD5839E0096CF14 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14DABAA71BD5839E0096CF14 /* Assets.xcassets */; };
 		14DABAAB1BD5839E0096CF14 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14DABAA91BD5839E0096CF14 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -25,7 +24,6 @@
 		14C1365C1AB784BC00B7B07A /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		14DABAA01BD5839E0096CF14 /* SwiftDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14DABAA21BD5839E0096CF14 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		14DABAA51BD5839E0096CF14 /* SwiftDemo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SwiftDemo.xcdatamodel; sourceTree = "<group>"; };
 		14DABAA71BD5839E0096CF14 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		14DABAAA1BD5839E0096CF14 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		14DABAAC1BD5839E0096CF14 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -115,7 +113,6 @@
 				14DABAA71BD5839E0096CF14 /* Assets.xcassets */,
 				14DABAA91BD5839E0096CF14 /* LaunchScreen.storyboard */,
 				14DABAAC1BD5839E0096CF14 /* Info.plist */,
-				14DABAA41BD5839E0096CF14 /* SwiftDemo.xcdatamodeld */,
 			);
 			path = SwiftDemo;
 			sourceTree = "<group>";
@@ -227,7 +224,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14DABAA61BD5839E0096CF14 /* SwiftDemo.xcdatamodeld in Sources */,
 				14DABAA31BD5839E0096CF14 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -412,19 +408,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		14DABAA41BD5839E0096CF14 /* SwiftDemo.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				14DABAA51BD5839E0096CF14 /* SwiftDemo.xcdatamodel */,
-			);
-			currentVersion = 14DABAA51BD5839E0096CF14 /* SwiftDemo.xcdatamodel */;
-			path = SwiftDemo.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 146D728B1AB782920058798C /* Project object */;
 }
