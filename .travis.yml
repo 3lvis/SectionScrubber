@@ -4,10 +4,10 @@ cache: cocoapods
 before_install: gem install xcpretty cocoapods obcd slather -N
 
 # Use when you don't have third party dependencies
-script: xcodebuild -project Pod/Pod.xcodeproj -scheme Tests -sdk iphonesimulator build test GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES clean test | xcpretty -c && exit ${PIPESTATUS[0]}
+script: xcodebuild -project Demo/Demo.xcodeproj -scheme Tests -sdk iphonesimulator build test GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES clean test | xcpretty -c && exit ${PIPESTATUS[0]}
 
 # Use when you have third party dependencies (CocoaPods generates a workspace)
-# podfile: Pod/Podfile
-# script: xcodebuild -workspace Pod/Pod.xcworkspace -scheme Tests -sdk iphonesimulator build test GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES clean test | xcpretty -c && exit ${PIPESTATUS[0]}
+# podfile: Demo/Podfile
+# script: xcodebuild -workspace Demo/Demo.xcworkspace -scheme Tests -sdk iphonesimulator build test GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES clean test | xcpretty -c && exit ${PIPESTATUS[0]}
 
 after_success: slather
