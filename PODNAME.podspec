@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.social_media_url = 'https://twitter.com/<USERNAME>'
   s.platform     = :ios, '8.0'
   s.requires_arc = true
-  s.source_files = 'Source/**/*'
+  s.source_files = 'Source'
 # s.frameworks = 'UIKit', 'MapKit'
-# s.dependency 'AFNetworking', '~> 2.3'
+# s.dependency 'Networking', '~> 0.8.0'
 end
