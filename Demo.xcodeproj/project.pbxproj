@@ -8,9 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		14A139B41AEFC72B00AD732F /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A139B31AEFC72B00AD732F /* Tests.swift */; };
-		14DABAA31BD5839E0096CF14 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DABAA21BD5839E0096CF14 /* AppDelegate.swift */; };
-		14DABAA81BD5839E0096CF14 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14DABAA71BD5839E0096CF14 /* Assets.xcassets */; };
-		14DABAAB1BD5839E0096CF14 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14DABAA91BD5839E0096CF14 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,22 +19,10 @@
 		14C136541AB784B200B7B07A /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = LICENSE.md; path = ../LICENSE.md; sourceTree = "<group>"; };
 		14C136551AB784B200B7B07A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		14C1365C1AB784BC00B7B07A /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
-		14DABAA01BD5839E0096CF14 /* SwiftDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		14DABAA21BD5839E0096CF14 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		14DABAA71BD5839E0096CF14 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		14DABAAA1BD5839E0096CF14 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		14DABAAC1BD5839E0096CF14 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		146D72A91AB782920058798C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		14DABA9D1BD5839E0096CF14 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -53,7 +38,6 @@
 				14C136501AB7849300B7B07A /* Metadata */,
 				14C1365B1AB784BC00B7B07A /* Source */,
 				146D72AF1AB782920058798C /* Tests */,
-				14DABAA11BD5839E0096CF14 /* SwiftDemo */,
 				146D72941AB782920058798C /* Products */,
 			);
 			indentWidth = 4;
@@ -64,7 +48,6 @@
 			isa = PBXGroup;
 			children = (
 				146D72AC1AB782920058798C /* Tests.xctest */,
-				14DABAA01BD5839E0096CF14 /* SwiftDemo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -106,17 +89,6 @@
 			path = ../Source;
 			sourceTree = "<group>";
 		};
-		14DABAA11BD5839E0096CF14 /* SwiftDemo */ = {
-			isa = PBXGroup;
-			children = (
-				14DABAA21BD5839E0096CF14 /* AppDelegate.swift */,
-				14DABAA71BD5839E0096CF14 /* Assets.xcassets */,
-				14DABAA91BD5839E0096CF14 /* LaunchScreen.storyboard */,
-				14DABAAC1BD5839E0096CF14 /* Info.plist */,
-			);
-			path = SwiftDemo;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -137,23 +109,6 @@
 			productReference = 146D72AC1AB782920058798C /* Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		14DABA9F1BD5839E0096CF14 /* SwiftDemo */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 14DABAAD1BD5839E0096CF14 /* Build configuration list for PBXNativeTarget "SwiftDemo" */;
-			buildPhases = (
-				14DABA9C1BD5839E0096CF14 /* Sources */,
-				14DABA9D1BD5839E0096CF14 /* Frameworks */,
-				14DABA9E1BD5839E0096CF14 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = SwiftDemo;
-			productName = SwiftDemo;
-			productReference = 14DABAA01BD5839E0096CF14 /* SwiftDemo.app */;
-			productType = "com.apple.product-type.application";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -167,9 +122,6 @@
 				TargetAttributes = {
 					146D72AB1AB782920058798C = {
 						CreatedOnToolsVersion = 6.2;
-					};
-					14DABA9F1BD5839E0096CF14 = {
-						CreatedOnToolsVersion = 7.0.1;
 					};
 				};
 			};
@@ -187,7 +139,6 @@
 			projectRoot = "";
 			targets = (
 				146D72AB1AB782920058798C /* Tests */,
-				14DABA9F1BD5839E0096CF14 /* SwiftDemo */,
 			);
 		};
 /* End PBXProject section */
@@ -197,15 +148,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		14DABA9E1BD5839E0096CF14 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				14DABAA81BD5839E0096CF14 /* Assets.xcassets in Resources */,
-				14DABAAB1BD5839E0096CF14 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,26 +162,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		14DABA9C1BD5839E0096CF14 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				14DABAA31BD5839E0096CF14 /* AppDelegate.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		14DABAA91BD5839E0096CF14 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				14DABAAA1BD5839E0096CF14 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		146D72B41AB782920058798C /* Debug */ = {
@@ -348,35 +271,6 @@
 			};
 			name = Release;
 		};
-		14DABAAE1BD5839E0096CF14 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = SwiftDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = demo.SwiftDemo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-			};
-			name = Debug;
-		};
-		14DABAAF1BD5839E0096CF14 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = SwiftDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = demo.SwiftDemo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -394,15 +288,6 @@
 			buildConfigurations = (
 				146D72BA1AB782920058798C /* Debug */,
 				146D72BB1AB782920058798C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		14DABAAD1BD5839E0096CF14 /* Build configuration list for PBXNativeTarget "SwiftDemo" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				14DABAAE1BD5839E0096CF14 /* Debug */,
-				14DABAAF1BD5839E0096CF14 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

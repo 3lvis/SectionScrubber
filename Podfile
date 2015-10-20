@@ -1,7 +1,6 @@
-platform :ios, '8.0'
 use_frameworks!
 
 # When using more than one target in your project
 # link_with 'SwiftDemo', 'Tests' 
 
-# pod 'Sample'
+pod 'PODNAME', path: "../../"
