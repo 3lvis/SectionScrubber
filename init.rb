@@ -21,7 +21,7 @@ author_name = prompt('author', default_author_name) || default_author_name
 author_email = prompt('e-mail', default_author_email) || default_author_email
 username = prompt('username', default_username) || default_username
 
-file_names = Dir["#{folder_path}/**/*"]
+file_names = Dir["#{folder_path}/**/*.*"]
 file_names.push("Podfile")
 ignored_file_types = ['.xccheckout',
                       '.xcodeproj',
