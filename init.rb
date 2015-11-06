@@ -54,4 +54,4 @@ FileUtils.rm_rf git_directory
 FileUtils.rm('init.rb')
 
 system("git init && git add . && git commit -am 'Initial commit'")
-system("git remote add origin https://github.com/#{username}/#{pod_name}.git")
+system("git remote add origin git@github.com:#{username}/#{pod_name}.git")
