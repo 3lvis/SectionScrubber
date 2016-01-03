@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
 # s.tvos.deployment_target = '9.0'
 
   s.requires_arc = true
-  s.source_files = 'Sources'
+  s.source_files = 'Sources/**/*'
 # s.frameworks = 'UIKit', 'MapKit'
 # s.dependency 'Networking', '~> 0.8.0'
 end
