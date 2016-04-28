@@ -56,6 +56,7 @@ file_names.each do |file_name|
 end
 
 File.rename("#{folder_path}/PODNAME.podspec", "#{folder_path}/#{pod_name}.podspec")
+File.rename("#{folder_path}/Sources/PODNAME.h", "#{folder_path}/Sources/#{pod_name}.h")
 
 git_directory = "#{folder_path}/.git"
 FileUtils.rm_rf git_directory
