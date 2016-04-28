@@ -2,7 +2,7 @@
 
 require 'fileutils'
 
-def prompt(message, default)
+def prompt_with_default_message(message, default)
   print "#{message} (or press enter to use: #{default}) > "
   input = gets.chomp
   input = nil if input.strip.empty?
@@ -23,11 +23,11 @@ default_author_name = 'Elvis Nuñez'
 default_author_email = 'elvisnunez@me.com'
 default_username = '3lvis'
 
-pod_name = ARGV.shift || prompt('pod name', default_pod_name) || default_pod_name
+pod_name = ARGV.shift || prompt_with_default_message('pod name', default_pod_name) || default_pod_name
 has_dependencies = prompt('has dependencies? (y/n)') || 'y'
-author_name = prompt('author', default_author_name) || default_author_name
-author_email = prompt('e-mail', default_author_email) || default_author_email
-username = prompt('username', default_username) || default_username
+author_name = prompt_with_default_message('author', default_author_name) || default_author_name
+author_email = prompt_with_default_message('e-mail', default_author_email) || default_author_email
+username = prompt_with_default_message('username', default_username) || default_username
 
 file_names = Dir["#{folder_path}/**/*.*"]
 file_names.push("Podfile")
