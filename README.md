@@ -19,6 +19,13 @@ it, simply add the following line to your Podfile:
 pod '<PODNAME>'
 ```
 
+**<PODNAME>** is also available through [Carthage](https://github.com/Carthage/Carthage). To install
+it, simply add the following line to your Cartfile:
+
+```ruby
+github "<USERNAME>/<PODNAME>"
+```
+
 ## License
 
 **<PODNAME>** is available under the MIT license. See the LICENSE file for more info.
