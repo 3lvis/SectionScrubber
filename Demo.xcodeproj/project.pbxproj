@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		14A139B41AEFC72B00AD732F /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A139B31AEFC72B00AD732F /* Tests.swift */; };
 		14C31A8E1CD294C70056A33F /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = 14C31A8D1CD294C70056A33F /* .gitkeep */; };
+		14C47E0E1CD2AE5F004A48DF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 14C47E0D1CD2AE5F004A48DF /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -33,6 +34,7 @@
 		14C0AF821BD6D4230009ECBE /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
 		14C0AF831BD6D4230009ECBE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		14C31A8D1CD294C70056A33F /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
+		14C47E0D1CD2AE5F004A48DF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14F393951CC6512400616696 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		14F393961CC6517E00616696 /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -96,6 +98,7 @@
 		14C136501AB7849300B7B07A /* Metadata */ = {
 			isa = PBXGroup;
 			children = (
+				14C47E0D1CD2AE5F004A48DF /* Info.plist */,
 				14C0AF7F1BD6D4230009ECBE /* .slather.yml */,
 				14C0AF801BD6D4230009ECBE /* .travis.yml */,
 				14C0AF811BD6D4230009ECBE /* CHANGELOG.md */,
@@ -175,6 +178,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14C47E0E1CD2AE5F004A48DF /* Info.plist in Resources */,
 				14C31A8E1CD294C70056A33F /* .gitkeep in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
