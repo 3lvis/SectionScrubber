@@ -10,6 +10,7 @@
 		14A139B41AEFC72B00AD732F /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A139B31AEFC72B00AD732F /* Tests.swift */; };
 		14C31A8E1CD294C70056A33F /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = 14C31A8D1CD294C70056A33F /* .gitkeep */; };
 		14C47E0E1CD2AE5F004A48DF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 14C47E0D1CD2AE5F004A48DF /* Info.plist */; };
+		9F4D4D941CD75F32007CD484 /* NSLayoutConstraintViewDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F4D4D931CD75F32007CD484 /* NSLayoutConstraintViewDictionary.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,6 +38,7 @@
 		14C47E0D1CD2AE5F004A48DF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14F393951CC6512400616696 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		14F393961CC6517E00616696 /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
+		9F4D4D931CD75F32007CD484 /* NSLayoutConstraintViewDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSLayoutConstraintViewDictionary.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +192,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F4D4D941CD75F32007CD484 /* NSLayoutConstraintViewDictionary.swift in Sources */,
 				14A139B41AEFC72B00AD732F /* Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
