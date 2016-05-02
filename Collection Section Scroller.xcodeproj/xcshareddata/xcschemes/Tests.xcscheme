@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "146D72AB1AB782920058798C"
-               BuildableName = "Tests.xctest"
-               BlueprintName = "Tests"
-               ReferencedContainer = "container:Demo.xcodeproj">
+               BuildableName = "SectionScroller.xctest"
+               BlueprintName = "SectionScroller"
+               ReferencedContainer = "container:Collection Section Scroller.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "146D72AB1AB782920058798C"
-               BuildableName = "Tests.xctest"
-               BlueprintName = "Tests"
-               ReferencedContainer = "container:Demo.xcodeproj">
+               BuildableName = "SectionScroller.xctest"
+               BlueprintName = "SectionScroller"
+               ReferencedContainer = "container:Collection Section Scroller.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -43,9 +43,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "146D72AB1AB782920058798C"
-            BuildableName = "Tests.xctest"
-            BlueprintName = "Tests"
-            ReferencedContainer = "container:Demo.xcodeproj">
+            BuildableName = "SectionScroller.xctest"
+            BlueprintName = "SectionScroller"
+            ReferencedContainer = "container:Collection Section Scroller.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -65,9 +65,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "146D72AB1AB782920058798C"
-            BuildableName = "Tests.xctest"
-            BlueprintName = "Tests"
-            ReferencedContainer = "container:Demo.xcodeproj">
+            BuildableName = "SectionScroller.xctest"
+            BlueprintName = "SectionScroller"
+            ReferencedContainer = "container:Collection Section Scroller.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -83,9 +83,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "146D72AB1AB782920058798C"
-            BuildableName = "Tests.xctest"
-            BlueprintName = "Tests"
-            ReferencedContainer = "container:Demo.xcodeproj">
+            BuildableName = "SectionScroller.xctest"
+            BlueprintName = "SectionScroller"
+            ReferencedContainer = "container:Collection Section Scroller.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

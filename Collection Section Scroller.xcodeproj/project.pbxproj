@@ -25,7 +25,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		146D72AC1AB782920058798C /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		146D72AC1AB782920058798C /* SectionScroller.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SectionScroller.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		146D72B11AB782920058798C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14A139B31AEFC72B00AD732F /* Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		14C0AF7F1BD6D4230009ECBE /* .slather.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .slather.yml; sourceTree = "<group>"; };
@@ -73,7 +73,7 @@
 		146D72941AB782920058798C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				146D72AC1AB782920058798C /* Tests.xctest */,
+				146D72AC1AB782920058798C /* SectionScroller.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -121,9 +121,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		146D72AB1AB782920058798C /* Tests */ = {
+		146D72AB1AB782920058798C /* SectionScroller */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 146D72B91AB782920058798C /* Build configuration list for PBXNativeTarget "Tests" */;
+			buildConfigurationList = 146D72B91AB782920058798C /* Build configuration list for PBXNativeTarget "SectionScroller" */;
 			buildPhases = (
 				146D72A81AB782920058798C /* Sources */,
 				146D72A91AB782920058798C /* Frameworks */,
@@ -134,9 +134,9 @@
 			);
 			dependencies = (
 			);
-			name = Tests;
+			name = SectionScroller;
 			productName = PodTests;
-			productReference = 146D72AC1AB782920058798C /* Tests.xctest */;
+			productReference = 146D72AC1AB782920058798C /* SectionScroller.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -155,7 +155,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 146D728E1AB782920058798C /* Build configuration list for PBXProject "Demo" */;
+			buildConfigurationList = 146D728E1AB782920058798C /* Build configuration list for PBXProject "Collection Section Scroller" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -168,7 +168,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				146D72AB1AB782920058798C /* Tests */,
+				146D72AB1AB782920058798C /* SectionScroller */,
 			);
 		};
 /* End PBXProject section */
@@ -306,7 +306,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		146D728E1AB782920058798C /* Build configuration list for PBXProject "Demo" */ = {
+		146D728E1AB782920058798C /* Build configuration list for PBXProject "Collection Section Scroller" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				146D72B41AB782920058798C /* Debug */,
@@ -315,7 +315,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		146D72B91AB782920058798C /* Build configuration list for PBXNativeTarget "Tests" */ = {
+		146D72B91AB782920058798C /* Build configuration list for PBXNativeTarget "SectionScroller" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				146D72BA1AB782920058798C /* Debug */,
