@@ -1,8 +1,10 @@
-# <PODNAME>
+# DateScrubber
 
-[![Version](https://img.shields.io/cocoapods/v/<PODNAME>.svg?style=flat)](https://cocoapods.org/pods/<PODNAME>)
-[![License](https://img.shields.io/cocoapods/l/<PODNAME>.svg?style=flat)](https://cocoapods.org/pods/<PODNAME>)
-[![Platform](https://img.shields.io/cocoapods/p/<PODNAME>.svg?style=flat)](https://cocoapods.org/pods/<PODNAME>)
+[![Version](https://img.shields.io/cocoapods/v/DateScrubber.svg?style=flat)](https://cocoapods.org/pods/DateScrubber)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/bakkenbaeck/DateScrubber)
+![platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20OS%20X%20%7C%20watchOS%20%7C%20tvOS%20-lightgrey.svg)
+[![License](https://img.shields.io/cocoapods/l/DateScrubber.svg?style=flat)](https://cocoapods.org/pods/DATAStack)
+
 
 ## Usage
 
@@ -12,24 +14,24 @@
 
 ## Installation
 
-**<PODNAME>** is available through [CocoaPods](http://cocoapods.org). To install
+**DateScrubber** is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod '<PODNAME>'
+pod 'DateScrubber'
 ```
 
-**<PODNAME>** is also available through [Carthage](https://github.com/Carthage/Carthage). To install
+**DateScrubber** is also available through [Carthage](https://github.com/Carthage/Carthage). To install
 it, simply add the following line to your Cartfile:
 
 ```ruby
-github "<USERNAME>/<PODNAME>"
+github "bakkenbaeck/DateScrubber"
 ```
 
 ## License
 
-**<PODNAME>** is available under the MIT license. See the LICENSE file for more info.
+**DateScrubber** is available under the MIT license. See the LICENSE file for more info.
 
 ## Author
 
-<AUTHOR_NAME>, [@<USERNAME>](https://twitter.com/<USERNAME>)
+Bakken & Bæck, [@bakkenbaeck](https://twitter.com/bakkenbaeck)

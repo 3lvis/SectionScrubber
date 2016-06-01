@@ -1,1 +1,1 @@
-Check https://github.com/<USERNAME>/<PODNAME>/releases for more information.
+Check https://github.com/bakkenbaeck/DateScrubber/releases for more information.
