@@ -1,0 +1,17 @@
+PODS:
+  - DateScrubber (0.1.0)
+
+DEPENDENCIES:
+  - DateScrubber (from `~/Projects/DateScrubber`)
+
+EXTERNAL SOURCES:
+  DateScrubber:
+    :branch: feature/connect-cocoapod
+    :path: ~/Projects/DateScrubber
+
+SPEC CHECKSUMS:
+  DateScrubber: 7da38e017f59657e6f318e6224aac9c9675221af
+
+PODFILE CHECKSUM: 8f3581f8b5954048058b198649141f970261efe5
+
+COCOAPODS: 1.0.0

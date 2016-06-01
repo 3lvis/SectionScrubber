@@ -1,4 +1,5 @@
 import UIKit
+import DateScrubber
 
 class RemoteCollectionController: UICollectionViewController {
     var sections = Photo.constructRemoteElements()
@@ -6,6 +7,8 @@ class RemoteCollectionController: UICollectionViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        print(testString)
 
         self.collectionView?.backgroundColor = UIColor.whiteColor()
         self.collectionView?.registerClass(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.Identifier)
