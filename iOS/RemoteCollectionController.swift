@@ -1,7 +1,7 @@
 import UIKit
 import DateScrubber
 
-class RemoteCollectionController: UICollectionViewController {
+class RemoteCollectionController: UICollectionViewController, DateScrubberDelegate {
     var sections = Photo.constructRemoteElements()
     var numberOfItems = 0
 
@@ -20,6 +20,7 @@ class RemoteCollectionController: UICollectionViewController {
         }
         self.numberOfItems = count
 
+        self.dateScrubber.delegate = self
         self.view.addSubview(dateScrubber.view)
     }
 
@@ -32,7 +33,8 @@ class RemoteCollectionController: UICollectionViewController {
         let size = (bounds.width - columns) / columns
         layout.itemSize = CGSize(width: size, height: size)
 
-        self.dateScrubber.containingViewWidth = self.view.bounds.width
+        self.dateScrubber.containingViewSize = self.view.bounds.size
+        self.dateScrubber.containingViewContentSize = self.collectionView!.contentSize
         self.dateScrubber.updateFrame(scrollView: self.collectionView!)
     }
 
