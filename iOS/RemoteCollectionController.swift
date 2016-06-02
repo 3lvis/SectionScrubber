@@ -1,5 +1,4 @@
 import UIKit
-import DateScrubber
 
 class RemoteCollectionController: UICollectionViewController, DateScrubberDelegate {
     var sections = Photo.constructRemoteElements()
