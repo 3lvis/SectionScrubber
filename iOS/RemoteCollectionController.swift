@@ -5,10 +5,10 @@ class RemoteCollectionController: UICollectionViewController {
     var sections = Photo.constructRemoteElements()
     var numberOfItems = 0
 
+    let dateScrubber = DateScrubber()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        print(testString)
 
         self.collectionView?.backgroundColor = UIColor.whiteColor()
         self.collectionView?.registerClass(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.Identifier)
@@ -19,6 +19,8 @@ class RemoteCollectionController: UICollectionViewController {
             count += photos.count
         }
         self.numberOfItems = count
+
+        self.view.addSubview(dateScrubber.view)
     }
 
     override func viewWillLayoutSubviews() {
@@ -29,6 +31,8 @@ class RemoteCollectionController: UICollectionViewController {
         let bounds = UIScreen.mainScreen().bounds
         let size = (bounds.width - columns) / columns
         layout.itemSize = CGSize(width: size, height: size)
+
+        self.dateScrubber.updateFrame(scrollView: self.collectionView!)
     }
 
     func alertControllerWithTitle(title: String) -> UIAlertController {
@@ -55,5 +59,11 @@ extension RemoteCollectionController {
         cell.display(photo)
 
         return cell
+    }
+}
+
+extension RemoteCollectionController{
+    override func scrollViewDidScroll(scrollView: UIScrollView){
+        dateScrubber.updateFrame(scrollView: scrollView)
     }
 }

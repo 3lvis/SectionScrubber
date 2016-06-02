@@ -6,6 +6,26 @@
 //
 //
 
-import Foundation
+import UIKit
 
-public var testString = "Hello DateScrubber"
+public class DateScrubber: UIViewController {
+
+    override public func viewDidLoad() {
+        super.viewDidLoad()
+
+        self.view.backgroundColor = UIColor.yellowColor()
+    }
+
+    override public func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+    }
+
+    public func updateFrame(scrollView scrollView: UIScrollView) {
+
+        let scrollPercentage = scrollView.contentOffset.y / scrollView.contentSize.height
+        let yPos = scrollView.bounds.size.height * scrollPercentage
+
+        view.frame = CGRectMake(0,yPos,44,44)
+    }
+}
