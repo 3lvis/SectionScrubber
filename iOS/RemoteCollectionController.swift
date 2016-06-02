@@ -32,6 +32,7 @@ class RemoteCollectionController: UICollectionViewController {
         let size = (bounds.width - columns) / columns
         layout.itemSize = CGSize(width: size, height: size)
 
+        self.dateScrubber.containingViewWidth = self.view.bounds.width
         self.dateScrubber.updateFrame(scrollView: self.collectionView!)
     }
 
