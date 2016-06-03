@@ -5,7 +5,7 @@ import XCTest
 
 class Tests: XCTestCase {
 
-    func moveTheScrubberWhenScrollingTheCollectionView() {
+    func testMoveTheScrubberWhenScrollingTheCollectionView() {
 
         let dateScrubber = DateScrubber()
 
@@ -17,7 +17,7 @@ class Tests: XCTestCase {
         XCTAssert(result == 50.0)
     }
 
-    func scrollCollectionViewWhenMovingTheScrubber() {
+    func testScrollCollectionViewWhenMovingTheScrubber() {
         let dateScrubber = DateScrubber()
 
         dateScrubber.containingViewFrame = CGRectMake(0, 0, 0, 100)
@@ -28,7 +28,7 @@ class Tests: XCTestCase {
         XCTAssert(result == 100.0)
     }
 
-    func moveTheScrubberWhenScrollingTheCollectionViewWithOffset() {
+    func testMoveTheScrubberWhenScrollingTheCollectionViewWithOffset() {
 
         let dateScrubber = DateScrubber()
 
@@ -42,13 +42,13 @@ class Tests: XCTestCase {
         XCTAssert(result == offset)
     }
 
-    func scrollCollectionViewWithOffsetWhenMovingTheScrubber() {
+    func testScrollCollectionViewWithOffsetWhenMovingTheScrubber() {
         let dateScrubber = DateScrubber()
 
         let offset : CGFloat  = 10.0
 
-        dateScrubber.containingViewFrame = CGRectMake(0, offset, 0, 100)
-        dateScrubber.containingViewContentSize = CGSizeMake(0, 200)
+        dateScrubber.containingViewFrame = CGRectMake(0, offset, 0, 10)
+        dateScrubber.containingViewContentSize = CGSizeMake(0, 20)
 
         let result = dateScrubber.calculateYPosInContentView(forYPosInView: offset)
 
