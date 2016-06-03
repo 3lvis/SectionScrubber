@@ -79,6 +79,11 @@ public class DateScrubber: UIViewController {
             let translation = gestureRecognizer.translationInView(self.view)
             let newYPosForDateScrubber =  gestureRecognizer.view!.frame.origin.y + translation.y
 
+            print(newYPosForDateScrubber)
+            if newYPosForDateScrubber < containingViewFrame.minY || newYPosForDateScrubber > containingViewFrame.height + containingViewFrame.minY - dateScrubberSize.height {
+                return
+            }
+
             view.frame = CGRectMake(containingViewFrame.width - dateScrubberSize.width, newYPosForDateScrubber, dateScrubberSize.width, dateScrubberSize.height)
 
             let yPosInContentInContentView = calculateYPosInContentView(forYPosInView: newYPosForDateScrubber)
