@@ -40,7 +40,6 @@ public class DateScrubber: UIViewController {
         self.view.layer.cornerRadius = dateScrubberSize.width/2
         self.view.clipsToBounds = true
 
-
         self.dragGestureRecognizer.addTarget(self, action: #selector(handleDrag))
         self.view.addGestureRecognizer(self.dragGestureRecognizer)
     }
@@ -52,7 +51,7 @@ public class DateScrubber: UIViewController {
             return
         }
 
-        let yPos = calculateYPosInView(forYPosInContentView: scrollView.contentOffset.y)
+        let yPos = calculateYPosInView(forYPosInContentView: scrollView.contentOffset.y + containingViewFrame.minY)
 
         view.frame = CGRectMake(containingViewFrame.width - dateScrubberSize.width, yPos, dateScrubberSize.width, dateScrubberSize.height)
     }

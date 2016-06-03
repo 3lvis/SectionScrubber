@@ -11,6 +11,7 @@ class RemoteCollectionController: UICollectionViewController, DateScrubberDelega
 
         self.collectionView?.backgroundColor = UIColor.whiteColor()
         self.collectionView?.registerClass(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.Identifier)
+        self.collectionView?.showsVerticalScrollIndicator = false
 
         var count = 0
         for i in 0..<self.sections.count {
@@ -31,8 +32,11 @@ class RemoteCollectionController: UICollectionViewController, DateScrubberDelega
         let bounds = UIScreen.mainScreen().bounds
         let size = (bounds.width - columns) / columns
         layout.itemSize = CGSize(width: size, height: size)
+    }
 
-        self.dateScrubber.containingViewFrame = CGRectMake(0,64,self.view.bounds.width, self.view.bounds.height-64)
+    override func viewDidLayoutSubviews() {
+
+        self.dateScrubber.containingViewFrame = CGRectMake(0, 64, self.view.bounds.width, self.view.bounds.height - 64)
         self.dateScrubber.containingViewContentSize = self.collectionView!.contentSize
         self.dateScrubber.updateFrame(scrollView: self.collectionView!)
     }
