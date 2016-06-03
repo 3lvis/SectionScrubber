@@ -73,13 +73,11 @@ public class DateScrubber: UIViewController {
         if gestureRecognizer.state == .Began || gestureRecognizer.state == .Changed {
 
             let translation = gestureRecognizer.translationInView(self.view)
-
-            let newYPosForDateScrubber =  gestureRecognizer.view!.frame.origin.y + translation.y + containingViewFrame.origin.y
-
+            let newYPosForDateScrubber =  gestureRecognizer.view!.frame.origin.y + translation.y
 
             view.frame = CGRectMake(containingViewFrame.width - dateScrubberSize.width, newYPosForDateScrubber, dateScrubberSize.width, dateScrubberSize.height)
+
             let yPosInContentInContentView = calculateYPosInContentView(forYPosInView: newYPosForDateScrubber)
-            print("new contentOffset \(yPosInContentInContentView)")
             delegate?.requestToSetContentView(self, toYPostion: yPosInContentInContentView)
 
             gestureRecognizer.setTranslation(CGPointMake(0, 0), inView: self.view)
