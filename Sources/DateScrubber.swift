@@ -8,41 +8,88 @@
 
 import UIKit
 
+public protocol DateScrubberDelegate {
+     func requestToSetContentView(dateScrubber:DateScrubber, toYPostion yPosition: CGFloat)
+}
+
+public extension DateScrubberDelegate where Self: UICollectionViewController {
+    func requestToSetContentView(dateScrubber:DateScrubber, toYPostion yPosition: CGFloat){
+
+        self.collectionView?.setContentOffset(CGPointMake(0,yPosition), animated: true)
+    }
+}
+
 public class DateScrubber: UIViewController {
 
-    /// the minimum position for the date scrubber from the top of the view, can be overwritten by the client
-    public var minimumPosition : CGFloat = 64.0
+    public var delegate : DateScrubberDelegate?
 
-    public var dateScrubberSize = CGSizeMake(44,44)
+    public var dateScrubberSize = CGSizeMake(20,44)
 
-    public var containingViewWidth = UIScreen.mainScreen().bounds.width
+    public var containingViewFrame = UIScreen.mainScreen().bounds
+    public var containingViewContentSize = UIScreen.mainScreen().bounds.size
 
     let dragGestureRecognizer = UIPanGestureRecognizer()
+    var viewIsBeingDragged = false
 
     override public func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = UIColor.yellowColor()
+        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.layer.borderWidth = 0.5
+        self.view.layer.borderColor = UIColor.lightGrayColor().CGColor
+        self.view.layer.cornerRadius = dateScrubberSize.width/2
+        self.view.clipsToBounds = true
 
         self.dragGestureRecognizer.addTarget(self, action: #selector(handleDrag))
         self.view.addGestureRecognizer(self.dragGestureRecognizer)
-
     }
+
 
     public func updateFrame(scrollView scrollView: UIScrollView) {
 
-        let scrollPercentage = scrollView.contentOffset.y / scrollView.contentSize.height
-        let yPos = (scrollView.bounds.size.height - minimumPosition) * scrollPercentage
+        if viewIsBeingDragged {
+            return
+        }
 
-        view.frame = CGRectMake(containingViewWidth - dateScrubberSize.width, yPos + minimumPosition, dateScrubberSize.width, dateScrubberSize.height)
+        let yPos = calculateYPosInView(forYPosInContentView: scrollView.contentOffset.y + containingViewFrame.minY)
+
+        view.frame = CGRectMake(containingViewFrame.width - dateScrubberSize.width, yPos, dateScrubberSize.width, dateScrubberSize.height)
+    }
+
+    func calculateYPosInView(forYPosInContentView yPosInContentView: CGFloat) -> CGFloat{
+
+        let percentageInContentView = yPosInContentView / containingViewContentSize.height
+        return (containingViewFrame.height * percentageInContentView ) + containingViewFrame.minY
+    }
+
+    func calculateYPosInContentView(forYPosInView yPosInView: CGFloat) -> CGFloat {
+
+        let percentageInView = (yPosInView - containingViewFrame.minY) / containingViewFrame.height
+
+
+        return containingViewContentSize.height * percentageInView
     }
 
     func handleDrag(gestureRecognizer : UIPanGestureRecognizer) {
+
+        viewIsBeingDragged = gestureRecognizer.state != .Ended
+
         if gestureRecognizer.state == .Began || gestureRecognizer.state == .Changed {
 
             let translation = gestureRecognizer.translationInView(self.view)
-            gestureRecognizer.view!.frame.origin = CGPointMake(containingViewWidth - dateScrubberSize.width, gestureRecognizer.view!.frame.origin.y + translation.y)
-            gestureRecognizer.setTranslation(CGPointMake(0,0), inView: self.view)
+            let newYPosForDateScrubber =  gestureRecognizer.view!.frame.origin.y + translation.y
+
+            print(newYPosForDateScrubber)
+            if newYPosForDateScrubber < containingViewFrame.minY || newYPosForDateScrubber > containingViewFrame.height + containingViewFrame.minY - dateScrubberSize.height {
+                return
+            }
+
+            view.frame = CGRectMake(containingViewFrame.width - dateScrubberSize.width, newYPosForDateScrubber, dateScrubberSize.width, dateScrubberSize.height)
+
+            let yPosInContentInContentView = calculateYPosInContentView(forYPosInView: newYPosForDateScrubber)
+            delegate?.requestToSetContentView(self, toYPostion: yPosInContentInContentView)
+
+            gestureRecognizer.setTranslation(CGPointMake(translation.x, 0), inView: self.view)
         }
     }
 }
