@@ -67,7 +67,7 @@ public class DateScrubber: UIViewController {
         let percentageInView = (yPosInView - containingViewFrame.minY) / containingViewFrame.height
 
 
-        return containingViewContentSize.height * percentageInView
+        return (containingViewContentSize.height * percentageInView) - containingViewFrame.minY
     }
 
     func handleDrag(gestureRecognizer : UIPanGestureRecognizer) {
@@ -81,6 +81,7 @@ public class DateScrubber: UIViewController {
 
             print(newYPosForDateScrubber)
             if newYPosForDateScrubber < containingViewFrame.minY || newYPosForDateScrubber > containingViewFrame.height + containingViewFrame.minY - dateScrubberSize.height {
+                print("would set contentoffset to: \(calculateYPosInContentView(forYPosInView: newYPosForDateScrubber))")
                 return
             }
 

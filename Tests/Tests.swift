@@ -43,15 +43,16 @@ class Tests: XCTestCase {
     }
 
     func testScrollCollectionViewWithOffsetWhenMovingTheScrubber() {
+
         let dateScrubber = DateScrubber()
 
-        let offset : CGFloat  = 10.0
+        let offset : CGFloat  = 64.0
 
-        dateScrubber.containingViewFrame = CGRectMake(0, offset, 0, 10)
-        dateScrubber.containingViewContentSize = CGSizeMake(0, 20)
+        dateScrubber.containingViewFrame = CGRectMake(0, offset, 0, 568)
+        dateScrubber.containingViewContentSize = CGSizeMake(0, 5620)
 
         let result = dateScrubber.calculateYPosInContentView(forYPosInView: offset)
 
-        XCTAssert(result == 0)
+        XCTAssert(result == -offset)
     }
 }

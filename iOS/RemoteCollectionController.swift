@@ -37,7 +37,7 @@ class RemoteCollectionController: UICollectionViewController, DateScrubberDelega
         let bounds = UIScreen.mainScreen().bounds
         let size = (bounds.width - columns) / columns
         layout.itemSize = CGSize(width: size, height: size)
-        layout.headerReferenceSize = CGSizeMake(bounds.width, 44.0);
+        layout.headerReferenceSize = CGSizeMake(bounds.width, 22);
     }
 
     override func viewDidLayoutSubviews() {
