@@ -26,7 +26,8 @@ class RemoteCollectionController: UICollectionViewController, DateScrubberDelega
         self.numberOfItems = count
 
         self.dateScrubber.delegate = self
-        self.dateScrubber.image = UIImage(named: "date-scrubber")
+        self.dateScrubber.scrubberImage = UIImage(named: "date-scrubber")
+        self.dateScrubber.sectionLabelImage = UIImage(named: "section-label")
         self.view.addSubview(dateScrubber.view)
     }
 

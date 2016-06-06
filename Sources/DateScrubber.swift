@@ -26,16 +26,34 @@ public class DateScrubber: UIViewController {
 
     public let rightEdgeInset : CGFloat = 5.0
 
-    public var dateScrubberSize = CGSizeMake(0,0)
+    // TODO : Make these height constants more logical
+    public let dateScrubberHeight : CGFloat = 48.0
+
+    public let viewHeight : CGFloat = 56.0
 
     public var containingViewFrame = UIScreen.mainScreen().bounds
 
     public var containingViewContentSize = UIScreen.mainScreen().bounds.size
 
-    public var image : UIImage? {
+    public var sectionLabelImage: UIImage? {
         didSet {
-            dateScrubberSize = image?.size ?? dateScrubberSize
-            self.view.addSubview(UIImageView(image: image))
+            self.sectionLabel.labelImage = sectionLabelImage
+        }
+    }
+
+    let scrubberImageView = UIImageView()
+
+    let sectionLabel = SectionLabel()
+
+
+    public var scrubberImage: UIImage? {
+        didSet {
+            if let scrubberImage = self.scrubberImage {
+
+                scrubberImageView.image = scrubberImage
+                scrubberImageView.frame = CGRectMake(containingViewFrame.width - scrubberImage.size.width - rightEdgeInset, 0, scrubberImage.size.width, scrubberImage.size.height)
+                self.view.addSubview(scrubberImageView)
+            }
         }
     }
 
@@ -46,10 +64,13 @@ public class DateScrubber: UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
 
-        self.dragGestureRecognizer.addTarget(self, action: #selector(handleDrag))
-        self.view.addGestureRecognizer(self.dragGestureRecognizer)
-    }
+        self.sectionLabel.frame = CGRectMake(0, 0, self.view.frame.width - 72, viewHeight)
+        self.view.addSubview(self.sectionLabel)
 
+        self.dragGestureRecognizer.addTarget(self, action: #selector(handleDrag))
+        self.scrubberImageView.userInteractionEnabled  = true
+        self.scrubberImageView.addGestureRecognizer(self.dragGestureRecognizer)
+    }
 
     public func updateFrame(scrollView scrollView: UIScrollView) {
 
@@ -83,15 +104,15 @@ public class DateScrubber: UIViewController {
         if gestureRecognizer.state == .Began || gestureRecognizer.state == .Changed {
 
             let translation = gestureRecognizer.translationInView(self.view)
-            var newYPosForDateScrubber =  gestureRecognizer.view!.frame.origin.y + translation.y
+            var newYPosForDateScrubber =  self.view.frame.origin.y + translation.y
 
 
             if newYPosForDateScrubber < containingViewFrame.minY {
                 newYPosForDateScrubber = containingViewFrame.minY
             }
 
-            if newYPosForDateScrubber > containingViewFrame.height + containingViewFrame.minY - dateScrubberSize.height {
-                newYPosForDateScrubber = containingViewFrame.height + containingViewFrame.minY - dateScrubberSize.height
+            if newYPosForDateScrubber > containingViewFrame.height + containingViewFrame.minY - dateScrubberHeight {
+                newYPosForDateScrubber = containingViewFrame.height + containingViewFrame.minY - dateScrubberHeight
             }
 
             self.setFrame(atYpos: newYPosForDateScrubber)
@@ -104,6 +125,6 @@ public class DateScrubber: UIViewController {
     }
 
     func setFrame(atYpos yPos: CGFloat){
-        self.view.frame = CGRectMake(containingViewFrame.width - dateScrubberSize.width - rightEdgeInset, yPos, dateScrubberSize.width, dateScrubberSize.height)
+        self.view.frame = CGRectMake(0, yPos, UIScreen.mainScreen().bounds.width, viewHeight)
     }
 }
