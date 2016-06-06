@@ -23,6 +23,7 @@
 		14D081371C18579700E3FFC3 /* 0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 14D081341C18579700E3FFC3 /* 0.jpg */; };
 		14D081381C18579700E3FFC3 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 14D081351C18579700E3FFC3 /* 1.jpg */; };
 		14D081391C18579700E3FFC3 /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 14D081361C18579700E3FFC3 /* 2.jpg */; };
+		E63510181D0228D9001FDDF9 /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63510171D0228D9001FDDF9 /* SectionHeader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		14D081351C18579700E3FFC3 /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
 		14D081361C18579700E3FFC3 /* 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2.jpg; sourceTree = "<group>"; };
 		189BAD888FD0F3E10BD13B5F /* Pods_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E63510171D0228D9001FDDF9 /* SectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				14C983FF1C0DE79200B5E515 /* AppDelegate.swift */,
+				E63510171D0228D9001FDDF9 /* SectionHeader.swift */,
 				14C9840A1C0DE7B300B5E515 /* RemoteCollectionController.swift */,
 				143B5C3A1C0EED51000B6A18 /* PhotoCell.swift */,
 				143B5C3E1C0EF76E000B6A18 /* Photo.swift */,
@@ -278,6 +281,7 @@
 			files = (
 				140156D61D00733A00424CBB /* DateScrubber.swift in Sources */,
 				143B5C3F1C0EF76E000B6A18 /* Photo.swift in Sources */,
+				E63510181D0228D9001FDDF9 /* SectionHeader.swift in Sources */,
 				14C984001C0DE79200B5E515 /* AppDelegate.swift in Sources */,
 				143B5C3B1C0EED51000B6A18 /* PhotoCell.swift in Sources */,
 				14C9840B1C0DE7B300B5E515 /* RemoteCollectionController.swift in Sources */,
@@ -408,7 +412,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Marijn Schilling (H2Q222EKLU)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
@@ -416,6 +421,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.demoapp.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -426,6 +432,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
@@ -433,6 +440,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.demoapp.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

@@ -10,13 +10,18 @@ class RemoteCollectionController: UICollectionViewController, DateScrubberDelega
         super.viewDidLoad()
 
         self.collectionView?.backgroundColor = UIColor.whiteColor()
+        
         self.collectionView?.registerClass(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.Identifier)
+        self.collectionView?.registerClass(SectionHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: SectionHeader.Identifier)
+
+
         self.collectionView?.showsVerticalScrollIndicator = false
 
         var count = 0
-        for i in 0..<self.sections.count {
-            let photos = self.sections[i]
-            count += photos.count
+        for i in 0 ..< self.sections.count {
+            if let photos = self.sections[sectionTitleFor(i)] {
+                count += photos.count
+            }
         }
         self.numberOfItems = count
 
@@ -32,6 +37,7 @@ class RemoteCollectionController: UICollectionViewController, DateScrubberDelega
         let bounds = UIScreen.mainScreen().bounds
         let size = (bounds.width - columns) / columns
         layout.itemSize = CGSize(width: size, height: size)
+        layout.headerReferenceSize = CGSizeMake(bounds.width, 44.0);
     }
 
     override func viewDidLayoutSubviews() {
@@ -54,17 +60,25 @@ extension RemoteCollectionController {
     }
 
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let photos = self.sections[section]
-        return photos.count
+        return self.sections[sectionTitleFor(section)]?.count ?? 0
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(PhotoCell.Identifier, forIndexPath: indexPath) as! PhotoCell
-        let photos = self.sections[indexPath.section]
-        let photo = photos[indexPath.row]
-        cell.display(photo)
+        if let photos = self.sections[sectionTitleFor(indexPath.section)] {
+            let photo = photos[indexPath.row]
+            cell.display(photo)
+        }
 
         return cell
+    }
+
+    override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+
+        let headerView = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: SectionHeader.Identifier, forIndexPath: indexPath) as! SectionHeader
+        headerView.titleLabel.text = sectionTitleFor(indexPath.section)
+       
+        return headerView
     }
 }
 
