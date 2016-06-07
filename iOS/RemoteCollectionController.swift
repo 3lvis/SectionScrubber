@@ -38,6 +38,7 @@ class RemoteCollectionController: UICollectionViewController, DateScrubberDelega
         self.dateScrubber.scrubberImage = UIImage(named: "date-scrubber")
         self.dateScrubber.sectionLabelImage = UIImage(named: "section-label")
         self.dateScrubber.font = UIFont(name: "DINNextLTPro-Light", size: 18)
+        self.dateScrubber.textColor = UIColor(red: 69/255, green: 67/255, blue: 76/255, alpha: 0.8)
         self.view.addSubview(dateScrubber.view)
     }
 

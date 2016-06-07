@@ -64,6 +64,14 @@ public class DateScrubber: UIViewController {
         }
     }
 
+    public var textColor : UIColor? {
+        didSet {
+            if let textColor = self.textColor {
+                sectionLabel.setTextColor(textColor)
+            }
+        }
+    }
+
     let dragGestureRecognizer = UIPanGestureRecognizer()
 
     var viewIsBeingDragged = false

@@ -37,7 +37,6 @@ class SectionLabel: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.textLabel.textColor = UIColor.grayColor()
         self.addSubview(self.textLabel)
     }
 
@@ -51,6 +50,10 @@ class SectionLabel: UIView {
 
     func setFont(font : UIFont){
          self.textLabel.font = font
+    }
+
+    func setTextColor(color : UIColor){
+         self.textLabel.textColor = color
     }
 
     func setText(text: String){
