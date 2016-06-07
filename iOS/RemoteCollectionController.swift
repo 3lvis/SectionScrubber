@@ -6,17 +6,17 @@ class RemoteCollectionController: UICollectionViewController, DateScrubberDelega
 
     let dateScrubber = DateScrubber()
 
+
+    let testView = UIView()
+
+    var titleForVisibleSection = "" {
+        didSet{
+            self.dateScrubber.udateSectionTitle(self.titleForVisibleSection)
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        for family: String in UIFont.familyNames()
-        {
-            print("\(family)")
-            for names: String in UIFont.fontNamesForFamilyName(family)
-            {
-                print("== \(names)")
-            }
-        }
 
         self.collectionView?.backgroundColor = UIColor.whiteColor()
         
@@ -93,10 +93,20 @@ extension RemoteCollectionController {
        
         return headerView
     }
+
 }
 
 extension RemoteCollectionController{
+
     override func scrollViewDidScroll(scrollView: UIScrollView){
         dateScrubber.updateFrame(scrollView: scrollView)
+
+        let centerPoint = CGPointMake(dateScrubber.view.center.x + scrollView.contentOffset.x, dateScrubber.view.center.y + scrollView.contentOffset.y);
+
+        if let indexPath = self.collectionView?.indexPathForItemAtPoint(centerPoint) {
+            if titleForVisibleSection != sectionTitleFor(indexPath.section){
+                titleForVisibleSection = sectionTitleFor(indexPath.section)
+            }
+        }
     }
 }

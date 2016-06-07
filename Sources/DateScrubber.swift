@@ -79,8 +79,7 @@ public class DateScrubber: UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
 
-        self.sectionLabel.setText("Superlong test String")
-        self.sectionLabel.frame = CGRectMake(self.view.frame.width - SectionLabel.RightOffsetForSectionLabel - self.sectionLabel.sectionlabelWidth, 0, self.sectionLabel.sectionlabelWidth, viewHeight)
+        self.setSectionlabelFrame()
         self.view.addSubview(self.sectionLabel)
 
         self.dragGestureRecognizer.addTarget(self, action: #selector(handleDrag))
@@ -108,8 +107,6 @@ public class DateScrubber: UIViewController {
     func calculateYPosInContentView(forYPosInView yPosInView: CGFloat) -> CGFloat {
 
         let percentageInView = (yPosInView - containingViewFrame.minY) / containingViewFrame.height
-
-
         return (containingViewContentSize.height * percentageInView) - containingViewFrame.minY
     }
 
@@ -142,5 +139,15 @@ public class DateScrubber: UIViewController {
 
     func setFrame(atYpos yPos: CGFloat){
         self.view.frame = CGRectMake(0, yPos, UIScreen.mainScreen().bounds.width, viewHeight)
+    }
+
+    func udateSectionTitle(title : String){
+        self.sectionLabel.setText(title)
+        self.setSectionlabelFrame()
+    }
+
+    private func setSectionlabelFrame(){
+        self.sectionLabel.frame = CGRectMake(self.view.frame.width - SectionLabel.RightOffsetForSectionLabel - self.sectionLabel.sectionlabelWidth, 0, self.sectionLabel.sectionlabelWidth, viewHeight)
+
     }
 }
