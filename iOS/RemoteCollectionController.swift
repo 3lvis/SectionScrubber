@@ -6,21 +6,38 @@ class RemoteCollectionController: UICollectionViewController, DateScrubberDelega
 
     let dateScrubber = DateScrubber()
 
+    let testView = UIView()
+
+    var titleForVisibleSection = "" {
+        didSet{
+            self.dateScrubber.updateSectionTitle(self.titleForVisibleSection)
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.collectionView?.backgroundColor = UIColor.whiteColor()
+        
         self.collectionView?.registerClass(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.Identifier)
+        self.collectionView?.registerClass(SectionHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: SectionHeader.Identifier)
+
+
         self.collectionView?.showsVerticalScrollIndicator = false
 
         var count = 0
-        for i in 0..<self.sections.count {
-            let photos = self.sections[i]
-            count += photos.count
+        for i in 0 ..< self.sections.count {
+            if let photos = self.sections[sectionTitleFor(i)] {
+                count += photos.count
+            }
         }
         self.numberOfItems = count
 
         self.dateScrubber.delegate = self
+        self.dateScrubber.scrubberImage = UIImage(named: "date-scrubber")
+        self.dateScrubber.sectionLabelImage = UIImage(named: "section-label")
+        self.dateScrubber.font = UIFont(name: "DINNextLTPro-Light", size: 18)
+        self.dateScrubber.textColor = UIColor(red: 69/255, green: 67/255, blue: 76/255, alpha: 0.8)
         self.view.addSubview(dateScrubber.view)
     }
 
@@ -32,6 +49,7 @@ class RemoteCollectionController: UICollectionViewController, DateScrubberDelega
         let bounds = UIScreen.mainScreen().bounds
         let size = (bounds.width - columns) / columns
         layout.itemSize = CGSize(width: size, height: size)
+        layout.headerReferenceSize = CGSizeMake(bounds.width, 22);
     }
 
     override func viewDidLayoutSubviews() {
@@ -54,22 +72,40 @@ extension RemoteCollectionController {
     }
 
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let photos = self.sections[section]
-        return photos.count
+        return self.sections[sectionTitleFor(section)]?.count ?? 0
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(PhotoCell.Identifier, forIndexPath: indexPath) as! PhotoCell
-        let photos = self.sections[indexPath.section]
-        let photo = photos[indexPath.row]
-        cell.display(photo)
+        if let photos = self.sections[sectionTitleFor(indexPath.section)] {
+            let photo = photos[indexPath.row]
+            cell.display(photo)
+        }
 
         return cell
     }
+
+    override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+
+        let headerView = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: SectionHeader.Identifier, forIndexPath: indexPath) as! SectionHeader
+        headerView.titleLabel.text = sectionTitleFor(indexPath.section)
+       
+        return headerView
+    }
+
 }
 
 extension RemoteCollectionController{
+
     override func scrollViewDidScroll(scrollView: UIScrollView){
         dateScrubber.updateFrame(scrollView: scrollView)
+
+        let centerPoint = CGPoint(x: dateScrubber.view.center.x + scrollView.contentOffset.x, y: dateScrubber.view.center.y + scrollView.contentOffset.y);
+
+        if let indexPath = self.collectionView?.indexPathForItemAtPoint(centerPoint) {
+            if titleForVisibleSection != sectionTitleFor(indexPath.section){
+                titleForVisibleSection = sectionTitleFor(indexPath.section)
+            }
+        }
     }
 }

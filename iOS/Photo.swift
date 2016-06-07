@@ -1,6 +1,10 @@
 import UIKit
 import Photos
 
+func sectionTitleFor(index: Int) -> String {
+     return "Section \(index)"
+}
+
 struct Photo {
     enum Size {
         case Small, Large
@@ -28,8 +32,8 @@ struct Photo {
         }
     }
 
-    static func constructRemoteElements() -> [[Photo]] {
-        var sections = [[Photo]]()
+    static func constructRemoteElements() -> [String : [Photo]] {
+        var sections = [String : [Photo]]()
 
         for section in 0..<Photo.NumberOfSections {
             var elements = [Photo]()
@@ -60,7 +64,7 @@ struct Photo {
                 }
                 elements.append(photo)
             }
-            sections.append(elements)
+            sections[sectionTitleFor(section)] = elements
         }
 
         return sections
