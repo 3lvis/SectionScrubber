@@ -30,7 +30,7 @@ public class DateScrubber: UIViewController {
 
     private let dragGestureRecognizer = UIPanGestureRecognizer()
 
-    private var viewIsBeingDragged = false
+    private var timer : NSTimer?
 
     public var sectionLabelImage: UIImage? {
         didSet {
@@ -65,6 +65,17 @@ public class DateScrubber: UIViewController {
         didSet {
             if let textColor = self.textColor {
                 sectionLabel.setTextColor(textColor)
+            }
+        }
+    }
+
+    private var viewIsBeingDragged = false {
+        didSet{
+            if self.viewIsBeingDragged {
+              self.setSectionLabelActive()
+            } else {
+
+                self.setSectionLabelInactive()
             }
         }
     }
@@ -110,7 +121,9 @@ public class DateScrubber: UIViewController {
 
     func handleDrag(gestureRecognizer : UIPanGestureRecognizer) {
 
-        self.viewIsBeingDragged = gestureRecognizer.state != .Ended
+        if self.viewIsBeingDragged != (gestureRecognizer.state != .Ended) {
+            self.viewIsBeingDragged = gestureRecognizer.state != .Ended
+        }
 
         if gestureRecognizer.state == .Began || gestureRecognizer.state == .Changed {
 
@@ -141,6 +154,14 @@ public class DateScrubber: UIViewController {
 
     private func setSectionlabelFrame(){
         self.sectionLabel.frame = CGRectMake(self.view.frame.width - SectionLabel.RightOffsetForSectionLabel - self.sectionLabel.sectionlabelWidth, 0, self.sectionLabel.sectionlabelWidth, viewHeight)
+    }
 
+    private func setSectionLabelActive(){
+        timer = nil
+        self.sectionLabel.show()
+    }
+
+    private func setSectionLabelInactive(){
+       timer = NSTimer.scheduledTimerWithTimeInterval(2, target: self.sectionLabel, selector: #selector(SectionLabel.hide), userInfo: nil, repeats: false)
     }
 }

@@ -1,11 +1,3 @@
-//
-//  SectionLabel.swift
-//  Demo
-//
-//  Created by Marijn Schilling on 06/06/16.
-//
-//
-
 import UIKit
 
 class SectionLabel: UIView {
@@ -61,7 +53,17 @@ class SectionLabel: UIView {
         self.setNeedsLayout()
     }
 
-    func hide(){}
+    func hide(){
 
-    func show(){}
+        UIView.animateWithDuration(0.2, animations: {
+            self.alpha = 0
+        })
+    }
+
+    func show(){
+
+        UIView.animateWithDuration(0.2, animations: {
+            self.alpha = 1
+        })
+    }
 }
