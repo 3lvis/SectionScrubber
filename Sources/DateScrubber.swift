@@ -1,56 +1,53 @@
-//
-//  DateScrubber.swift
-//  Pods
-//
-//  Created by Marijn Schilling on 01/06/16.
-//
-//
-
 import UIKit
 
 public protocol DateScrubberDelegate {
-     func requestToSetContentView(dateScrubber:DateScrubber, toYPosition yPosition: CGFloat)
+
+    func dateScrubber(dateScrubber:DateScrubber, didRequestToSetContentViewToYPosition yPosition: CGFloat)
 }
 
 public extension DateScrubberDelegate where Self: UICollectionViewController {
-    func requestToSetContentView(dateScrubber:DateScrubber, toYPosition yPosition: CGFloat){
 
-        self.collectionView?.setContentOffset(CGPointMake(0,yPosition), animated: true)
+    func dateScrubber(dateScrubber:DateScrubber, didRequestToSetContentViewToYPosition yPosition: CGFloat){
+
+        self.collectionView?.setContentOffset(CGPoint(x: 0,y: yPosition), animated: false)
     }
 }
 
 public class DateScrubber: UIViewController {
+    static let RightEdgeInset: CGFloat = 5.0
 
     public var delegate : DateScrubberDelegate?
 
-    public let rightEdgeInset : CGFloat = 5.0
-
-    // TODO : Make these height constants more logical
-    public let dateScrubberHeight : CGFloat = 48.0
-
-    public let viewHeight : CGFloat = 56.0
+    public var viewHeight : CGFloat = 56.0
 
     public var containingViewFrame = UIScreen.mainScreen().bounds
 
     public var containingViewContentSize = UIScreen.mainScreen().bounds.size
 
+    private let scrubberImageView = UIImageView()
+
+    private let sectionLabel = SectionLabel()
+
+    private let dragGestureRecognizer = UIPanGestureRecognizer()
+
+    private var viewIsBeingDragged = false
+
     public var sectionLabelImage: UIImage? {
         didSet {
-            self.sectionLabel.labelImage = sectionLabelImage
+            if let sectionLabelImage = self.sectionLabelImage {
+
+                self.sectionLabel.labelImage = sectionLabelImage
+                self.viewHeight = sectionLabelImage.size.height
+            }
         }
     }
-
-    let scrubberImageView = UIImageView()
-
-    let sectionLabel = SectionLabel()
-
 
     public var scrubberImage: UIImage? {
         didSet {
             if let scrubberImage = self.scrubberImage {
 
                 scrubberImageView.image = scrubberImage
-                scrubberImageView.frame = CGRectMake(containingViewFrame.width - scrubberImage.size.width - rightEdgeInset, 0, scrubberImage.size.width, scrubberImage.size.height)
+                scrubberImageView.frame = CGRectMake(containingViewFrame.width - scrubberImage.size.width - DateScrubber.RightEdgeInset, 0, scrubberImage.size.width, scrubberImage.size.height)
                 self.view.addSubview(scrubberImageView)
             }
         }
@@ -71,10 +68,6 @@ public class DateScrubber: UIViewController {
             }
         }
     }
-
-    let dragGestureRecognizer = UIPanGestureRecognizer()
-
-    var viewIsBeingDragged = false
 
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -98,13 +91,18 @@ public class DateScrubber: UIViewController {
         self.setFrame(atYpos: yPos)
     }
 
-    func calculateYPosInView(forYPosInContentView yPosInContentView: CGFloat) -> CGFloat{
+    public func updateSectionTitle(title : String){
+        self.sectionLabel.setText(title)
+        self.setSectionlabelFrame()
+    }
+
+    private func calculateYPosInView(forYPosInContentView yPosInContentView: CGFloat) -> CGFloat{
 
         let percentageInContentView = yPosInContentView / containingViewContentSize.height
         return (containingViewFrame.height * percentageInContentView ) + containingViewFrame.minY
     }
 
-    func calculateYPosInContentView(forYPosInView yPosInView: CGFloat) -> CGFloat {
+    private func calculateYPosInContentView(forYPosInView yPosInView: CGFloat) -> CGFloat {
 
         let percentageInView = (yPosInView - containingViewFrame.minY) / containingViewFrame.height
         return (containingViewContentSize.height * percentageInView) - containingViewFrame.minY
@@ -124,26 +122,21 @@ public class DateScrubber: UIViewController {
                 newYPosForDateScrubber = containingViewFrame.minY
             }
 
-            if newYPosForDateScrubber > containingViewFrame.height + containingViewFrame.minY - dateScrubberHeight {
-                newYPosForDateScrubber = containingViewFrame.height + containingViewFrame.minY - dateScrubberHeight
+            if newYPosForDateScrubber > containingViewFrame.height + containingViewFrame.minY - viewHeight {
+                newYPosForDateScrubber = containingViewFrame.height + containingViewFrame.minY - viewHeight
             }
 
             self.setFrame(atYpos: newYPosForDateScrubber)
 
             let yPosInContentInContentView = calculateYPosInContentView(forYPosInView: newYPosForDateScrubber)
-            self.delegate?.requestToSetContentView(self, toYPosition: yPosInContentInContentView)
+            self.delegate?.dateScrubber(self, didRequestToSetContentViewToYPosition: yPosInContentInContentView)
 
-            gestureRecognizer.setTranslation(CGPointMake(translation.x, 0), inView: self.view)
+            gestureRecognizer.setTranslation(CGPoint(x: translation.x, y: 0), inView: self.view)
         }
     }
 
-    func setFrame(atYpos yPos: CGFloat){
+    private func setFrame(atYpos yPos: CGFloat){
         self.view.frame = CGRectMake(0, yPos, UIScreen.mainScreen().bounds.width, viewHeight)
-    }
-
-    func udateSectionTitle(title : String){
-        self.sectionLabel.setText(title)
-        self.setSectionlabelFrame()
     }
 
     private func setSectionlabelFrame(){

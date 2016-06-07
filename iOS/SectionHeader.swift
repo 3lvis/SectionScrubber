@@ -1,11 +1,3 @@
-//
-//  SectionHeader.swift
-//  Demo
-//
-//  Created by Marijn Schilling on 03/06/16.
-//
-//
-
 import UIKit
 
 class SectionHeader: UICollectionReusableView {

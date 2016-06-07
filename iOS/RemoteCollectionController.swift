@@ -6,12 +6,11 @@ class RemoteCollectionController: UICollectionViewController, DateScrubberDelega
 
     let dateScrubber = DateScrubber()
 
-
     let testView = UIView()
 
     var titleForVisibleSection = "" {
         didSet{
-            self.dateScrubber.udateSectionTitle(self.titleForVisibleSection)
+            self.dateScrubber.updateSectionTitle(self.titleForVisibleSection)
         }
     }
 
@@ -101,7 +100,7 @@ extension RemoteCollectionController{
     override func scrollViewDidScroll(scrollView: UIScrollView){
         dateScrubber.updateFrame(scrollView: scrollView)
 
-        let centerPoint = CGPointMake(dateScrubber.view.center.x + scrollView.contentOffset.x, dateScrubber.view.center.y + scrollView.contentOffset.y);
+        let centerPoint = CGPoint(x: dateScrubber.view.center.x + scrollView.contentOffset.x, y: dateScrubber.view.center.y + scrollView.contentOffset.y);
 
         if let indexPath = self.collectionView?.indexPathForItemAtPoint(centerPoint) {
             if titleForVisibleSection != sectionTitleFor(indexPath.section){

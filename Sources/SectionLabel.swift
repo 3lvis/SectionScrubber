@@ -11,7 +11,6 @@ import UIKit
 class SectionLabel: UIView {
 
     static let RightOffsetForSectionLabel : CGFloat = 90.0
-
     private static let Margin : CGFloat = 19.0
 
     var sectionlabelWidth : CGFloat {
@@ -26,10 +25,9 @@ class SectionLabel: UIView {
         didSet {
 
             if let labelImage = self.labelImage {
+
                 self.sectionLabelImageView.image = labelImage
-
                 self.addSubview(sectionLabelImageView)
-
                 self.bringSubviewToFront(self.textLabel)
             }
         }
@@ -66,5 +64,4 @@ class SectionLabel: UIView {
     func hide(){}
 
     func show(){}
-
 }
