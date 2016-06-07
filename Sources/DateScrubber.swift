@@ -21,7 +21,6 @@ public extension DateScrubberDelegate where Self: UICollectionViewController {
 
 public class DateScrubber: UIViewController {
 
-
     public var delegate : DateScrubberDelegate?
 
     public let rightEdgeInset : CGFloat = 5.0
@@ -57,6 +56,14 @@ public class DateScrubber: UIViewController {
         }
     }
 
+    public var font : UIFont? {
+        didSet {
+            if let font = self.font {
+                sectionLabel.setFont(font)
+            }
+        }
+    }
+
     let dragGestureRecognizer = UIPanGestureRecognizer()
 
     var viewIsBeingDragged = false
@@ -64,7 +71,8 @@ public class DateScrubber: UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
 
-        self.sectionLabel.frame = CGRectMake(0, 0, self.view.frame.width - 72, viewHeight)
+        self.sectionLabel.setText("Superlong test String")
+        self.sectionLabel.frame = CGRectMake(self.view.frame.width - SectionLabel.RightOffsetForSectionLabel - self.sectionLabel.sectionlabelWidth, 0, self.sectionLabel.sectionlabelWidth, viewHeight)
         self.view.addSubview(self.sectionLabel)
 
         self.dragGestureRecognizer.addTarget(self, action: #selector(handleDrag))

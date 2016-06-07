@@ -26,6 +26,9 @@
 		E61D29A11D05BDB5007C5DF2 /* SectionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61D29A01D05BDB5007C5DF2 /* SectionLabel.swift */; };
 		E61D29A21D05BDBA007C5DF2 /* SectionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61D29A01D05BDB5007C5DF2 /* SectionLabel.swift */; };
 		E63510181D0228D9001FDDF9 /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63510171D0228D9001FDDF9 /* SectionHeader.swift */; };
+		E6CE76361D06B90E00A678DC /* UILabel+Sweetness.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6CE76351D06B90E00A678DC /* UILabel+Sweetness.swift */; };
+		E6CE76371D06B90E00A678DC /* UILabel+Sweetness.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6CE76351D06B90E00A678DC /* UILabel+Sweetness.swift */; };
+		E6CE763D1D06C60900A678DC /* DINNextLTPro-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = E6CE763C1D06C60900A678DC /* DINNextLTPro-Light.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +59,9 @@
 		189BAD888FD0F3E10BD13B5F /* Pods_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E61D29A01D05BDB5007C5DF2 /* SectionLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionLabel.swift; sourceTree = "<group>"; };
 		E63510171D0228D9001FDDF9 /* SectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
+		E6CE76351D06B90E00A678DC /* UILabel+Sweetness.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Sweetness.swift"; sourceTree = "<group>"; };
+		E6CE763A1D06C26A00A678DC /* Assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Assets; sourceTree = "<group>"; };
+		E6CE763C1D06C60900A678DC /* DINNextLTPro-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "DINNextLTPro-Light.otf"; path = "iOS/Assets/DINNextLTPro-Light.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +87,7 @@
 			children = (
 				140156D41D00733A00424CBB /* DateScrubber.swift */,
 				E61D29A01D05BDB5007C5DF2 /* SectionLabel.swift */,
+				E6CE76351D06B90E00A678DC /* UILabel+Sweetness.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -88,6 +95,7 @@
 		146D728A1AB782920058798C = {
 			isa = PBXGroup;
 			children = (
+				E6CE763C1D06C60900A678DC /* DINNextLTPro-Light.otf */,
 				140156D31D00733A00424CBB /* Sources */,
 				14C136501AB7849300B7B07A /* Metadata */,
 				146D72AF1AB782920058798C /* Tests */,
@@ -140,6 +148,7 @@
 		14C983FE1C0DE79200B5E515 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				E6CE763A1D06C26A00A678DC /* Assets */,
 				14C983FF1C0DE79200B5E515 /* AppDelegate.swift */,
 				E63510171D0228D9001FDDF9 /* SectionHeader.swift */,
 				14C9840A1C0DE7B300B5E515 /* RemoteCollectionController.swift */,
@@ -261,6 +270,7 @@
 				147315251C28415800B41939 /* clear.png in Resources */,
 				14C984021C0DE79200B5E515 /* Assets.xcassets in Resources */,
 				14D081381C18579700E3FFC3 /* 1.jpg in Resources */,
+				E6CE763D1D06C60900A678DC /* DINNextLTPro-Light.otf in Resources */,
 				14B95A471C57C8BE00FF14D8 /* 5.png in Resources */,
 				14C984051C0DE79200B5E515 /* LaunchScreen.storyboard in Resources */,
 				14D081391C18579700E3FFC3 /* 2.jpg in Resources */,
@@ -274,6 +284,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6CE76361D06B90E00A678DC /* UILabel+Sweetness.swift in Sources */,
 				14A139B41AEFC72B00AD732F /* Tests.swift in Sources */,
 				140156D51D00733A00424CBB /* DateScrubber.swift in Sources */,
 				E61D29A11D05BDB5007C5DF2 /* SectionLabel.swift in Sources */,
@@ -288,6 +299,7 @@
 				143B5C3F1C0EF76E000B6A18 /* Photo.swift in Sources */,
 				E63510181D0228D9001FDDF9 /* SectionHeader.swift in Sources */,
 				14C984001C0DE79200B5E515 /* AppDelegate.swift in Sources */,
+				E6CE76371D06B90E00A678DC /* UILabel+Sweetness.swift in Sources */,
 				E61D29A21D05BDBA007C5DF2 /* SectionLabel.swift in Sources */,
 				143B5C3B1C0EED51000B6A18 /* PhotoCell.swift in Sources */,
 				14C9840B1C0DE7B300B5E515 /* RemoteCollectionController.swift in Sources */,

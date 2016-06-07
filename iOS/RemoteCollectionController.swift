@@ -9,6 +9,15 @@ class RemoteCollectionController: UICollectionViewController, DateScrubberDelega
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        for family: String in UIFont.familyNames()
+        {
+            print("\(family)")
+            for names: String in UIFont.fontNamesForFamilyName(family)
+            {
+                print("== \(names)")
+            }
+        }
+
         self.collectionView?.backgroundColor = UIColor.whiteColor()
         
         self.collectionView?.registerClass(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.Identifier)
@@ -28,6 +37,7 @@ class RemoteCollectionController: UICollectionViewController, DateScrubberDelega
         self.dateScrubber.delegate = self
         self.dateScrubber.scrubberImage = UIImage(named: "date-scrubber")
         self.dateScrubber.sectionLabelImage = UIImage(named: "section-label")
+        self.dateScrubber.font = UIFont(name: "DINNextLTPro-Light", size: 18)
         self.view.addSubview(dateScrubber.view)
     }
 
