@@ -41,6 +41,8 @@ public class DateScrubber: UIViewController {
 
     public var containingViewContentSize = UIScreen.mainScreen().bounds.size
 
+    private var currentSectionTitle = ""
+
     private let scrubberImageView = UIImageView()
 
     private let sectionLabel = SectionLabel()
@@ -135,8 +137,13 @@ public class DateScrubber: UIViewController {
     }
 
     public func updateSectionTitle(title : String){
+
+        if self.currentSectionTitle != title {
+            self.currentSectionTitle = title
+
         self.sectionLabel.setText(title)
         self.setSectionlabelFrame()
+        }
     }
 
     private func calculateYPosInView(forYPosInContentView yPosInContentView: CGFloat) -> CGFloat{
