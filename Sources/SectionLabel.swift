@@ -28,6 +28,8 @@ class SectionLabel: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
+        self.hide()
+
         self.addSubview(self.textLabel)
     }
 

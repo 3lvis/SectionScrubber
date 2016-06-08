@@ -29,6 +29,7 @@ public class DateScrubber: UIViewController {
     private let sectionLabel = SectionLabel()
 
     private let dragGestureRecognizer = UIPanGestureRecognizer()
+    private let longPressGestureRecognizer = UILongPressGestureRecognizer()
 
     private var timer : NSTimer?
 
@@ -87,8 +88,15 @@ public class DateScrubber: UIViewController {
         self.view.addSubview(self.sectionLabel)
 
         self.dragGestureRecognizer.addTarget(self, action: #selector(handleDrag))
+        self.dragGestureRecognizer
         self.scrubberImageView.userInteractionEnabled  = true
         self.scrubberImageView.addGestureRecognizer(self.dragGestureRecognizer)
+
+        self.longPressGestureRecognizer.addTarget(self, action: #selector(handleLongPress))
+        self.longPressGestureRecognizer.minimumPressDuration = 0.2
+        self.longPressGestureRecognizer.cancelsTouchesInView = false
+        self.longPressGestureRecognizer.delegate = self
+        self.scrubberImageView.addGestureRecognizer(self.longPressGestureRecognizer)
     }
 
     public func updateFrame(scrollView scrollView: UIScrollView) {
@@ -117,6 +125,17 @@ public class DateScrubber: UIViewController {
 
         let percentageInView = (yPosInView - containingViewFrame.minY) / containingViewFrame.height
         return (containingViewContentSize.height * percentageInView) - containingViewFrame.minY
+    }
+
+    func handleLongPress(gestureRecognizer: UITapGestureRecognizer) {
+
+        if gestureRecognizer.state == .Began {
+            self.setSectionLabelActive()
+        }
+
+        if gestureRecognizer.state == .Ended && !self.viewIsBeingDragged {
+            self.setSectionLabelInactive()
+        }
     }
 
     func handleDrag(gestureRecognizer : UIPanGestureRecognizer) {
@@ -163,5 +182,11 @@ public class DateScrubber: UIViewController {
 
     private func setSectionLabelInactive(){
        timer = NSTimer.scheduledTimerWithTimeInterval(2, target: self.sectionLabel, selector: #selector(SectionLabel.hide), userInfo: nil, repeats: false)
+    }
+}
+
+extension DateScrubber : UIGestureRecognizerDelegate {
+     public func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
