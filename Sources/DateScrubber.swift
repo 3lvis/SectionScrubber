@@ -22,12 +22,13 @@ public class DateScrubber: UIViewController {
 
     var sectionLabelState = State.Inactive {
         didSet {
-            self.animateSectionlabelFrame()
+            self.updateSectionLabelFrame()
         }
     }
+
     var scrubberState = State.Inactive {
         didSet {
-            self.animateDateScrubberFrameToState(self.scrubberState)
+            self.updateDateScrubberFrame()
         }
     }
 
@@ -36,6 +37,8 @@ public class DateScrubber: UIViewController {
     public var delegate : DateScrubberDelegate?
 
     public var viewHeight : CGFloat = 56.0
+
+    public var scrubberWidth : CGFloat = 22.0
 
     public var containingViewFrame = UIScreen.mainScreen().bounds
 
@@ -66,8 +69,9 @@ public class DateScrubber: UIViewController {
         didSet {
             if let scrubberImage = self.scrubberImage {
 
-                scrubberImageView.image = scrubberImage
-                scrubberImageView.frame = CGRectMake(containingViewFrame.width, 0, scrubberImage.size.width, scrubberImage.size.height)
+                self.scrubberWidth = scrubberImage.size.width
+                self.scrubberImageView.image = scrubberImage
+                self.setScrubberFrame()
                 self.view.addSubview(scrubberImageView)
             }
         }
@@ -120,12 +124,7 @@ public class DateScrubber: UIViewController {
 
     public func updateFrame(scrollView scrollView: UIScrollView) {
 
-        if self.scrubberState == .Inactive{
-            self.scrubberState = .Active
-        }
-
-        NSObject.cancelPreviousPerformRequestsWithTarget(self, selector: #selector(hide), object: nil)
-        self.performSelector(#selector(hide), withObject: nil, afterDelay: 3)
+        self.userInteractionOnScrollViewDetected()
 
         if viewIsBeingDragged {
             return
@@ -136,13 +135,23 @@ public class DateScrubber: UIViewController {
         self.setFrame(atYpos: yPos)
     }
 
-    public func updateSectionTitle(title : String){
+    public func updateSectionTitle(title: String) {
 
         if self.currentSectionTitle != title {
             self.currentSectionTitle = title
 
-        self.sectionLabel.setText(title)
-        self.setSectionlabelFrame()
+            self.sectionLabel.setText(title)
+            self.setSectionlabelFrame()
+        }
+    }
+
+    private func userInteractionOnScrollViewDetected(){
+
+        NSObject.cancelPreviousPerformRequestsWithTarget(self, selector: #selector(hide), object: nil)
+        self.performSelector(#selector(hide), withObject: nil, afterDelay: 3)
+
+        if self.scrubberState == .Inactive {
+            self.scrubberState = .Active
         }
     }
 
@@ -161,10 +170,13 @@ public class DateScrubber: UIViewController {
     func handleLongPress(gestureRecognizer: UITapGestureRecognizer) {
 
         if gestureRecognizer.state == .Began {
+
+            self.viewIsBeingDragged = true
             self.setSectionLabelActive()
         }
 
-        if gestureRecognizer.state == .Ended && !self.viewIsBeingDragged {
+        if gestureRecognizer.state == .Ended {
+            self.viewIsBeingDragged = false
             self.setSectionLabelInactive()
         }
     }
@@ -207,6 +219,11 @@ public class DateScrubber: UIViewController {
         self.sectionLabel.frame = CGRectMake(self.view.frame.width - rightOffset - self.sectionLabel.sectionlabelWidth, 0, self.sectionLabel.sectionlabelWidth, viewHeight)
     }
 
+    private func setScrubberFrame(){
+        let xPos = self.scrubberState == .Active ? self.containingViewFrame.width -  self.scrubberWidth - DateScrubber.RightEdgeInset : self.containingViewFrame.width
+        scrubberImageView.frame = CGRectMake(xPos, 0, self.scrubberWidth, self.viewHeight)
+    }
+
     private func setSectionLabelActive(){
 
         if self.sectionLabelState == .Inactive {
@@ -218,30 +235,36 @@ public class DateScrubber: UIViewController {
     private func setSectionLabelInactive() {
 
         if self.sectionLabelState == .Active {
+            NSObject.cancelPreviousPerformRequestsWithTarget(self, selector: #selector(hideSectionLabel), object: nil)
+            self.performSelector(#selector(hideSectionLabel), withObject: nil, afterDelay: 3)
             self.sectionLabelState = .Inactive
         }
     }
 
-    private func animateSectionlabelFrame() {
+    private func updateSectionLabelFrame() {
 
         UIView.animateWithDuration(0.2, animations: {
             self.setSectionlabelFrame()
         })
     }
 
-    private func animateDateScrubberFrameToState(state: State) {
-
-        var newScrubberFrame = self.scrubberImageView.frame
-        newScrubberFrame.origin.x = state == .Active ? newScrubberFrame.origin.x - newScrubberFrame.width - DateScrubber.RightEdgeInset : newScrubberFrame.origin.x + newScrubberFrame.width + DateScrubber.RightEdgeInset
+    private func updateDateScrubberFrame() {
 
         UIView.animateWithDuration(0.2, animations: {
-            self.scrubberImageView.frame = newScrubberFrame
+            self.setScrubberFrame()
         })
     }
 
     func hide(){
-        self.sectionLabel.hide()
+        if self.viewIsBeingDragged {
+            return
+        }
+
         self.scrubberState = .Inactive
+    }
+
+    func hideSectionLabel(){
+        self.sectionLabel.hide()
     }
 }
 
