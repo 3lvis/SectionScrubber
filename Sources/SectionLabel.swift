@@ -2,7 +2,7 @@ import UIKit
 
 class SectionLabel: UIView {
 
-    static let RightOffsetForSectionLabel : CGFloat = 90.0
+    static let RightOffsetForSectionLabel : CGFloat = 80.0
     private static let Margin : CGFloat = 19.0
 
     var sectionlabelWidth : CGFloat {
@@ -55,11 +55,14 @@ class SectionLabel: UIView {
         self.setNeedsLayout()
     }
 
-    func hide(){
+    func hide() {
 
         UIView.animateWithDuration(0.2, animations: {
             self.alpha = 0
-        })
+        }) {
+            (bool) in
+            print("done with hiding")
+        }
     }
 
     func show(){

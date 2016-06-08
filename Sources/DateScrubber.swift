@@ -33,6 +33,8 @@ public class DateScrubber: UIViewController {
 
     private var timer : NSTimer?
 
+    private var sectionLabelActive = false
+
     public var sectionLabelImage: UIImage? {
         didSet {
             if let sectionLabelImage = self.sectionLabelImage {
@@ -176,12 +178,39 @@ public class DateScrubber: UIViewController {
     }
 
     private func setSectionLabelActive(){
+
+        if self.sectionLabelActive {
+            return
+        }
+
+        self.sectionLabelActive = true
+
         timer = nil
+        NSObject.cancelPreviousPerformRequestsWithTarget(self.sectionLabel, selector: #selector(SectionLabel.hide), object: nil)
+
+        print("resetting the timer")
+
+        self.animateFrameToActiveState(true)
+
         self.sectionLabel.show()
     }
 
-    private func setSectionLabelInactive(){
-       timer = NSTimer.scheduledTimerWithTimeInterval(2, target: self.sectionLabel, selector: #selector(SectionLabel.hide), userInfo: nil, repeats: false)
+    private func setSectionLabelInactive() {
+
+        self.animateFrameToActiveState(false)
+        print("setting the timer")
+        NSObject.cancelPreviousPerformRequestsWithTarget(self.sectionLabel, selector: #selector(SectionLabel.hide), object: nil)
+        timer = NSTimer.scheduledTimerWithTimeInterval(2, target: self.sectionLabel, selector: #selector(SectionLabel.hide), userInfo: nil, repeats: false)
+        self.sectionLabelActive = false
+    }
+
+    private func animateFrameToActiveState(active : Bool){
+        var newSectionLabelFrame = self.sectionLabel.frame
+        newSectionLabelFrame.origin.x = active ? newSectionLabelFrame.origin.x  - 20 : newSectionLabelFrame.origin.x  + 20
+
+        UIView.animateWithDuration(0.2, animations: {
+        self.sectionLabel.frame = newSectionLabelFrame
+        })
     }
 }
 
