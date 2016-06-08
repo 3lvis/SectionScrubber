@@ -2,7 +2,9 @@ import UIKit
 
 class SectionLabel: UIView {
 
-    static let RightOffsetForSectionLabel : CGFloat = 80.0
+    static let RightOffsetForActiveSectionLabel: CGFloat = 80.0
+    static let RightOffsetForInactiveSectionLabel: CGFloat = 60.0
+
     private static let Margin : CGFloat = 19.0
 
     var sectionlabelWidth : CGFloat {

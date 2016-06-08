@@ -14,6 +14,23 @@ public extension DateScrubberDelegate where Self: UICollectionViewController {
 }
 
 public class DateScrubber: UIViewController {
+
+    enum State {
+        case Inactive
+        case Active
+    }
+
+    var sectionLabelState = State.Inactive {
+        didSet {
+            self.animateSectionlabelFrame()
+        }
+    }
+    var scrubberState = State.Inactive {
+        didSet {
+            self.animateDateScrubberFrameToState(self.scrubberState)
+        }
+    }
+
     static let RightEdgeInset: CGFloat = 5.0
 
     public var delegate : DateScrubberDelegate?
@@ -33,8 +50,6 @@ public class DateScrubber: UIViewController {
 
     private var timer : NSTimer?
 
-    private var sectionLabelActive = false
-
     public var sectionLabelImage: UIImage? {
         didSet {
             if let sectionLabelImage = self.sectionLabelImage {
@@ -50,7 +65,7 @@ public class DateScrubber: UIViewController {
             if let scrubberImage = self.scrubberImage {
 
                 scrubberImageView.image = scrubberImage
-                scrubberImageView.frame = CGRectMake(containingViewFrame.width - scrubberImage.size.width - DateScrubber.RightEdgeInset, 0, scrubberImage.size.width, scrubberImage.size.height)
+                scrubberImageView.frame = CGRectMake(containingViewFrame.width, 0, scrubberImage.size.width, scrubberImage.size.height)
                 self.view.addSubview(scrubberImageView)
             }
         }
@@ -102,6 +117,13 @@ public class DateScrubber: UIViewController {
     }
 
     public func updateFrame(scrollView scrollView: UIScrollView) {
+
+        if self.scrubberState == .Inactive{
+            self.scrubberState = .Active
+        }
+
+        NSObject.cancelPreviousPerformRequestsWithTarget(self, selector: #selector(hide), object: nil)
+        self.performSelector(#selector(hide), withObject: nil, afterDelay: 3)
 
         if viewIsBeingDragged {
             return
@@ -174,48 +196,45 @@ public class DateScrubber: UIViewController {
     }
 
     private func setSectionlabelFrame(){
-        self.sectionLabel.frame = CGRectMake(self.view.frame.width - SectionLabel.RightOffsetForSectionLabel - self.sectionLabel.sectionlabelWidth, 0, self.sectionLabel.sectionlabelWidth, viewHeight)
+        let rightOffset = self.sectionLabelState == .Active ? SectionLabel.RightOffsetForActiveSectionLabel : SectionLabel.RightOffsetForInactiveSectionLabel
+        self.sectionLabel.frame = CGRectMake(self.view.frame.width - rightOffset - self.sectionLabel.sectionlabelWidth, 0, self.sectionLabel.sectionlabelWidth, viewHeight)
     }
 
     private func setSectionLabelActive(){
 
-        if self.sectionLabelActive {
-            return
+        if self.sectionLabelState == .Inactive {
+            self.sectionLabelState = .Active
+            self.sectionLabel.show()
         }
-        self.sectionLabelActive = true
-
-        self.animateFrameToActiveState(true)
-        self.sectionLabel.show()
     }
 
     private func setSectionLabelInactive() {
 
-        if !self.sectionLabelActive {
-            return
+        if self.sectionLabelState == .Active {
+            self.sectionLabelState = .Inactive
         }
-        self.sectionLabelActive = false
-
-        self.animateFrameToActiveState(false)
-
-        NSObject.cancelPreviousPerformRequestsWithTarget(self, selector: #selector(hideSectionLabel), object: nil)
-        self.performSelector(#selector(hideSectionLabel), withObject: nil, afterDelay: 3)
-
     }
 
-    func hideSectionLabel(){
-        if self.sectionLabelActive {
-            return
-        }
-        self.sectionLabel.hide()
-    }
-
-    private func animateFrameToActiveState(active: Bool) {
-        var newSectionLabelFrame = self.sectionLabel.frame
-        newSectionLabelFrame.origin.x = active ? newSectionLabelFrame.origin.x - 20 : newSectionLabelFrame.origin.x + 20
+    private func animateSectionlabelFrame() {
 
         UIView.animateWithDuration(0.2, animations: {
-            self.sectionLabel.frame = newSectionLabelFrame
+            self.setSectionlabelFrame()
         })
+    }
+
+    private func animateDateScrubberFrameToState(state: State) {
+
+        var newScrubberFrame = self.scrubberImageView.frame
+        newScrubberFrame.origin.x = state == .Active ? newScrubberFrame.origin.x - newScrubberFrame.width - DateScrubber.RightEdgeInset : newScrubberFrame.origin.x + newScrubberFrame.width + DateScrubber.RightEdgeInset
+
+        UIView.animateWithDuration(0.2, animations: {
+            self.scrubberImageView.frame = newScrubberFrame
+        })
+    }
+
+    func hide(){
+        self.sectionLabel.hide()
+        self.scrubberState = .Inactive
     }
 }
 
