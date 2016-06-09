@@ -2,8 +2,6 @@ import UIKit
 
 class RemoteCollectionController: UICollectionViewController {
     var sections = Photo.constructRemoteElements()
-    var numberOfItems = 0
-
     let dateScrubber = DateScrubber()
 
     override func viewDidLoad() {
@@ -23,7 +21,6 @@ class RemoteCollectionController: UICollectionViewController {
                 count += photos.count
             }
         }
-        self.numberOfItems = count
 
         self.dateScrubber.delegate = self
         self.dateScrubber.scrubberImage = UIImage(named: "date-scrubber")
