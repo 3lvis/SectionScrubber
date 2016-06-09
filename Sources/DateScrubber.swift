@@ -20,18 +20,6 @@ public class DateScrubber: UIViewController {
         case Active
     }
 
-    var sectionLabelState = State.Inactive {
-        didSet {
-            self.updateSectionLabelFrame()
-        }
-    }
-
-    var scrubberState = State.Inactive {
-        didSet {
-            self.updateDateScrubberFrame()
-        }
-    }
-
     static let RightEdgeInset: CGFloat = 5.0
 
     public var delegate : DateScrubberDelegate?
@@ -93,14 +81,29 @@ public class DateScrubber: UIViewController {
         }
     }
 
-    private var viewIsBeingDragged = false {
-        didSet{
-            if self.viewIsBeingDragged {
-              self.setSectionLabelActive()
-            } else {
+//    private var viewIsBeingDragged = false {
+//        didSet{
+//            if self.viewIsBeingDragged {
+//              self.setSectionLabelActive()
+//            } else {
+//
+//                self.setSectionLabelInactive()
+//            }
+//        }
+//    }
 
-                self.setSectionLabelInactive()
-            }
+    private var sectionLabelState = State.Inactive {
+        didSet {
+
+            if self.sectionLabelState == .Active {self.setSectionLabelActive()}
+            if self.sectionLabelState == .Inactive {self.setSectionLabelInactive()}
+            self.updateSectionLabelFrame()
+        }
+    }
+
+    private var scrubberState = State.Inactive {
+        didSet {
+            self.updateDateScrubberFrame()
         }
     }
 
@@ -119,14 +122,18 @@ public class DateScrubber: UIViewController {
         self.longPressGestureRecognizer.minimumPressDuration = 0.2
         self.longPressGestureRecognizer.cancelsTouchesInView = false
         self.longPressGestureRecognizer.delegate = self
-        self.scrubberImageView.addGestureRecognizer(self.longPressGestureRecognizer)
+
+
+        let scrubberGestureView = UIView(frame: CGRectMake(self.containingViewFrame.width-44,0,44,self.viewHeight))
+        self.view.addSubview(scrubberGestureView)
+        scrubberGestureView.addGestureRecognizer(self.longPressGestureRecognizer)
     }
 
     public func updateFrame(scrollView scrollView: UIScrollView) {
 
         self.userInteractionOnScrollViewDetected()
 
-        if viewIsBeingDragged {
+        if self.sectionLabelState == .Active {
             return
         }
 
@@ -147,8 +154,8 @@ public class DateScrubber: UIViewController {
 
     private func userInteractionOnScrollViewDetected(){
 
-        NSObject.cancelPreviousPerformRequestsWithTarget(self, selector: #selector(hide), object: nil)
-        self.performSelector(#selector(hide), withObject: nil, afterDelay: 3)
+        NSObject.cancelPreviousPerformRequestsWithTarget(self, selector: #selector(hideScrubber), object: nil)
+        self.performSelector(#selector(hideScrubber), withObject: nil, afterDelay: 3)
 
         if self.scrubberState == .Inactive {
             self.scrubberState = .Active
@@ -169,23 +176,12 @@ public class DateScrubber: UIViewController {
 
     func handleLongPress(gestureRecognizer: UITapGestureRecognizer) {
 
-        if gestureRecognizer.state == .Began {
-
-            self.viewIsBeingDragged = true
-            self.setSectionLabelActive()
-        }
-
-        if gestureRecognizer.state == .Ended {
-            self.viewIsBeingDragged = false
-            self.setSectionLabelInactive()
-        }
+        self.sectionLabelState = gestureRecognizer.state == .Ended ? .Inactive : .Active
     }
 
     func handleDrag(gestureRecognizer : UIPanGestureRecognizer) {
 
-        if self.viewIsBeingDragged != (gestureRecognizer.state != .Ended) {
-            self.viewIsBeingDragged = gestureRecognizer.state != .Ended
-        }
+        self.sectionLabelState = gestureRecognizer.state == .Ended ? .Inactive : .Active
 
         if gestureRecognizer.state == .Began || gestureRecognizer.state == .Changed {
 
@@ -215,6 +211,7 @@ public class DateScrubber: UIViewController {
     }
 
     private func setSectionlabelFrame(){
+
         let rightOffset = self.sectionLabelState == .Active ? SectionLabel.RightOffsetForActiveSectionLabel : SectionLabel.RightOffsetForInactiveSectionLabel
         self.sectionLabel.frame = CGRectMake(self.view.frame.width - rightOffset - self.sectionLabel.sectionlabelWidth, 0, self.sectionLabel.sectionlabelWidth, viewHeight)
     }
@@ -226,19 +223,12 @@ public class DateScrubber: UIViewController {
 
     private func setSectionLabelActive(){
 
-        if self.sectionLabelState == .Inactive {
-            self.sectionLabelState = .Active
-            self.sectionLabel.show()
-        }
+        self.sectionLabel.show()
     }
 
     private func setSectionLabelInactive() {
-
-        if self.sectionLabelState == .Active {
-            NSObject.cancelPreviousPerformRequestsWithTarget(self, selector: #selector(hideSectionLabel), object: nil)
-            self.performSelector(#selector(hideSectionLabel), withObject: nil, afterDelay: 3)
-            self.sectionLabelState = .Inactive
-        }
+        print("\(NSDate()) setting timer to hide section label")
+        self.performSelector(#selector(hideSectionLabel), withObject: nil, afterDelay: 3)
     }
 
     private func updateSectionLabelFrame() {
@@ -255,15 +245,12 @@ public class DateScrubber: UIViewController {
         })
     }
 
-    func hide(){
-        if self.viewIsBeingDragged {
-            return
-        }
-
+    func hideScrubber(){
         self.scrubberState = .Inactive
     }
 
     func hideSectionLabel(){
+        print("\(NSDate()) actually hiding it")
         self.sectionLabel.hide()
     }
 }
