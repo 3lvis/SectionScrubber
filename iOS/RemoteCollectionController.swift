@@ -24,7 +24,7 @@ class RemoteCollectionController: UICollectionViewController {
         self.dateScrubber.sectionLabelImage = UIImage(named: "section-label")
         self.dateScrubber.font = UIFont(name: "DINNextLTPro-Light", size: 18)
         self.dateScrubber.textColor = UIColor(red: 69/255, green: 67/255, blue: 76/255, alpha: 0.8)
-        self.view.addSubview(dateScrubber.view)
+        self.view.addSubview(dateScrubber)
     }
 
     override func viewWillLayoutSubviews() {
@@ -82,7 +82,7 @@ extension RemoteCollectionController: DateScrubberDelegate {
     override func scrollViewDidScroll(scrollView: UIScrollView){
         self.dateScrubber.updateFrame(scrollView: scrollView)
 
-        let centerPoint = CGPoint(x: self.dateScrubber.view.center.x + scrollView.contentOffset.x, y: self.dateScrubber.view.center.y + scrollView.contentOffset.y);
+        let centerPoint = CGPoint(x: self.dateScrubber.center.x + scrollView.contentOffset.x, y: self.dateScrubber.center.y + scrollView.contentOffset.y);
         if let indexPath = self.collectionView?.indexPathForItemAtPoint(centerPoint) {
             self.dateScrubber.updateSectionTitle(Photo.title(index: indexPath.section))
         }

@@ -10,7 +10,7 @@ public extension DateScrubberDelegate where Self: UICollectionViewController {
     }
 }
 
-public class DateScrubber: UIViewController {
+public class DateScrubber: UIView {
     enum VisibilityState {
         case Hidden
         case Visible
@@ -52,7 +52,7 @@ public class DateScrubber: UIViewController {
                 self.scrubberWidth = scrubberImage.size.width
                 self.scrubberImageView.image = scrubberImage
                 self.setScrubberFrame()
-                self.view.addSubview(scrubberImageView)
+                self.addSubview(scrubberImageView)
             }
         }
     }
@@ -87,11 +87,11 @@ public class DateScrubber: UIViewController {
         }
     }
 
-    override public func viewDidLoad() {
-        super.viewDidLoad()
+    init() {
+        super.init(frame: CGRectZero)
 
         self.setSectionlabelFrame()
-        self.view.addSubview(self.sectionLabel)
+        self.addSubview(self.sectionLabel)
 
         self.dragGestureRecognizer.addTarget(self, action: #selector(handleDrag))
         self.scrubberImageView.userInteractionEnabled  = true
@@ -102,10 +102,13 @@ public class DateScrubber: UIViewController {
         self.longPressGestureRecognizer.cancelsTouchesInView = false
         self.longPressGestureRecognizer.delegate = self
 
-
         let scrubberGestureView = UIView(frame: CGRectMake(self.containingViewFrame.width-44,0,44,self.viewHeight))
-        self.view.addSubview(scrubberGestureView)
+        self.addSubview(scrubberGestureView)
         scrubberGestureView.addGestureRecognizer(self.longPressGestureRecognizer)
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     public func updateFrame(scrollView scrollView: UIScrollView) {
@@ -156,8 +159,8 @@ public class DateScrubber: UIViewController {
         self.sectionLabelState = gestureRecognizer.state == .Ended ? .Hidden : .Visible
 
         if gestureRecognizer.state == .Began || gestureRecognizer.state == .Changed {
-            let translation = gestureRecognizer.translationInView(self.view)
-            var newYPosForDateScrubber =  self.view.frame.origin.y + translation.y
+            let translation = gestureRecognizer.translationInView(self)
+            var newYPosForDateScrubber =  self.frame.origin.y + translation.y
 
 
             if newYPosForDateScrubber < containingViewFrame.minY {
@@ -173,17 +176,17 @@ public class DateScrubber: UIViewController {
             let yPosInContentInContentView = calculateYPosInContentView(forYPosInView: newYPosForDateScrubber)
             self.delegate?.dateScrubber(self, didRequestToSetContentViewToYPosition: yPosInContentInContentView)
 
-            gestureRecognizer.setTranslation(CGPoint(x: translation.x, y: 0), inView: self.view)
+            gestureRecognizer.setTranslation(CGPoint(x: translation.x, y: 0), inView: self)
         }
     }
 
     private func setFrame(atYpos yPos: CGFloat){
-        self.view.frame = CGRectMake(0, yPos, UIScreen.mainScreen().bounds.width, viewHeight)
+        self.frame = CGRectMake(0, yPos, UIScreen.mainScreen().bounds.width, viewHeight)
     }
 
     private func setSectionlabelFrame(){
         let rightOffset = self.sectionLabelState == .Visible ? SectionLabel.RightOffsetForActiveSectionLabel : SectionLabel.RightOffsetForInactiveSectionLabel
-        self.sectionLabel.frame = CGRectMake(self.view.frame.width - rightOffset - self.sectionLabel.sectionlabelWidth, 0, self.sectionLabel.sectionlabelWidth, viewHeight)
+        self.sectionLabel.frame = CGRectMake(self.frame.width - rightOffset - self.sectionLabel.sectionlabelWidth, 0, self.sectionLabel.sectionlabelWidth, viewHeight)
     }
 
     private func setScrubberFrame(){
