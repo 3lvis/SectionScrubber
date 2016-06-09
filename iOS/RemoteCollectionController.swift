@@ -6,8 +6,6 @@ class RemoteCollectionController: UICollectionViewController {
 
     let dateScrubber = DateScrubber()
 
-    let testView = UIView()
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
