@@ -59,15 +59,15 @@ class SectionLabel: UIView {
 
     func hide() {
 
-        UIView.animateWithDuration(0.2, animations: {
+        UIView.animateWithDuration(0.2){
             self.alpha = 0
-        })
+        }
     }
 
     func show(){
 
-        UIView.animateWithDuration(0.2, animations: {
+        UIView.animateWithDuration(0.2) {
             self.alpha = 1
-        })
+        }
     }
 }

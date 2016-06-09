@@ -103,7 +103,6 @@ public class DateScrubber: UIViewController {
         self.view.addSubview(self.sectionLabel)
 
         self.dragGestureRecognizer.addTarget(self, action: #selector(handleDrag))
-        self.dragGestureRecognizer
         self.scrubberImageView.userInteractionEnabled  = true
         self.scrubberImageView.addGestureRecognizer(self.dragGestureRecognizer)
 
@@ -206,8 +205,12 @@ public class DateScrubber: UIViewController {
     }
 
     private func setScrubberFrame(){
-        let xPos = self.scrubberState == .Visible ? self.containingViewFrame.width -  self.scrubberWidth - DateScrubber.RightEdgeInset : self.containingViewFrame.width
-        scrubberImageView.frame = CGRectMake(xPos, 0, self.scrubberWidth, self.viewHeight)
+        switch self.scrubberState {
+            case .Visible:
+                scrubberImageView.frame = CGRectMake(self.containingViewFrame.width - self.scrubberWidth - DateScrubber.RightEdgeInset, 0, self.scrubberWidth, self.viewHeight)
+            case .Hidden:
+                scrubberImageView.frame = CGRectMake(self.containingViewFrame.width, 0, self.scrubberWidth, self.viewHeight)
+        }
     }
 
     private func setSectionLabelActive(){
@@ -221,16 +224,16 @@ public class DateScrubber: UIViewController {
 
     private func updateSectionLabelFrame() {
 
-        UIView.animateWithDuration(0.2, animations: {
+        UIView.animateWithDuration(0.2) {
             self.setSectionlabelFrame()
-        })
+        }
     }
 
     private func updateDateScrubberFrame() {
 
-        UIView.animateWithDuration(0.2, animations: {
+        UIView.animateWithDuration(0.2){
             self.setScrubberFrame()
-        })
+        }
     }
 
     func hideScrubber(){
