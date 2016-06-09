@@ -15,9 +15,9 @@ public extension DateScrubberDelegate where Self: UICollectionViewController {
 
 public class DateScrubber: UIViewController {
 
-    enum State {
-        case Inactive
-        case Active
+    enum VisibilityState {
+        case Hidden
+        case Visible
     }
 
     static let RightEdgeInset: CGFloat = 5.0
@@ -81,16 +81,16 @@ public class DateScrubber: UIViewController {
         }
     }
 
-    private var sectionLabelState = State.Inactive {
+    private var sectionLabelState = VisibilityState.Hidden {
         didSet {
 
-            if self.sectionLabelState == .Active {self.setSectionLabelActive()}
-            if self.sectionLabelState == .Inactive {self.setSectionLabelInactive()}
+            if self.sectionLabelState == .Visible {self.setSectionLabelActive()}
+            if self.sectionLabelState == .Hidden {self.setSectionLabelInactive()}
             self.updateSectionLabelFrame()
         }
     }
 
-    private var scrubberState = State.Inactive {
+    private var scrubberState = VisibilityState.Hidden {
         didSet {
             self.updateDateScrubberFrame()
         }
@@ -122,7 +122,7 @@ public class DateScrubber: UIViewController {
 
         self.userInteractionOnScrollViewDetected()
 
-        if self.sectionLabelState == .Active {
+        if self.sectionLabelState == .Visible {
             return
         }
 
@@ -146,8 +146,8 @@ public class DateScrubber: UIViewController {
         NSObject.cancelPreviousPerformRequestsWithTarget(self, selector: #selector(hideScrubber), object: nil)
         self.performSelector(#selector(hideScrubber), withObject: nil, afterDelay: 3)
 
-        if self.scrubberState == .Inactive {
-            self.scrubberState = .Active
+        if self.scrubberState == .Hidden {
+            self.scrubberState = .Visible
         }
     }
 
@@ -165,12 +165,12 @@ public class DateScrubber: UIViewController {
 
     func handleLongPress(gestureRecognizer: UITapGestureRecognizer) {
 
-        self.sectionLabelState = gestureRecognizer.state == .Ended ? .Inactive : .Active
+        self.sectionLabelState = gestureRecognizer.state == .Ended ? .Hidden : .Visible
     }
 
     func handleDrag(gestureRecognizer : UIPanGestureRecognizer) {
 
-        self.sectionLabelState = gestureRecognizer.state == .Ended ? .Inactive : .Active
+        self.sectionLabelState = gestureRecognizer.state == .Ended ? .Hidden : .Visible
 
         if gestureRecognizer.state == .Began || gestureRecognizer.state == .Changed {
 
@@ -201,12 +201,12 @@ public class DateScrubber: UIViewController {
 
     private func setSectionlabelFrame(){
 
-        let rightOffset = self.sectionLabelState == .Active ? SectionLabel.RightOffsetForActiveSectionLabel : SectionLabel.RightOffsetForInactiveSectionLabel
+        let rightOffset = self.sectionLabelState == .Visible ? SectionLabel.RightOffsetForActiveSectionLabel : SectionLabel.RightOffsetForInactiveSectionLabel
         self.sectionLabel.frame = CGRectMake(self.view.frame.width - rightOffset - self.sectionLabel.sectionlabelWidth, 0, self.sectionLabel.sectionlabelWidth, viewHeight)
     }
 
     private func setScrubberFrame(){
-        let xPos = self.scrubberState == .Active ? self.containingViewFrame.width -  self.scrubberWidth - DateScrubber.RightEdgeInset : self.containingViewFrame.width
+        let xPos = self.scrubberState == .Visible ? self.containingViewFrame.width -  self.scrubberWidth - DateScrubber.RightEdgeInset : self.containingViewFrame.width
         scrubberImageView.frame = CGRectMake(xPos, 0, self.scrubberWidth, self.viewHeight)
     }
 
@@ -234,7 +234,7 @@ public class DateScrubber: UIViewController {
     }
 
     func hideScrubber(){
-        self.scrubberState = .Inactive
+        self.scrubberState = .Hidden
     }
 
     func hideSectionLabel(){
