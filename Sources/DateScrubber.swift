@@ -1,20 +1,16 @@
 import UIKit
 
 public protocol DateScrubberDelegate {
-
     func dateScrubber(dateScrubber:DateScrubber, didRequestToSetContentViewToYPosition yPosition: CGFloat)
 }
 
 public extension DateScrubberDelegate where Self: UICollectionViewController {
-
     func dateScrubber(dateScrubber:DateScrubber, didRequestToSetContentViewToYPosition yPosition: CGFloat){
-
         self.collectionView?.setContentOffset(CGPoint(x: 0,y: yPosition), animated: false)
     }
 }
 
 public class DateScrubber: UIViewController {
-
     enum VisibilityState {
         case Hidden
         case Visible
@@ -44,7 +40,6 @@ public class DateScrubber: UIViewController {
     public var sectionLabelImage: UIImage? {
         didSet {
             if let sectionLabelImage = self.sectionLabelImage {
-
                 self.sectionLabel.labelImage = sectionLabelImage
                 self.viewHeight = sectionLabelImage.size.height
             }
@@ -54,7 +49,6 @@ public class DateScrubber: UIViewController {
     public var scrubberImage: UIImage? {
         didSet {
             if let scrubberImage = self.scrubberImage {
-
                 self.scrubberWidth = scrubberImage.size.width
                 self.scrubberImageView.image = scrubberImage
                 self.setScrubberFrame()
@@ -81,7 +75,6 @@ public class DateScrubber: UIViewController {
 
     private var sectionLabelState = VisibilityState.Hidden {
         didSet {
-
             if self.sectionLabelState == .Visible {self.setSectionLabelActive()}
             if self.sectionLabelState == .Hidden {self.setSectionLabelInactive()}
             self.updateSectionLabelFrame()
@@ -116,7 +109,6 @@ public class DateScrubber: UIViewController {
     }
 
     public func updateFrame(scrollView scrollView: UIScrollView) {
-
         self.userInteractionOnScrollViewDetected()
 
         if self.sectionLabelState == .Visible {
@@ -129,7 +121,6 @@ public class DateScrubber: UIViewController {
     }
 
     public func updateSectionTitle(title: String) {
-
         if self.currentSectionTitle != title {
             self.currentSectionTitle = title
 
@@ -139,7 +130,6 @@ public class DateScrubber: UIViewController {
     }
 
     private func userInteractionOnScrollViewDetected(){
-
         NSObject.cancelPreviousPerformRequestsWithTarget(self, selector: #selector(hideScrubber), object: nil)
         self.performSelector(#selector(hideScrubber), withObject: nil, afterDelay: 3)
 
@@ -149,28 +139,23 @@ public class DateScrubber: UIViewController {
     }
 
     func calculateYPosInView(forYPosInContentView yPosInContentView: CGFloat) -> CGFloat{
-
         let percentageInContentView = yPosInContentView / containingViewContentSize.height
         return (containingViewFrame.height * percentageInContentView ) + containingViewFrame.minY
     }
 
     func calculateYPosInContentView(forYPosInView yPosInView: CGFloat) -> CGFloat {
-
         let percentageInView = (yPosInView - containingViewFrame.minY) / containingViewFrame.height
         return (containingViewContentSize.height * percentageInView) - containingViewFrame.minY
     }
 
     func handleLongPress(gestureRecognizer: UITapGestureRecognizer) {
-
         self.sectionLabelState = gestureRecognizer.state == .Ended ? .Hidden : .Visible
     }
 
     func handleDrag(gestureRecognizer : UIPanGestureRecognizer) {
-
         self.sectionLabelState = gestureRecognizer.state == .Ended ? .Hidden : .Visible
 
         if gestureRecognizer.state == .Began || gestureRecognizer.state == .Changed {
-
             let translation = gestureRecognizer.translationInView(self.view)
             var newYPosForDateScrubber =  self.view.frame.origin.y + translation.y
 
@@ -197,7 +182,6 @@ public class DateScrubber: UIViewController {
     }
 
     private func setSectionlabelFrame(){
-
         let rightOffset = self.sectionLabelState == .Visible ? SectionLabel.RightOffsetForActiveSectionLabel : SectionLabel.RightOffsetForInactiveSectionLabel
         self.sectionLabel.frame = CGRectMake(self.view.frame.width - rightOffset - self.sectionLabel.sectionlabelWidth, 0, self.sectionLabel.sectionlabelWidth, viewHeight)
     }
@@ -212,7 +196,6 @@ public class DateScrubber: UIViewController {
     }
 
     private func setSectionLabelActive(){
-
         self.sectionLabel.show()
     }
 
@@ -221,14 +204,12 @@ public class DateScrubber: UIViewController {
     }
 
     private func updateSectionLabelFrame() {
-
         UIView.animateWithDuration(0.2) {
             self.setSectionlabelFrame()
         }
     }
 
     private func updateDateScrubberFrame() {
-
         UIView.animateWithDuration(0.2){
             self.setScrubberFrame()
         }

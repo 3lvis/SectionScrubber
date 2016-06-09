@@ -1,31 +1,23 @@
 import UIKit
 
-class RemoteCollectionController: UICollectionViewController, DateScrubberDelegate {
+class RemoteCollectionController: UICollectionViewController {
     var sections = Photo.constructRemoteElements()
-    var numberOfItems = 0
-
     let dateScrubber = DateScrubber()
-
-    let testView = UIView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.collectionView?.backgroundColor = UIColor.whiteColor()
-        
         self.collectionView?.registerClass(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.Identifier)
         self.collectionView?.registerClass(SectionHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: SectionHeader.Identifier)
-
-
         self.collectionView?.showsVerticalScrollIndicator = false
 
         var count = 0
         for i in 0 ..< self.sections.count {
-            if let photos = self.sections[sectionTitleFor(i)] {
+            if let photos = self.sections[Photo.title(index: i)] {
                 count += photos.count
             }
         }
-        self.numberOfItems = count
 
         self.dateScrubber.delegate = self
         self.dateScrubber.scrubberImage = UIImage(named: "date-scrubber")
@@ -47,7 +39,6 @@ class RemoteCollectionController: UICollectionViewController, DateScrubberDelega
     }
 
     override func viewDidLayoutSubviews() {
-
         self.dateScrubber.containingViewFrame = CGRectMake(0, 64, self.view.bounds.width, self.view.bounds.height - 64)
         self.dateScrubber.containingViewContentSize = self.collectionView!.contentSize
         self.dateScrubber.updateFrame(scrollView: self.collectionView!)
@@ -66,12 +57,12 @@ extension RemoteCollectionController {
     }
 
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.sections[sectionTitleFor(section)]?.count ?? 0
+        return self.sections[Photo.title(index: section)]?.count ?? 0
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(PhotoCell.Identifier, forIndexPath: indexPath) as! PhotoCell
-        if let photos = self.sections[sectionTitleFor(indexPath.section)] {
+        if let photos = self.sections[Photo.title(index: indexPath.section)] {
             let photo = photos[indexPath.row]
             cell.display(photo)
         }
@@ -80,24 +71,20 @@ extension RemoteCollectionController {
     }
 
     override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-
         let headerView = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: SectionHeader.Identifier, forIndexPath: indexPath) as! SectionHeader
-        headerView.titleLabel.text = sectionTitleFor(indexPath.section)
+        headerView.titleLabel.text = Photo.title(index: indexPath.section)
        
         return headerView
     }
-
 }
 
-extension RemoteCollectionController{
-
+extension RemoteCollectionController: DateScrubberDelegate {
     override func scrollViewDidScroll(scrollView: UIScrollView){
-        dateScrubber.updateFrame(scrollView: scrollView)
+        self.dateScrubber.updateFrame(scrollView: scrollView)
 
-        let centerPoint = CGPoint(x: dateScrubber.view.center.x + scrollView.contentOffset.x, y: dateScrubber.view.center.y + scrollView.contentOffset.y);
-
+        let centerPoint = CGPoint(x: self.dateScrubber.view.center.x + scrollView.contentOffset.x, y: self.dateScrubber.view.center.y + scrollView.contentOffset.y);
         if let indexPath = self.collectionView?.indexPathForItemAtPoint(centerPoint) {
-            self.dateScrubber.updateSectionTitle(sectionTitleFor(indexPath.section))
+            self.dateScrubber.updateSectionTitle(Photo.title(index: indexPath.section))
         }
     }
 }

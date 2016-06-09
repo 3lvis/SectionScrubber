@@ -1,5 +1,4 @@
 import UIKit
-import Photos
 
 class PhotoCell: UICollectionViewCell {
     static let Identifier = "PhotoCellIdentifier"
@@ -24,15 +23,7 @@ class PhotoCell: UICollectionViewCell {
     }
 
     func display(photo: Photo) {
-        if photo.local {
-            if let asset = PHAsset.fetchAssetsWithLocalIdentifiers([photo.remoteID], options: nil).firstObject {
-                Photo.resolveAsset(asset as! PHAsset, size: .Small, completion: { image in
-                    self.imageView.image = image
-                })
-            }
-        } else {
-            self.imageView.image = photo.placeholder
-        }
+        self.imageView.image = photo.placeholder
     }
 
     override func layoutSubviews() {
