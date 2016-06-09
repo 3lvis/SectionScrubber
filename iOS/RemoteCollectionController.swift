@@ -1,6 +1,6 @@
 import UIKit
 
-class RemoteCollectionController: UICollectionViewController, DateScrubberDelegate {
+class RemoteCollectionController: UICollectionViewController {
     var sections = Photo.constructRemoteElements()
     var numberOfItems = 0
 
@@ -80,21 +80,18 @@ extension RemoteCollectionController {
     }
 
     override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-
         let headerView = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: SectionHeader.Identifier, forIndexPath: indexPath) as! SectionHeader
         headerView.titleLabel.text = Photo.title(index: indexPath.section)
        
         return headerView
     }
-
 }
 
-extension RemoteCollectionController{
-
+extension RemoteCollectionController: DateScrubberDelegate {
     override func scrollViewDidScroll(scrollView: UIScrollView){
-        dateScrubber.updateFrame(scrollView: scrollView)
+        self.dateScrubber.updateFrame(scrollView: scrollView)
 
-        let centerPoint = CGPoint(x: dateScrubber.view.center.x + scrollView.contentOffset.x, y: dateScrubber.view.center.y + scrollView.contentOffset.y);
+        let centerPoint = CGPoint(x: self.dateScrubber.view.center.x + scrollView.contentOffset.x, y: self.dateScrubber.view.center.y + scrollView.contentOffset.y);
 
         if let indexPath = self.collectionView?.indexPathForItemAtPoint(centerPoint) {
             self.dateScrubber.updateSectionTitle(Photo.title(index: indexPath.section))
