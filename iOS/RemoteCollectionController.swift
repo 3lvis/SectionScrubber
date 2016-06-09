@@ -8,11 +8,8 @@ class RemoteCollectionController: UICollectionViewController {
         super.viewDidLoad()
 
         self.collectionView?.backgroundColor = UIColor.whiteColor()
-        
         self.collectionView?.registerClass(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.Identifier)
         self.collectionView?.registerClass(SectionHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: SectionHeader.Identifier)
-
-
         self.collectionView?.showsVerticalScrollIndicator = false
 
         var count = 0
@@ -42,7 +39,6 @@ class RemoteCollectionController: UICollectionViewController {
     }
 
     override func viewDidLayoutSubviews() {
-
         self.dateScrubber.containingViewFrame = CGRectMake(0, 64, self.view.bounds.width, self.view.bounds.height - 64)
         self.dateScrubber.containingViewContentSize = self.collectionView!.contentSize
         self.dateScrubber.updateFrame(scrollView: self.collectionView!)
