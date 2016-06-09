@@ -83,7 +83,6 @@ extension RemoteCollectionController: DateScrubberDelegate {
         self.dateScrubber.updateFrame(scrollView: scrollView)
 
         let centerPoint = CGPoint(x: self.dateScrubber.view.center.x + scrollView.contentOffset.x, y: self.dateScrubber.view.center.y + scrollView.contentOffset.y);
-
         if let indexPath = self.collectionView?.indexPathForItemAtPoint(centerPoint) {
             self.dateScrubber.updateSectionTitle(Photo.title(index: indexPath.section))
         }
