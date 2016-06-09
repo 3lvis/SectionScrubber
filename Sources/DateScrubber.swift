@@ -148,13 +148,13 @@ public class DateScrubber: UIViewController {
         }
     }
 
-    private func calculateYPosInView(forYPosInContentView yPosInContentView: CGFloat) -> CGFloat{
+    func calculateYPosInView(forYPosInContentView yPosInContentView: CGFloat) -> CGFloat{
 
         let percentageInContentView = yPosInContentView / containingViewContentSize.height
         return (containingViewFrame.height * percentageInContentView ) + containingViewFrame.minY
     }
 
-    private func calculateYPosInContentView(forYPosInView yPosInView: CGFloat) -> CGFloat {
+    func calculateYPosInContentView(forYPosInView yPosInView: CGFloat) -> CGFloat {
 
         let percentageInView = (yPosInView - containingViewFrame.minY) / containingViewFrame.height
         return (containingViewContentSize.height * percentageInView) - containingViewFrame.minY
