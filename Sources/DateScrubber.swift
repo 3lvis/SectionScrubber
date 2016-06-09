@@ -41,8 +41,6 @@ public class DateScrubber: UIViewController {
     private let dragGestureRecognizer = UIPanGestureRecognizer()
     private let longPressGestureRecognizer = UILongPressGestureRecognizer()
 
-    private var timer : NSTimer?
-
     public var sectionLabelImage: UIImage? {
         didSet {
             if let sectionLabelImage = self.sectionLabelImage {
