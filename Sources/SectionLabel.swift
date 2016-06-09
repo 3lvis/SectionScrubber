@@ -1,16 +1,10 @@
-//
-//  SectionLabel.swift
-//  Demo
-//
-//  Created by Marijn Schilling on 06/06/16.
-//
-//
-
 import UIKit
 
 class SectionLabel: UIView {
 
-    static let RightOffsetForSectionLabel : CGFloat = 90.0
+    static let RightOffsetForActiveSectionLabel: CGFloat = 80.0
+    static let RightOffsetForInactiveSectionLabel: CGFloat = 60.0
+
     private static let Margin : CGFloat = 19.0
 
     var sectionlabelWidth : CGFloat {
@@ -35,6 +29,8 @@ class SectionLabel: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+
+        self.hide()
 
         self.addSubview(self.textLabel)
     }
@@ -61,7 +57,17 @@ class SectionLabel: UIView {
         self.setNeedsLayout()
     }
 
-    func hide(){}
+    func hide() {
 
-    func show(){}
+        UIView.animateWithDuration(0.2){
+            self.alpha = 0
+        }
+    }
+
+    func show(){
+
+        UIView.animateWithDuration(0.2) {
+            self.alpha = 1
+        }
+    }
 }
