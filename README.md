@@ -15,52 +15,43 @@
 ## Usage
 
 #### DateScrubber (class)
-```swift
-    // initialise the dateScrubber
-    let dateScrubber = DateScrubber()
-    
-    //set the collectionViewController as the delegate of the dateScrubber
-    public var delegate : DateScrubberDelegate?
 
-    //set the frame of the view that will contain the dateScrubber, default is UIScreen.mainScreen().bounds
-    var containingViewFrame: CGRect
-
-    //set the contentSize of the view that will contain the dateScrubber, default is UIScreen.mainScreen().bounds.size
-    var containingViewContentSize: CGSize
-
-    //call this function from scrollViewDidScroll to update the dateScrubber frame
-    func updateFrame(scrollView: UIScrollView) 
-    
-    //call this function from scrollViewDidScroll  to set the section title
-    func updateSectionTitle(title: String) 
-```
-
-Set these properties to customize the look of the dateScrubber
+From your UICollectionViewController:
 
 ```swift
-    //set an image that will be used as the scubber
-    var scrubberImage: UIImage? 
-    
-    //set an image for the background of the sectionLabel
-    var sectionLabelImage: UIImage? 
 
-    //the font that will be used in the sectionlabel
-    var sectionLabelFont: UIFont? 
-    
-    //the font that will be used in the sectionlabel
-    var sectionlabelTextColor: UIColor? 
-    
-    //turn the vertical scroll bars off, the dateScrubber will fullfill this function now! 
-    self.collectionView?.showsVerticalScrollIndicator = false
+override func viewDidLoad() {
+    super.viewDidLoad()
+    self.dateScrubber.delegate = self
 
-```
+    //set custom style for the scrubber
+    self.dateScrubber.scrubberImage = UIImage(named: "date-scrubber")
+    self.dateScrubber.sectionLabelImage = UIImage(named: "section-label-bckground")
+    self.dateScrubber.sectionLabelFont = UIFont(name: "DINNextLTPro-Light", size: 18)
+    self.dateScrubber.sectionLabelTextColor = UIColor.blackColor()
 
-#### DateScrubberDelegate (protocol)
+    self.view.addSubview(dateScrubber.view)
+}
 
-Make your collectionView conform to the protocol to make use of the default behaviour to control the contentOffset of the collectionView with the dateScrubber
+override func viewDidLayoutSubviews() {
+    guard let collectionView = self.collectionView else { return }
 
-```swift
-class CollectionViewController: UICollectionViewController, DateScrubberDelegate {
+    self.dateScrubber.containingViewFrame = collectionView.bounds
+    self.dateScrubber.containingViewContentSize = collectionView.contentSize
+}
+
+  extension CollectionViewController : DateScrubberDelegate {
+
+    override func scrollViewDidScroll(scrollView: UIScrollView){
+        dateScrubber.updateFrame(scrollView: scrollView)
+
+        let centerPoint = CGPoint(x: dateScrubber.view.center.x + scrollView.contentOffset.x, y: dateScrubber.view.center.y + scrollView.contentOffset.y);
+
+        if let indexPath = self.collectionView?.indexPathForItemAtPoint(centerPoint) {
+            self.dateScrubber.updateSectionTitle(sectionTitleFor(indexPath.section))
+        }
+    }
+}
 ```
 
 ## Installation
