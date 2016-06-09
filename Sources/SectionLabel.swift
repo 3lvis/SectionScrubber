@@ -1,7 +1,6 @@
 import UIKit
 
 class SectionLabel: UIView {
-
     static let RightOffsetForActiveSectionLabel: CGFloat = 80.0
     static let RightOffsetForInactiveSectionLabel: CGFloat = 60.0
 
@@ -17,9 +16,7 @@ class SectionLabel: UIView {
 
     var labelImage: UIImage? {
         didSet {
-
             if let labelImage = self.labelImage {
-
                 self.sectionLabelImageView.image = labelImage
                 self.addSubview(sectionLabelImageView)
                 self.bringSubviewToFront(self.textLabel)
@@ -58,14 +55,12 @@ class SectionLabel: UIView {
     }
 
     func hide() {
-
         UIView.animateWithDuration(0.2){
             self.alpha = 0
         }
     }
 
     func show(){
-
         UIView.animateWithDuration(0.2) {
             self.alpha = 1
         }
