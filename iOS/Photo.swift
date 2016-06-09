@@ -13,7 +13,6 @@ struct Photo {
     var remoteID: String
     var placeholder = UIImage(named: "clear.png")!
     var url: String?
-    var local: Bool = false
     static let NumberOfSections = 200
 
     init(remoteID: String) {
@@ -21,15 +20,7 @@ struct Photo {
     }
 
     func media(completion: (image: UIImage?, error: NSError?) -> ()) {
-        if self.local {
-            if let asset = PHAsset.fetchAssetsWithLocalIdentifiers([self.remoteID], options: nil).firstObject {
-                Photo.resolveAsset(asset as! PHAsset, size: .Large, completion: { image in
-                    completion(image: image, error: nil)
-                })
-            }
-        } else {
-            completion(image: self.placeholder, error: nil)
-        }
+        completion(image: self.placeholder, error: nil)
     }
 
     static func constructRemoteElements() -> [String : [Photo]] {
@@ -70,45 +61,5 @@ struct Photo {
         return sections
     }
 
-    static func resolveAsset(asset: PHAsset, size: Photo.Size, completion: (image: UIImage?) -> Void) {
-        let imageManager = PHImageManager.defaultManager()
-        let requestOptions = PHImageRequestOptions()
-        requestOptions.networkAccessAllowed = true
-        if size == .Small {
-            let targetSize = CGSize(width: 300, height: 300)
-            imageManager.requestImageForAsset(asset, targetSize: targetSize, contentMode: PHImageContentMode.AspectFill, options: requestOptions) { image, info in
-                if let info = info where info["PHImageFileUTIKey"] == nil {
-                    completion(image: image)
-                }
-            }
-        } else {
-            requestOptions.version = .Original
-            imageManager.requestImageDataForAsset(asset, options: requestOptions) { data, _, _, _ in
-                if let data = data, image = UIImage(data: data) {
-                    completion(image: image)
-                } else {
-                    fatalError("Couldn't get photo")
-                }
-            }
-        }
-    }
-
-    static func checkAuthorizationStatus(completion: (success: Bool) -> Void) {
-        let currentStatus = PHPhotoLibrary.authorizationStatus()
-
-        guard currentStatus != .Authorized else {
-            completion(success: true)
-            return
-        }
-
-        PHPhotoLibrary.requestAuthorization { authorizationStatus in
-            dispatch_async(dispatch_get_main_queue(), {
-                if authorizationStatus == .Denied {
-                    completion(success: false)
-                } else if authorizationStatus == .Authorized {
-                    completion(success: true)
-                }
-            })
-        }
     }
 }
