@@ -14,7 +14,7 @@ struct Photo {
     var placeholder = UIImage(named: "clear.png")!
     var url: String?
     var local: Bool = false
-    static let NumberOfSections = 20
+    static let NumberOfSections = 200
 
     init(remoteID: String) {
         self.remoteID = remoteID
