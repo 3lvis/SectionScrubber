@@ -21,7 +21,7 @@ class RemoteCollectionController: UICollectionViewController, DateScrubberDelega
 
         var count = 0
         for i in 0 ..< self.sections.count {
-            if let photos = self.sections[sectionTitleFor(i)] {
+            if let photos = self.sections[Photo.title(index: i)] {
                 count += photos.count
             }
         }
@@ -66,12 +66,12 @@ extension RemoteCollectionController {
     }
 
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.sections[sectionTitleFor(section)]?.count ?? 0
+        return self.sections[Photo.title(index: section)]?.count ?? 0
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(PhotoCell.Identifier, forIndexPath: indexPath) as! PhotoCell
-        if let photos = self.sections[sectionTitleFor(indexPath.section)] {
+        if let photos = self.sections[Photo.title(index: indexPath.section)] {
             let photo = photos[indexPath.row]
             cell.display(photo)
         }
@@ -82,7 +82,7 @@ extension RemoteCollectionController {
     override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
 
         let headerView = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: SectionHeader.Identifier, forIndexPath: indexPath) as! SectionHeader
-        headerView.titleLabel.text = sectionTitleFor(indexPath.section)
+        headerView.titleLabel.text = Photo.title(index: indexPath.section)
        
         return headerView
     }
@@ -97,7 +97,7 @@ extension RemoteCollectionController{
         let centerPoint = CGPoint(x: dateScrubber.view.center.x + scrollView.contentOffset.x, y: dateScrubber.view.center.y + scrollView.contentOffset.y);
 
         if let indexPath = self.collectionView?.indexPathForItemAtPoint(centerPoint) {
-            self.dateScrubber.updateSectionTitle(sectionTitleFor(indexPath.section))
+            self.dateScrubber.updateSectionTitle(Photo.title(index: indexPath.section))
         }
     }
 }

@@ -25,5 +25,4 @@ class SectionHeader: UICollectionReusableView {
 
         self.titleLabel.frame = CGRect(x: 10, y: 40, width: self.frame.width, height: self.frame.height)
     }
-
 }

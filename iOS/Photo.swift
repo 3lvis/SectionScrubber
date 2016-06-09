@@ -1,9 +1,4 @@
 import UIKit
-import Photos
-
-func sectionTitleFor(index: Int) -> String {
-     return "Section \(index)"
-}
 
 struct Photo {
     enum Size {
@@ -55,11 +50,13 @@ struct Photo {
                 }
                 elements.append(photo)
             }
-            sections[sectionTitleFor(section)] = elements
+            sections[Photo.title(index: section)] = elements
         }
 
         return sections
     }
 
+    static func title(index index: Int) -> String {
+        return "Section \(index)"
     }
 }
