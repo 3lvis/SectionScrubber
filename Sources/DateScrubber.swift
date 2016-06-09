@@ -81,17 +81,6 @@ public class DateScrubber: UIViewController {
         }
     }
 
-//    private var viewIsBeingDragged = false {
-//        didSet{
-//            if self.viewIsBeingDragged {
-//              self.setSectionLabelActive()
-//            } else {
-//
-//                self.setSectionLabelInactive()
-//            }
-//        }
-//    }
-
     private var sectionLabelState = State.Inactive {
         didSet {
 
@@ -227,7 +216,6 @@ public class DateScrubber: UIViewController {
     }
 
     private func setSectionLabelInactive() {
-        print("\(NSDate()) setting timer to hide section label")
         self.performSelector(#selector(hideSectionLabel), withObject: nil, afterDelay: 3)
     }
 
@@ -250,7 +238,6 @@ public class DateScrubber: UIViewController {
     }
 
     func hideSectionLabel(){
-        print("\(NSDate()) actually hiding it")
         self.sectionLabel.hide()
     }
 }
