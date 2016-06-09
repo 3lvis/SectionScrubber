@@ -1,11 +1,3 @@
-//
-//  UILabel+Sweetness.swift
-//  Demo
-//
-//  Created by Marijn Schilling on 07/06/16.
-//
-//
-
 import UIKit
 
 public extension UILabel {
