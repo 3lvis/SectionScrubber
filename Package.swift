@@ -23,5 +23,5 @@
 import PackageDescription
 
 let package = Package(
-  name: "DateScrubber"
+  name: "SectionScrubber"
 )

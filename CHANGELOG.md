@@ -1,1 +1,1 @@
-Check https://github.com/bakkenbaeck/DateScrubber/releases for more information.
+Check https://github.com/bakkenbaeck/SectionScrubber/releases for more information.
