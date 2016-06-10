@@ -2,7 +2,6 @@ import UIKit
 
 public protocol SectionScrubberDelegate {
     func sectionScrubber(sectionScrubber:SectionScrubber, didRequestToSetContentViewToYPosition yPosition: CGFloat)
-
     func sectionScrubberDidStartScrubbing(sectionScrubber: SectionScrubber)
     func sectionScrubberDidStopScrubbing(sectionScrubber: SectionScrubber)
 }
@@ -12,12 +11,8 @@ public extension SectionScrubberDelegate where Self: UICollectionViewController 
         self.collectionView?.setContentOffset(CGPoint(x: 0,y: yPosition), animated: false)
     }
 
-    func sectionScrubberDidStartScrubbing(sectionScrubber: SectionScrubber){
-        print("start scrubbing")
-    }
-    func sectionScrubberDidStopScrubbing(sectionScrubber: SectionScrubber){
-        print("stop scrubbing")
-    }
+    func sectionScrubberDidStartScrubbing(sectionScrubber: SectionScrubber){}
+    func sectionScrubberDidStopScrubbing(sectionScrubber: SectionScrubber){}
 }
 
 public class SectionScrubber: UIView {
@@ -244,6 +239,7 @@ public class SectionScrubber: UIView {
     }
 
     private func setSectionLabelActive(){
+
         self.delegate?.sectionScrubberDidStartScrubbing(self)
         self.sectionLabel.show()
     }
