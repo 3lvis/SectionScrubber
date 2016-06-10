@@ -47,7 +47,7 @@ class RemoteCollectionController: UICollectionViewController {
     }
 
     override func viewDidLayoutSubviews() {
-        self.sectionScrubber.containingViewFrame = CGRectMake(0, 64, self.view.bounds.width, self.view.bounds.height - 64)
+        self.sectionScrubber.containingViewFrame = CGRectMake(0, 64, self.view.bounds.width, self.view.bounds.height - 64 - self.sectionScrubber.viewHeight)
         self.sectionScrubber.containingViewContentSize = self.collectionView!.contentSize
         self.sectionScrubber.updateFrame(scrollView: self.collectionView!)
     }

@@ -8,6 +8,7 @@ public protocol SectionScrubberDelegate {
 
 public extension SectionScrubberDelegate where Self: UICollectionViewController {
     func sectionScrubber(sectionScrubber:SectionScrubber, didRequestToSetContentViewToYPosition yPosition: CGFloat){
+        print("contentoffset of the collectionview \(yPosition)")
         self.collectionView?.setContentOffset(CGPoint(x: 0,y: yPosition), animated: false)
     }
 
@@ -29,7 +30,7 @@ public class SectionScrubber: UIView {
 
     public var containingViewContentSize = UIScreen.mainScreen().bounds.size
 
-    private var viewHeight : CGFloat = 56.0
+    public var viewHeight : CGFloat = 56.0
 
     private var scrubberWidth : CGFloat = 22.0
 
@@ -130,6 +131,7 @@ public class SectionScrubber: UIView {
         let yPos = calculateYPosInView(forYPosInContentView: scrollView.contentOffset.y + containingViewFrame.minY)
 
         self.setFrame(atYpos: yPos)
+        print("y position of the dateScrubber frame \(yPos)")
     }
 
     public func updateSectionTitle(title: String) {
@@ -176,13 +178,14 @@ public class SectionScrubber: UIView {
                     newYPosForSectionScrubber = containingViewFrame.minY
                 }
 
-                if newYPosForSectionScrubber > containingViewFrame.height + containingViewFrame.minY - viewHeight {
-                    newYPosForSectionScrubber = containingViewFrame.height + containingViewFrame.minY - viewHeight
+                if newYPosForSectionScrubber > containingViewFrame.height + 60.8{
+                    newYPosForSectionScrubber = containingViewFrame.height + 60.8
                 }
 
                 self.setFrame(atYpos: newYPosForSectionScrubber)
 
-                let yPosInContentInContentView = calculateYPosInContentView(forYPosInView: newYPosForSectionScrubber)
+                var yPosInContentInContentView = calculateYPosInContentView(forYPosInView: newYPosForSectionScrubber)
+
                 self.delegate?.sectionScrubber(self, didRequestToSetContentViewToYPosition: yPosInContentInContentView)
 
                 panGestureRecognizer.setTranslation(CGPoint(x: translation.x, y: 0), inView: self)

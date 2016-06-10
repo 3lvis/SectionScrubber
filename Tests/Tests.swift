@@ -41,4 +41,24 @@ class Tests: XCTestCase {
         let result = sectionScrubber.calculateYPosInContentView(forYPosInView: offset)
         XCTAssert(result == -offset)
     }
+//
+//    func testBottomOfpage() {
+//        let sectionScrubber = SectionScrubber()
+//        let offset : CGFloat  = 64.0
+//        sectionScrubber.containingViewFrame = CGRectMake(0, offset, 320, 504)
+//        sectionScrubber.containingViewContentSize = CGSizeMake(320, 66200)
+//
+//        let result = sectionScrubber.calculateYPosInView(forYPosInContentView: 66200-504)
+//        XCTAssert(result == 504-sectionScrubber.viewHeight)
+//    }
+
+    func testBottomOfpage() {
+        let sectionScrubber = SectionScrubber()
+        sectionScrubber.containingViewFrame = CGRectMake(0, 0, 0, 100)
+        sectionScrubber.containingViewContentSize = CGSizeMake(0, 200)
+        sectionScrubber.viewHeight = 10
+
+        let result = sectionScrubber.calculateYPosInView(forYPosInContentView: 100)
+        XCTAssert(result == 90)
+    }
 }
