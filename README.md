@@ -3,7 +3,7 @@
 ![alt text](https://media.giphy.com/media/xT8qBsHiBYhAp0EomI/giphy.gif)
 
 * The scrubber will move along when scrolling the collectionView it has been added to.
-* When you pan the dateScrubber you 'scrub' over the collectionview
+* When you pan the sectionScrubber you 'scrub' over the collectionview
 * While scrubbing you can set the titles to be shown in the sectionLabel
 
 [![Version](https://img.shields.io/cocoapods/v/SectionScrubber.svg?style=flat)](https://cocoapods.org/pods/SectionScrubber)
@@ -16,33 +16,31 @@
 From your UICollectionViewController:
 
 ```swift
+var sectionScrubber = SectionScrubber()
+
 override func viewDidLoad() {
     super.viewDidLoad()
     // Set custom style for the scrubber
-    self.dateScrubber.scrubberImage = UIImage(named: "date-scrubber")
-    self.dateScrubber.sectionLabelImage = UIImage(named: "section-label-bckground")
-    self.dateScrubber.sectionLabelFont = UIFont(name: "DINNextLTPro-Light", size: 18)
-    self.dateScrubber.sectionLabelTextColor = UIColor.blackColor()
-
-    self.dateScrubber.delegate = self
-    self.view.addSubview(dateScrubber.view)
+    self.sectionScrubber.scrubberImage = UIImage(named: "date-scrubber")
+    self.sectionScrubber.sectionLabelImage = UIImage(named: "section-label-bckground")
+    self.sectionScrubber.sectionLabelFont = UIFont(name: "DINNextLTPro-Light", size: 18)
+    self.sectionScrubber.sectionLabelTextColor = UIColor.blackColor()
+    self.view.addSubview(sectionScrubber.view)
 }
 
 override func viewDidLayoutSubviews() {
     guard let collectionView = self.collectionView else { return }
-    self.dateScrubber.containingViewFrame = collectionView.bounds
-    self.dateScrubber.containingViewContentSize = collectionView.contentSize
+    self.sectionScrubber.containingViewFrame = collectionView.bounds
+    self.sectionScrubber.containingViewContentSize = collectionView.contentSize
 }
 
-  extension CollectionViewController : DateScrubberDelegate {
-    override func scrollViewDidScroll(scrollView: UIScrollView){
-        self.dateScrubber.updateFrame(scrollView: scrollView)
-        self.dateScrubber.updateSectionTitle(sectionTitleFor(indexPathString)
-    }
-    
-    override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool){
-        self.dateScrubber.updateSectionTitle(sectionTitleFor(indexPathString)
-    }
+override func scrollViewDidScroll(scrollView: UIScrollView) {
+    self.sectionScrubber.updateFrame(scrollView: scrollView)
+    self.sectionScrubber.updateSectionTitle(sectionTitleFor(indexPathString)
+}
+
+override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    self.sectionScrubber.updateSectionTitle(sectionTitleFor(indexPathString)
 }
 ```
 
