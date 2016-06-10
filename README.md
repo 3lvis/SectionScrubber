@@ -37,11 +37,11 @@ override func viewDidLayoutSubviews() {
   extension CollectionViewController : DateScrubberDelegate {
     override func scrollViewDidScroll(scrollView: UIScrollView){
         self.dateScrubber.updateFrame(scrollView: scrollView)
-
-        let centerPoint = CGPoint(x: dateScrubber.view.center.x + scrollView.contentOffset.x, y: dateScrubber.view.center.y + scrollView.contentOffset.y);
-        if let indexPath = self.collectionView?.indexPathForItemAtPoint(centerPoint) {
-            self.dateScrubber.updateSectionTitle(sectionTitleFor(indexPath.section))
-        }
+        self.dateScrubber.updateSectionTitle(sectionTitleFor(indexPathString)
+    }
+    
+    override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool){
+        self.dateScrubber.updateSectionTitle(sectionTitleFor(indexPathString)
     }
 }
 ```
