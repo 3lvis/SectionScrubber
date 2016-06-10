@@ -2,11 +2,21 @@ import UIKit
 
 public protocol SectionScrubberDelegate {
     func sectionScrubber(sectionScrubber:SectionScrubber, didRequestToSetContentViewToYPosition yPosition: CGFloat)
+
+    func sectionScrubberDidStartScrubbing(sectionScrubber: SectionScrubber)
+    func sectionScrubberDidStopScrubbing(sectionScrubber: SectionScrubber)
 }
 
 public extension SectionScrubberDelegate where Self: UICollectionViewController {
     func sectionScrubber(sectionScrubber:SectionScrubber, didRequestToSetContentViewToYPosition yPosition: CGFloat){
         self.collectionView?.setContentOffset(CGPoint(x: 0,y: yPosition), animated: false)
+    }
+
+    func sectionScrubberDidStartScrubbing(sectionScrubber: SectionScrubber){
+        print("start scrubbing")
+    }
+    func sectionScrubberDidStopScrubbing(sectionScrubber: SectionScrubber){
+        print("stop scrubbing")
     }
 }
 
@@ -75,15 +85,19 @@ public class SectionScrubber: UIView {
 
     private var sectionLabelState = VisibilityState.Hidden {
         didSet {
-            if self.sectionLabelState == .Visible {self.setSectionLabelActive()}
-            if self.sectionLabelState == .Hidden {self.setSectionLabelInactive()}
-            self.updateSectionLabelFrame()
+            if self.sectionLabelState != oldValue {
+                if self.sectionLabelState == .Visible {self.setSectionLabelActive()}
+                if self.sectionLabelState == .Hidden {self.setSectionLabelInactive()}
+                self.updateSectionLabelFrame()
+            }
         }
     }
 
     private var scrubberState = VisibilityState.Hidden {
         didSet {
-            self.updateSectionScrubberFrame()
+            if self.scrubberState != oldValue {
+                self.updateSectionScrubberFrame()
+            }
         }
     }
 
@@ -93,10 +107,10 @@ public class SectionScrubber: UIView {
         self.setSectionlabelFrame()
         self.addSubview(self.sectionLabel)
 
-        self.dragGestureRecognizer.addTarget(self, action: #selector(handleDrag))
+        self.dragGestureRecognizer.addTarget(self, action: #selector(handleScrub))
         self.dragGestureRecognizer.delegate = self
 
-        self.longPressGestureRecognizer.addTarget(self, action: #selector(handleLongPress))
+        self.longPressGestureRecognizer.addTarget(self, action: #selector(handleScrub))
         self.longPressGestureRecognizer.minimumPressDuration = 0.2
         self.longPressGestureRecognizer.cancelsTouchesInView = false
         self.longPressGestureRecognizer.delegate = self
@@ -151,6 +165,36 @@ public class SectionScrubber: UIView {
         return (containingViewContentSize.height * percentageInView) - containingViewFrame.minY
     }
 
+    func handleScrub(gestureRecognizer: UIGestureRecognizer){
+            self.sectionLabelState = gestureRecognizer.state == .Ended ? .Hidden : .Visible
+            self.userInteractionOnScrollViewDetected()
+
+
+        if let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer {
+
+            if panGestureRecognizer.state == .Began || panGestureRecognizer.state == .Changed {
+                let translation = panGestureRecognizer.translationInView(self)
+                var newYPosForSectionScrubber =  self.frame.origin.y + translation.y
+
+
+                if newYPosForSectionScrubber < containingViewFrame.minY {
+                    newYPosForSectionScrubber = containingViewFrame.minY
+                }
+
+                if newYPosForSectionScrubber > containingViewFrame.height + containingViewFrame.minY - viewHeight {
+                    newYPosForSectionScrubber = containingViewFrame.height + containingViewFrame.minY - viewHeight
+                }
+
+                self.setFrame(atYpos: newYPosForSectionScrubber)
+
+                let yPosInContentInContentView = calculateYPosInContentView(forYPosInView: newYPosForSectionScrubber)
+                self.delegate?.sectionScrubber(self, didRequestToSetContentViewToYPosition: yPosInContentInContentView)
+
+                panGestureRecognizer.setTranslation(CGPoint(x: translation.x, y: 0), inView: self)
+            }
+        }
+    }
+
     func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
         self.userInteractionOnScrollViewDetected()
         self.sectionLabelState = gestureRecognizer.state == .Ended ? .Hidden : .Visible
@@ -200,11 +244,13 @@ public class SectionScrubber: UIView {
     }
 
     private func setSectionLabelActive(){
+        self.delegate?.sectionScrubberDidStartScrubbing(self)
         self.sectionLabel.show()
     }
 
     private func setSectionLabelInactive() {
 
+        self.delegate?.sectionScrubberDidStopScrubbing(self)
         NSObject.cancelPreviousPerformRequestsWithTarget(self, selector: #selector(hideSectionLabel), object: nil)
         self.performSelector(#selector(hideSectionLabel), withObject: nil, afterDelay: 2)
     }
