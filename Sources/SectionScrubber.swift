@@ -34,9 +34,6 @@ public class SectionScrubber: UIView {
 
     private let sectionLabel = SectionLabel()
 
-    private let overlayView = UIView(frame: UIScreen.mainScreen().bounds)
-    private let navigationOverlayView = UIView()
-
     private let dragGestureRecognizer = UIPanGestureRecognizer()
     private let longPressGestureRecognizer = UILongPressGestureRecognizer()
 
@@ -97,8 +94,7 @@ public class SectionScrubber: UIView {
         self.addSubview(self.sectionLabel)
 
         self.dragGestureRecognizer.addTarget(self, action: #selector(handleDrag))
-        self.scrubberImageView.userInteractionEnabled  = true
-        self.scrubberImageView.addGestureRecognizer(self.dragGestureRecognizer)
+        self.dragGestureRecognizer.delegate = self
 
         self.longPressGestureRecognizer.addTarget(self, action: #selector(handleLongPress))
         self.longPressGestureRecognizer.minimumPressDuration = 0.2
@@ -106,15 +102,9 @@ public class SectionScrubber: UIView {
         self.longPressGestureRecognizer.delegate = self
 
         let scrubberGestureView = UIView(frame: CGRectMake(self.containingViewFrame.width-44,0,44,self.viewHeight))
-        self.addSubview(scrubberGestureView)
         scrubberGestureView.addGestureRecognizer(self.longPressGestureRecognizer)
-
-        self.overlayView.backgroundColor = UIColor.blackColor()
-        self.overlayView.alpha = 0.4
-
-        self.navigationOverlayView.frame = CGRectMake(0,0,self.frame.minY, self.frame.width)
-        self.navigationOverlayView.backgroundColor = UIColor.blackColor()
-        self.navigationOverlayView.alpha = 0.4
+        scrubberGestureView.addGestureRecognizer(self.dragGestureRecognizer)
+        self.addSubview(scrubberGestureView)
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -162,6 +152,7 @@ public class SectionScrubber: UIView {
     }
 
     func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
+        self.userInteractionOnScrollViewDetected()
         self.sectionLabelState = gestureRecognizer.state == .Ended ? .Hidden : .Visible
     }
 
@@ -191,7 +182,6 @@ public class SectionScrubber: UIView {
     }
 
     private func setFrame(atYpos yPos: CGFloat){
-        self.overlayView.frame = CGRectMake(0, -yPos, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height)
         self.frame = CGRectMake(0, yPos, UIScreen.mainScreen().bounds.width, viewHeight)
     }
 
@@ -210,19 +200,10 @@ public class SectionScrubber: UIView {
     }
 
     private func setSectionLabelActive(){
-        self.addSubview(self.overlayView)
-
-        let currentWindow = UIApplication.sharedApplication().keyWindow
-        currentWindow?.addSubview(self.navigationOverlayView)
-
         self.sectionLabel.show()
-
-        self.sendSubviewToBack(self.overlayView)
     }
 
     private func setSectionLabelInactive() {
-        self.overlayView.removeFromSuperview()
-        self.navigationOverlayView.removeFromSuperview()
         self.performSelector(#selector(hideSectionLabel), withObject: nil, afterDelay: 3)
     }
 
