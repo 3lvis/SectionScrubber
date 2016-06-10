@@ -29,7 +29,9 @@ class RemoteCollectionController: UICollectionViewController {
         self.keyWindow = UIApplication.sharedApplication().keyWindow;
         self.keyWindow?.addSubview(sectionScrubber)
         self.overlayView.backgroundColor = UIColor.blackColor()
-        self.overlayView.alpha = 0.4
+        self.overlayView.alpha = 0.0
+        self.keyWindow?.addSubview(self.overlayView)
+        self.keyWindow?.bringSubviewToFront(self.sectionScrubber)
 
     }
 
@@ -102,11 +104,14 @@ extension RemoteCollectionController: SectionScrubberDelegate {
     }
 
     func sectionScrubberDidStartScrubbing(sectionScrubber: SectionScrubber) {
-        self.keyWindow?.addSubview(self.overlayView)
-        self.keyWindow?.bringSubviewToFront(self.sectionScrubber)
+        UIView.animateWithDuration(0.2) {
+            self.overlayView.alpha = 0.4
+        }
     }
 
     func sectionScrubberDidStopScrubbing(sectionScrubber: SectionScrubber) {
-        self.overlayView.removeFromSuperview()
+        UIView.animateWithDuration(0.2) {
+            self.overlayView.alpha = 0
+        }
     }
 }
