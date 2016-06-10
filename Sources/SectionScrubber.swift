@@ -134,7 +134,7 @@ public class SectionScrubber: UIView {
 
     private func userInteractionOnScrollViewDetected(){
         NSObject.cancelPreviousPerformRequestsWithTarget(self, selector: #selector(hideScrubber), object: nil)
-        self.performSelector(#selector(hideScrubber), withObject: nil, afterDelay: 3)
+        self.performSelector(#selector(hideScrubber), withObject: nil, afterDelay: 2)
 
         if self.scrubberState == .Hidden {
             self.scrubberState = .Visible
@@ -204,7 +204,9 @@ public class SectionScrubber: UIView {
     }
 
     private func setSectionLabelInactive() {
-        self.performSelector(#selector(hideSectionLabel), withObject: nil, afterDelay: 3)
+
+        NSObject.cancelPreviousPerformRequestsWithTarget(self, selector: #selector(hideSectionLabel), object: nil)
+        self.performSelector(#selector(hideSectionLabel), withObject: nil, afterDelay: 2)
     }
 
     private func updateSectionLabelFrame() {
