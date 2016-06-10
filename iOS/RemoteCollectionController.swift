@@ -3,6 +3,8 @@ import UIKit
 class RemoteCollectionController: UICollectionViewController {
     var sections = Photo.constructRemoteElements()
     let sectionScrubber = SectionScrubber()
+    var keyWindow: UIWindow?
+    let overlayView = UIView(frame: UIScreen.mainScreen().bounds)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,9 +26,11 @@ class RemoteCollectionController: UICollectionViewController {
         self.sectionScrubber.sectionLabelImage = UIImage(named: "section-label")
         self.sectionScrubber.sectionLabelFont = UIFont(name: "DINNextLTPro-Light", size: 18)
         self.sectionScrubber.sectionlabelTextColor = UIColor(red: 69/255, green: 67/255, blue: 76/255, alpha: 0.8)
-        self.view.addSubview(sectionScrubber)
         self.keyWindow = UIApplication.sharedApplication().keyWindow;
         self.keyWindow?.addSubview(sectionScrubber)
+        self.overlayView.backgroundColor = UIColor.blackColor()
+        self.overlayView.alpha = 0.4
+
     }
 
     override func viewWillLayoutSubviews() {
@@ -97,4 +101,12 @@ extension RemoteCollectionController: SectionScrubberDelegate {
         }
     }
 
+    func sectionScrubberDidStartScrubbing(sectionScrubber: SectionScrubber) {
+        self.keyWindow?.addSubview(self.overlayView)
+        self.keyWindow?.bringSubviewToFront(self.sectionScrubber)
+    }
+
+    func sectionScrubberDidStopScrubbing(sectionScrubber: SectionScrubber) {
+        self.overlayView.removeFromSuperview()
+    }
 }
