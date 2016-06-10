@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		140156D51D00733A00424CBB /* DateScrubber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140156D41D00733A00424CBB /* DateScrubber.swift */; };
-		140156D61D00733A00424CBB /* DateScrubber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140156D41D00733A00424CBB /* DateScrubber.swift */; };
+		140156D51D00733A00424CBB /* SectionScrubber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140156D41D00733A00424CBB /* SectionScrubber.swift */; };
+		140156D61D00733A00424CBB /* SectionScrubber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140156D41D00733A00424CBB /* SectionScrubber.swift */; };
 		143B5C3B1C0EED51000B6A18 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143B5C3A1C0EED51000B6A18 /* PhotoCell.swift */; };
 		143B5C3F1C0EF76E000B6A18 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143B5C3E1C0EF76E000B6A18 /* Photo.swift */; };
 		14A139B41AEFC72B00AD732F /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A139B31AEFC72B00AD732F /* Tests.swift */; };
@@ -32,7 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		140156D41D00733A00424CBB /* DateScrubber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateScrubber.swift; sourceTree = "<group>"; };
+		140156D41D00733A00424CBB /* SectionScrubber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionScrubber.swift; sourceTree = "<group>"; };
 		143B5C3A1C0EED51000B6A18 /* PhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		143B5C3E1C0EF76E000B6A18 /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		146D72AC1AB782920058798C /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,7 +84,7 @@
 		140156D31D00733A00424CBB /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				140156D41D00733A00424CBB /* DateScrubber.swift */,
+				140156D41D00733A00424CBB /* SectionScrubber.swift */,
 				E61D29A01D05BDB5007C5DF2 /* SectionLabel.swift */,
 				E6CE76351D06B90E00A678DC /* UILabel+Sweetness.swift */,
 			);
@@ -291,7 +291,7 @@
 			files = (
 				E6CE76361D06B90E00A678DC /* UILabel+Sweetness.swift in Sources */,
 				14A139B41AEFC72B00AD732F /* Tests.swift in Sources */,
-				140156D51D00733A00424CBB /* DateScrubber.swift in Sources */,
+				140156D51D00733A00424CBB /* SectionScrubber.swift in Sources */,
 				E61D29A11D05BDB5007C5DF2 /* SectionLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -300,7 +300,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				140156D61D00733A00424CBB /* DateScrubber.swift in Sources */,
+				140156D61D00733A00424CBB /* SectionScrubber.swift in Sources */,
 				143B5C3F1C0EF76E000B6A18 /* Photo.swift in Sources */,
 				E63510181D0228D9001FDDF9 /* SectionHeader.swift in Sources */,
 				14C984001C0DE79200B5E515 /* AppDelegate.swift in Sources */,

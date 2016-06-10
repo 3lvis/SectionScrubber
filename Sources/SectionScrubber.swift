@@ -1,16 +1,16 @@
 import UIKit
 
-public protocol DateScrubberDelegate {
-    func dateScrubber(dateScrubber:DateScrubber, didRequestToSetContentViewToYPosition yPosition: CGFloat)
+public protocol SectionScrubberDelegate {
+    func sectionScrubber(sectionScrubber:SectionScrubber, didRequestToSetContentViewToYPosition yPosition: CGFloat)
 }
 
-public extension DateScrubberDelegate where Self: UICollectionViewController {
-    func dateScrubber(dateScrubber:DateScrubber, didRequestToSetContentViewToYPosition yPosition: CGFloat){
+public extension SectionScrubberDelegate where Self: UICollectionViewController {
+    func sectionScrubber(sectionScrubber:SectionScrubber, didRequestToSetContentViewToYPosition yPosition: CGFloat){
         self.collectionView?.setContentOffset(CGPoint(x: 0,y: yPosition), animated: false)
     }
 }
 
-public class DateScrubber: UIView {
+public class SectionScrubber: UIView {
     enum VisibilityState {
         case Hidden
         case Visible
@@ -18,7 +18,7 @@ public class DateScrubber: UIView {
 
     static let RightEdgeInset: CGFloat = 5.0
 
-    public var delegate : DateScrubberDelegate?
+    public var delegate : SectionScrubberDelegate?
 
     public var viewHeight : CGFloat = 56.0
 
@@ -83,7 +83,7 @@ public class DateScrubber: UIView {
 
     private var scrubberState = VisibilityState.Hidden {
         didSet {
-            self.updateDateScrubberFrame()
+            self.updateSectionScrubberFrame()
         }
     }
 
@@ -160,21 +160,21 @@ public class DateScrubber: UIView {
 
         if gestureRecognizer.state == .Began || gestureRecognizer.state == .Changed {
             let translation = gestureRecognizer.translationInView(self)
-            var newYPosForDateScrubber =  self.frame.origin.y + translation.y
+            var newYPosForSectionScrubber =  self.frame.origin.y + translation.y
 
 
-            if newYPosForDateScrubber < containingViewFrame.minY {
-                newYPosForDateScrubber = containingViewFrame.minY
+            if newYPosForSectionScrubber < containingViewFrame.minY {
+                newYPosForSectionScrubber = containingViewFrame.minY
             }
 
-            if newYPosForDateScrubber > containingViewFrame.height + containingViewFrame.minY - viewHeight {
-                newYPosForDateScrubber = containingViewFrame.height + containingViewFrame.minY - viewHeight
+            if newYPosForSectionScrubber > containingViewFrame.height + containingViewFrame.minY - viewHeight {
+                newYPosForSectionScrubber = containingViewFrame.height + containingViewFrame.minY - viewHeight
             }
 
-            self.setFrame(atYpos: newYPosForDateScrubber)
+            self.setFrame(atYpos: newYPosForSectionScrubber)
 
-            let yPosInContentInContentView = calculateYPosInContentView(forYPosInView: newYPosForDateScrubber)
-            self.delegate?.dateScrubber(self, didRequestToSetContentViewToYPosition: yPosInContentInContentView)
+            let yPosInContentInContentView = calculateYPosInContentView(forYPosInView: newYPosForSectionScrubber)
+            self.delegate?.sectionScrubber(self, didRequestToSetContentViewToYPosition: yPosInContentInContentView)
 
             gestureRecognizer.setTranslation(CGPoint(x: translation.x, y: 0), inView: self)
         }
@@ -192,7 +192,7 @@ public class DateScrubber: UIView {
     private func setScrubberFrame(){
         switch self.scrubberState {
             case .Visible:
-                scrubberImageView.frame = CGRectMake(self.containingViewFrame.width - self.scrubberWidth - DateScrubber.RightEdgeInset, 0, self.scrubberWidth, self.viewHeight)
+                scrubberImageView.frame = CGRectMake(self.containingViewFrame.width - self.scrubberWidth - SectionScrubber.RightEdgeInset, 0, self.scrubberWidth, self.viewHeight)
             case .Hidden:
                 scrubberImageView.frame = CGRectMake(self.containingViewFrame.width, 0, self.scrubberWidth, self.viewHeight)
         }
@@ -212,7 +212,7 @@ public class DateScrubber: UIView {
         }
     }
 
-    private func updateDateScrubberFrame() {
+    private func updateSectionScrubberFrame() {
         UIView.animateWithDuration(0.2){
             self.setScrubberFrame()
         }
@@ -227,7 +227,7 @@ public class DateScrubber: UIView {
     }
 }
 
-extension DateScrubber : UIGestureRecognizerDelegate {
+extension SectionScrubber : UIGestureRecognizerDelegate {
      public func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
