@@ -20,19 +20,22 @@ public class SectionScrubber: UIView {
 
     public var delegate : SectionScrubberDelegate?
 
-    public var viewHeight : CGFloat = 56.0
-
-    public var scrubberWidth : CGFloat = 22.0
-
     public var containingViewFrame = UIScreen.mainScreen().bounds
 
     public var containingViewContentSize = UIScreen.mainScreen().bounds.size
+
+    private var viewHeight : CGFloat = 56.0
+
+    private var scrubberWidth : CGFloat = 22.0
 
     private var currentSectionTitle = ""
 
     private let scrubberImageView = UIImageView()
 
     private let sectionLabel = SectionLabel()
+
+    private let overlayView = UIView(frame: UIScreen.mainScreen().bounds)
+    private let navigationOverlayView = UIView()
 
     private let dragGestureRecognizer = UIPanGestureRecognizer()
     private let longPressGestureRecognizer = UILongPressGestureRecognizer()
@@ -57,18 +60,18 @@ public class SectionScrubber: UIView {
         }
     }
 
-    public var font : UIFont? {
+    public var sectionLabelFont: UIFont? {
         didSet {
-            if let font = self.font {
-                sectionLabel.setFont(font)
+            if let sectionLabelFont = self.sectionLabelFont {
+                sectionLabel.setFont(sectionLabelFont)
             }
         }
     }
 
-    public var textColor : UIColor? {
+    public var sectionlabelTextColor: UIColor? {
         didSet {
-            if let textColor = self.textColor {
-                sectionLabel.setTextColor(textColor)
+            if let sectionlabelTextColor = self.sectionlabelTextColor {
+                sectionLabel.setTextColor(sectionlabelTextColor)
             }
         }
     }
@@ -105,6 +108,13 @@ public class SectionScrubber: UIView {
         let scrubberGestureView = UIView(frame: CGRectMake(self.containingViewFrame.width-44,0,44,self.viewHeight))
         self.addSubview(scrubberGestureView)
         scrubberGestureView.addGestureRecognizer(self.longPressGestureRecognizer)
+
+        self.overlayView.backgroundColor = UIColor.blackColor()
+        self.overlayView.alpha = 0.4
+
+        self.navigationOverlayView.frame = CGRectMake(0,0,self.frame.minY, self.frame.width)
+        self.navigationOverlayView.backgroundColor = UIColor.blackColor()
+        self.navigationOverlayView.alpha = 0.4
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -151,7 +161,7 @@ public class SectionScrubber: UIView {
         return (containingViewContentSize.height * percentageInView) - containingViewFrame.minY
     }
 
-    func handleLongPress(gestureRecognizer: UITapGestureRecognizer) {
+    func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
         self.sectionLabelState = gestureRecognizer.state == .Ended ? .Hidden : .Visible
     }
 
@@ -181,6 +191,7 @@ public class SectionScrubber: UIView {
     }
 
     private func setFrame(atYpos yPos: CGFloat){
+        self.overlayView.frame = CGRectMake(0, -yPos, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height)
         self.frame = CGRectMake(0, yPos, UIScreen.mainScreen().bounds.width, viewHeight)
     }
 
@@ -199,10 +210,19 @@ public class SectionScrubber: UIView {
     }
 
     private func setSectionLabelActive(){
+        self.addSubview(self.overlayView)
+
+        let currentWindow = UIApplication.sharedApplication().keyWindow
+        currentWindow?.addSubview(self.navigationOverlayView)
+
         self.sectionLabel.show()
+
+        self.sendSubviewToBack(self.overlayView)
     }
 
     private func setSectionLabelInactive() {
+        self.overlayView.removeFromSuperview()
+        self.navigationOverlayView.removeFromSuperview()
         self.performSelector(#selector(hideSectionLabel), withObject: nil, afterDelay: 3)
     }
 

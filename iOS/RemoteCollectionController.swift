@@ -22,8 +22,8 @@ class RemoteCollectionController: UICollectionViewController {
         self.sectionScrubber.delegate = self
         self.sectionScrubber.scrubberImage = UIImage(named: "date-scrubber")
         self.sectionScrubber.sectionLabelImage = UIImage(named: "section-label")
-        self.sectionScrubber.font = UIFont(name: "DINNextLTPro-Light", size: 18)
-        self.sectionScrubber.textColor = UIColor(red: 69/255, green: 67/255, blue: 76/255, alpha: 0.8)
+        self.sectionScrubber.sectionLabelFont = UIFont(name: "DINNextLTPro-Light", size: 18)
+        self.sectionScrubber.sectionlabelTextColor = UIColor(red: 69/255, green: 67/255, blue: 76/255, alpha: 0.8)
         self.view.addSubview(sectionScrubber)
     }
 
