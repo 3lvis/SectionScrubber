@@ -190,36 +190,6 @@ public class SectionScrubber: UIView {
         }
     }
 
-    func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
-        self.userInteractionOnScrollViewDetected()
-        self.sectionLabelState = gestureRecognizer.state == .Ended ? .Hidden : .Visible
-    }
-
-    func handleDrag(gestureRecognizer : UIPanGestureRecognizer) {
-        self.sectionLabelState = gestureRecognizer.state == .Ended ? .Hidden : .Visible
-
-        if gestureRecognizer.state == .Began || gestureRecognizer.state == .Changed {
-            let translation = gestureRecognizer.translationInView(self)
-            var newYPosForSectionScrubber =  self.frame.origin.y + translation.y
-
-
-            if newYPosForSectionScrubber < containingViewFrame.minY {
-                newYPosForSectionScrubber = containingViewFrame.minY
-            }
-
-            if newYPosForSectionScrubber > containingViewFrame.height + containingViewFrame.minY - viewHeight {
-                newYPosForSectionScrubber = containingViewFrame.height + containingViewFrame.minY - viewHeight
-            }
-
-            self.setFrame(atYpos: newYPosForSectionScrubber)
-
-            let yPosInContentInContentView = calculateYPosInContentView(forYPosInView: newYPosForSectionScrubber)
-            self.delegate?.sectionScrubber(self, didRequestToSetContentViewToYPosition: yPosInContentInContentView)
-
-            gestureRecognizer.setTranslation(CGPoint(x: translation.x, y: 0), inView: self)
-        }
-    }
-
     private func setFrame(atYpos yPos: CGFloat){
         self.frame = CGRectMake(0, yPos, UIScreen.mainScreen().bounds.width, viewHeight)
     }
