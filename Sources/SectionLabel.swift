@@ -62,7 +62,9 @@ class SectionLabel: UIView {
 
     func show(){
 
-        guard textLabel.text != nil && textLabel.text != "" else { return }
+        guard textLabel.text != nil && textLabel.text != "" else {
+            return
+        }
 
         UIView.animateWithDuration(0.2) {
             self.alpha = 1

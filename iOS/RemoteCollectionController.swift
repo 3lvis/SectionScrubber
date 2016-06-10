@@ -25,6 +25,8 @@ class RemoteCollectionController: UICollectionViewController {
         self.sectionScrubber.sectionLabelFont = UIFont(name: "DINNextLTPro-Light", size: 18)
         self.sectionScrubber.sectionlabelTextColor = UIColor(red: 69/255, green: 67/255, blue: 76/255, alpha: 0.8)
         self.view.addSubview(sectionScrubber)
+        self.keyWindow = UIApplication.sharedApplication().keyWindow;
+        self.keyWindow?.addSubview(sectionScrubber)
     }
 
     override func viewWillLayoutSubviews() {
@@ -87,4 +89,12 @@ extension RemoteCollectionController: SectionScrubberDelegate {
             self.sectionScrubber.updateSectionTitle(Photo.title(index: indexPath.section))
         }
     }
+
+    override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool){
+        let centerPoint = CGPoint(x: self.sectionScrubber.center.x + scrollView.contentOffset.x, y: self.sectionScrubber.center.y + scrollView.contentOffset.y);
+        if let indexPath = self.collectionView?.indexPathForItemAtPoint(centerPoint) {
+            self.sectionScrubber.updateSectionTitle(Photo.title(index: indexPath.section))
+        }
+    }
+
 }

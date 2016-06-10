@@ -268,6 +268,7 @@ public class SectionScrubber: UIView {
     }
 
     func hideSectionLabel(){
+        guard self.sectionLabelState != .Visible else { return }
         self.sectionLabel.hide()
     }
 }
