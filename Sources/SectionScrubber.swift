@@ -87,7 +87,7 @@ public class SectionScrubber: UIView {
         }
     }
 
-    init() {
+    public init() {
         super.init(frame: CGRectZero)
 
         self.setSectionlabelFrame()
