@@ -45,6 +45,10 @@ public class SectionScrubber: UIView {
 
     private let sectionLabel = SectionLabel()
 
+    private let scrubberGestureWidth = CGFloat(44.0)
+
+    private let bottomBorderOffset = CGFloat(3.4)
+
     private let dragGestureRecognizer = UIPanGestureRecognizer()
     private let longPressGestureRecognizer = UILongPressGestureRecognizer()
 
@@ -116,7 +120,7 @@ public class SectionScrubber: UIView {
         self.longPressGestureRecognizer.cancelsTouchesInView = false
         self.longPressGestureRecognizer.delegate = self
 
-        let scrubberGestureView = UIView(frame: CGRectMake(self.containingViewFrame.width - 44, 0, 44, self.viewHeight))
+        let scrubberGestureView = UIView(frame: CGRectMake(self.containingViewFrame.width - scrubberGestureWidth, 0, scrubberGestureWidth, self.viewHeight))
         scrubberGestureView.addGestureRecognizer(self.longPressGestureRecognizer)
         scrubberGestureView.addGestureRecognizer(self.dragGestureRecognizer)
         self.addSubview(scrubberGestureView)
@@ -158,10 +162,16 @@ public class SectionScrubber: UIView {
 
     func calculateYPosInView(forYPosInContentView yPosInContentView: CGFloat) -> CGFloat {
         let percentageInContentView = yPosInContentView / self.containingViewContentSize.height
-        return (containingViewFrame.height * percentageInContentView) + self.containingViewFrame.minY
+        let y =  (containingViewFrame.height * percentageInContentView) + self.containingViewFrame.minY
+
+        if y > 508.589 && y < 509.6 {
+
+        }
+        return y
     }
 
     func calculateYPosInContentView(forYPosInView yPosInView: CGFloat) -> CGFloat {
+
         let percentageInView = (yPosInView - containingViewFrame.minY) / containingViewFrame.height
         return (containingViewContentSize.height * percentageInView) - containingViewFrame.minY
     }
@@ -179,8 +189,8 @@ public class SectionScrubber: UIView {
                 newYPosForSectionScrubber = containingViewFrame.minY
             }
 
-            if newYPosForSectionScrubber > containingViewFrame.height + 60.8 {
-                newYPosForSectionScrubber = containingViewFrame.height + 60.8
+            if newYPosForSectionScrubber > self.containingViewFrame.size.height + self.containingViewFrame.minY - bottomBorderOffset {
+                newYPosForSectionScrubber = self.containingViewFrame.size.height + self.containingViewFrame.minY - bottomBorderOffset
             }
 
             self.setFrame(atYpos: newYPosForSectionScrubber)
