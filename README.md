@@ -30,7 +30,7 @@ override func viewDidLoad() {
 
 override func viewDidLayoutSubviews() {
     guard let collectionView = self.collectionView else { return }
-    self.sectionScrubber.containingViewFrame = collectionView.bounds
+    self.sectionScrubber.containingViewFrame = self.view.bounds //adjust this frame for navigation bars etc.
     self.sectionScrubber.containingViewContentSize = collectionView.contentSize
 }
 
