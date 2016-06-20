@@ -1,44 +1,42 @@
 import UIKit
 import XCTest
 
-@testable import iOS
-
 class Tests: XCTestCase {
     func testMoveTheScrubberWhenScrollingTheCollectionView() {
-        let dateScrubber = DateScrubber()
-        dateScrubber.containingViewFrame = CGRectMake(0, 0, 0, 100)
-        dateScrubber.containingViewContentSize = CGSizeMake(0, 200)
+        let sectionScrubber = SectionScrubber()
+        sectionScrubber.containingViewFrame = CGRectMake(0, 0, 0, 100)
+        sectionScrubber.containingViewContentSize = CGSizeMake(0, 200)
 
-        let result = dateScrubber.calculateYPosInView(forYPosInContentView: 100)
+        let result = sectionScrubber.calculateYPosInView(forYPosInContentView: 100)
         XCTAssert(result == 50.0)
     }
 
     func testScrollCollectionViewWhenMovingTheScrubber() {
-        let dateScrubber = DateScrubber()
-        dateScrubber.containingViewFrame = CGRectMake(0, 0, 0, 100)
-        dateScrubber.containingViewContentSize = CGSizeMake(0, 200)
+        let sectionScrubber = SectionScrubber()
+        sectionScrubber.containingViewFrame = CGRectMake(0, 0, 0, 100)
+        sectionScrubber.containingViewContentSize = CGSizeMake(0, 200)
 
-        let result = dateScrubber.calculateYPosInContentView(forYPosInView: 50)
+        let result = sectionScrubber.calculateYPosInContentView(forYPosInView: 50)
         XCTAssert(result == 100.0)
     }
 
     func testMoveTheScrubberWhenScrollingTheCollectionViewWithOffset() {
-        let dateScrubber = DateScrubber()
+        let sectionScrubber = SectionScrubber()
         let offset : CGFloat = 10.0
-        dateScrubber.containingViewFrame = CGRectMake(0, offset, 0, 100)
-        dateScrubber.containingViewContentSize = CGSizeMake(0, 200)
+        sectionScrubber.containingViewFrame = CGRectMake(0, offset, 0, 100)
+        sectionScrubber.containingViewContentSize = CGSizeMake(0, 200)
 
-        let result = dateScrubber.calculateYPosInView(forYPosInContentView: 0)
+        let result = sectionScrubber.calculateYPosInView(forYPosInContentView: 0)
         XCTAssert(result == offset)
     }
 
     func testScrollCollectionViewWithOffsetWhenMovingTheScrubber() {
-        let dateScrubber = DateScrubber()
+        let sectionScrubber = SectionScrubber()
         let offset : CGFloat  = 64.0
-        dateScrubber.containingViewFrame = CGRectMake(0, offset, 0, 568)
-        dateScrubber.containingViewContentSize = CGSizeMake(0, 5620)
+        sectionScrubber.containingViewFrame = CGRectMake(0, offset, 0, 568)
+        sectionScrubber.containingViewContentSize = CGSizeMake(0, 5620)
 
-        let result = dateScrubber.calculateYPosInContentView(forYPosInView: offset)
+        let result = sectionScrubber.calculateYPosInContentView(forYPosInView: offset)
         XCTAssert(result == -offset)
     }
 }
