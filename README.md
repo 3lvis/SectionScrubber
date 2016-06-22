@@ -44,6 +44,26 @@ override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate 
 }
 ```
 
+Implement the SectionScrubberDelegate (all functions have a default implementation and thus are optional):
+
+```swift
+extension RemoteCollectionController: SectionScrubberDelegate {
+    func sectionScrubber(sectionScrubber: SectionScrubber, didRequestToSetContentViewToYPosition yPosition: CGFloat) {
+        // function is called when collectionView should update it's contentOffset to respond to dragging of the 
+        // sectionScrubber, this is taken care of in the default implementation. 
+        // So you don't need to implement this function
+    }
+
+    func sectionScrubberDidStartScrubbing(sectionScrubber: SectionScrubber) {
+        // here you can make your UI respond to when the user starts scrubbing, default implementation is empty
+    }
+
+    func sectionScrubberDidStopScrubbing(sectionScrubber: SectionScrubber) {
+        // here you can make your UI respond to when the user stops with scrubbing, default implementation is empty
+    }
+}
+```
+
 ## Installation
 
 **SectionScrubber** is available through [CocoaPods](http://cocoapods.org). To install
