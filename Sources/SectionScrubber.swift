@@ -164,9 +164,6 @@ public class SectionScrubber: UIView {
         let percentageInContentView = yPosInContentView / self.containingViewContentSize.height
         let y =  (containingViewFrame.height * percentageInContentView) + self.containingViewFrame.minY
 
-        if y > 508.589 && y < 509.6 {
-
-        }
         return y
     }
 
@@ -195,7 +192,7 @@ public class SectionScrubber: UIView {
 
             self.setFrame(atYpos: newYPosForSectionScrubber)
 
-            var yPosInContentInContentView = calculateYPosInContentView(forYPosInView: newYPosForSectionScrubber)
+            let yPosInContentInContentView = calculateYPosInContentView(forYPosInView: newYPosForSectionScrubber)
 
             self.delegate?.sectionScrubber(self, didRequestToSetContentViewToYPosition: yPosInContentInContentView)
 
