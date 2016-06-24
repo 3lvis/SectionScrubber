@@ -16,31 +16,38 @@
 From your UICollectionViewController:
 
 ```swift
-var sectionScrubber = SectionScrubber()
+lazy var sectionScrubber: SectionScrubber = {
+    let scrubber = SectionScrubber(collectionView: self.collectionView!)
+    scrubber.delegate = self
+    scrubber.scrubberImage = UIImage(named: "date-scrubber")
+    scrubber.sectionLabelImage = UIImage(named: "section-label")
+    scrubber.sectionLabelFont = UIFont(name: "DINNextLTPro-Light", size: 18)
+    scrubber.sectionlabelTextColor = UIColor(red: 69/255, green: 67/255, blue: 76/255, alpha: 0.8)
+
+    return scrubber
+}()
 
 override func viewDidLoad() {
     super.viewDidLoad()
-    // Set custom style for the scrubber
-    self.sectionScrubber.scrubberImage = UIImage(named: "date-scrubber")
-    self.sectionScrubber.sectionLabelImage = UIImage(named: "section-label-bckground")
-    self.sectionScrubber.sectionLabelFont = UIFont(name: "DINNextLTPro-Light", size: 18)
-    self.sectionScrubber.sectionLabelTextColor = UIColor.blackColor()
     self.view.addSubview(sectionScrubber.view)
 }
 
-override func viewDidLayoutSubviews() {
-    guard let collectionView = self.collectionView else { return }
-    self.sectionScrubber.containingViewFrame = self.view.bounds //adjust this frame for navigation bars etc.
-    self.sectionScrubber.containingViewContentSize = collectionView.contentSize
-}
-
 override func scrollViewDidScroll(scrollView: UIScrollView) {
-    self.sectionScrubber.updateFrame(scrollView: scrollView)
-    self.sectionScrubber.updateSectionTitle(sectionTitleFor(indexPathString)
+    self.sectionScrubber.updateFrame { indexPath in
+        if let indexPath = indexPath {
+            let title = titleForIndexPath(indexPath)
+            self.sectionScrubber.updateSectionTitle(title)
+        }
+    }
 }
 
 override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-    self.sectionScrubber.updateSectionTitle(sectionTitleFor(indexPathString)
+    self.sectionScrubber.updateFrame { indexPath in
+        if let indexPath = indexPath {
+            let title = titleForIndexPath(indexPath)
+            self.sectionScrubber.updateSectionTitle(title)
+        }
+    }
 }
 ```
 
