@@ -254,10 +254,17 @@ public class SectionScrubber: UIView {
         self.sectionLabel.hide()
     }
 
+    var originalOriginY: CGFloat?
     override public func layoutSubviews() {
-        self.containingViewFrame = CGRectMake(0, 64, self.collectionView.bounds.width, self.collectionView.bounds.height - 64 - self.viewHeight)
-        self.containingViewContentSize = self.collectionView.contentSize
-        self.updateFrame() { _ in }
+        if self.originalOriginY == nil {
+            self.originalOriginY = -self.collectionView.bounds.origin.y
+        }
+
+        if let originalOriginY = self.originalOriginY {
+            self.containingViewFrame = CGRectMake(0, originalOriginY, self.collectionView.bounds.width, self.collectionView.bounds.height - originalOriginY - self.viewHeight)
+            self.containingViewContentSize = self.collectionView.contentSize
+            self.updateFrame() { _ in }
+        }
     }
 }
 
