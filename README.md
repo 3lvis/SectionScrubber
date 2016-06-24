@@ -18,7 +18,6 @@ From your UICollectionViewController:
 ```swift
 lazy var sectionScrubber: SectionScrubber = {
     let scrubber = SectionScrubber(collectionView: self.collectionView!)
-    scrubber.delegate = self
     scrubber.scrubberImage = UIImage(named: "date-scrubber")
     scrubber.sectionLabelImage = UIImage(named: "section-label")
     scrubber.sectionLabelFont = UIFont(name: "DINNextLTPro-Light", size: 18)
