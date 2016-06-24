@@ -127,17 +127,21 @@ public class SectionScrubber: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public func updateFrame(scrollView scrollView: UIScrollView) {
+    public func updateFrame(completion: ((indexPath: NSIndexPath?) -> Void)) {
         self.userInteractionOnScrollViewDetected()
 
         if self.sectionLabelState == .Visible {
             return
         }
 
-        let yPos = calculateYPosInView(forYPosInContentView: scrollView.contentOffset.y + containingViewFrame.minY)
+        let yPos = calculateYPosInView(forYPosInContentView: self.collectionView.contentOffset.y + containingViewFrame.minY)
         if yPos > 0 {
             self.setFrame(atYpos: yPos)
         }
+
+        let centerPoint = CGPoint(x: self.center.x + self.collectionView.contentOffset.x, y: self.center.y + self.collectionView.contentOffset.y);
+        let indexPath = self.collectionView.indexPathForItemAtPoint(centerPoint)
+        completion(indexPath: indexPath)
     }
 
     public func updateSectionTitle(title: String) {
@@ -255,7 +259,7 @@ public class SectionScrubber: UIView {
     override public func layoutSubviews() {
         self.containingViewFrame = CGRectMake(0, 64, self.collectionView.bounds.width, self.collectionView.bounds.height - 64 - self.viewHeight)
         self.containingViewContentSize = self.collectionView.contentSize
-        self.updateFrame(scrollView: self.collectionView)
+        self.updateFrame() { _ in }
     }
 }
 

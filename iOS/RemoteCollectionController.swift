@@ -67,19 +67,19 @@ class RemoteCollectionController: UICollectionViewController {
         return headerView
     }
 
-    override func scrollViewDidScroll(scrollView: UIScrollView){
-        self.sectionScrubber.updateFrame(scrollView: scrollView)
-
-        let centerPoint = CGPoint(x: self.sectionScrubber.center.x + scrollView.contentOffset.x, y: self.sectionScrubber.center.y + scrollView.contentOffset.y);
-        if let indexPath = self.collectionView?.indexPathForItemAtPoint(centerPoint) {
-            self.sectionScrubber.updateSectionTitle(Photo.title(index: indexPath.section))
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
+        self.sectionScrubber.updateFrame { indexPath in
+            if let indexPath = indexPath {
+                self.sectionScrubber.updateSectionTitle(Photo.title(index: indexPath.section))
+            }
         }
     }
 
-    override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool){
-        let centerPoint = CGPoint(x: self.sectionScrubber.center.x + scrollView.contentOffset.x, y: self.sectionScrubber.center.y + scrollView.contentOffset.y);
-        if let indexPath = self.collectionView?.indexPathForItemAtPoint(centerPoint) {
-            self.sectionScrubber.updateSectionTitle(Photo.title(index: indexPath.section))
+    override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        self.sectionScrubber.updateFrame { indexPath in
+            if let indexPath = indexPath {
+                self.sectionScrubber.updateSectionTitle(Photo.title(index: indexPath.section))
+            }
         }
     }
 }
