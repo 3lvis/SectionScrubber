@@ -2,9 +2,25 @@ import UIKit
 
 class RemoteCollectionController: UICollectionViewController {
     var sections = Photo.constructRemoteElements()
-    let sectionScrubber = SectionScrubber()
-    var keyWindow: UIWindow?
-    let overlayView = UIView(frame: UIScreen.mainScreen().bounds)
+
+    lazy var overlayView: UIView = {
+        let view = UIView(frame: UIScreen.mainScreen().bounds)
+        view.backgroundColor = UIColor.blackColor()
+        view.alpha = 0.0
+
+        return view
+    }()
+
+    lazy var sectionScrubber: SectionScrubber = {
+        let scrubber = SectionScrubber(collectionView: self.collectionView!)
+        scrubber.delegate = self
+        scrubber.scrubberImage = UIImage(named: "date-scrubber")
+        scrubber.sectionLabelImage = UIImage(named: "section-label")
+        scrubber.sectionLabelFont = UIFont(name: "DINNextLTPro-Light", size: 18)
+        scrubber.sectionlabelTextColor = UIColor(red: 69/255, green: 67/255, blue: 76/255, alpha: 0.8)
+
+        return scrubber
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,45 +37,11 @@ class RemoteCollectionController: UICollectionViewController {
             }
         }
 
-        self.sectionScrubber.delegate = self
-        self.sectionScrubber.scrubberImage = UIImage(named: "date-scrubber")
-        self.sectionScrubber.sectionLabelImage = UIImage(named: "section-label")
-        self.sectionScrubber.sectionLabelFont = UIFont(name: "DINNextLTPro-Light", size: 18)
-        self.sectionScrubber.sectionlabelTextColor = UIColor(red: 69/255, green: 67/255, blue: 76/255, alpha: 0.8)
-        self.keyWindow = UIApplication.sharedApplication().keyWindow;
-        self.keyWindow?.addSubview(sectionScrubber)
-        self.overlayView.backgroundColor = UIColor.blackColor()
-        self.overlayView.alpha = 0.0
-        self.keyWindow?.addSubview(self.overlayView)
-        self.keyWindow?.bringSubviewToFront(self.sectionScrubber)
-
+        let keyWindow = UIApplication.sharedApplication().keyWindow!
+        keyWindow.addSubview(self.overlayView)
+        keyWindow.addSubview(self.sectionScrubber)
     }
 
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-
-        let layout = self.collectionView?.collectionViewLayout as! UICollectionViewFlowLayout
-        let columns = CGFloat(4)
-        let bounds = UIScreen.mainScreen().bounds
-        let size = (bounds.width - columns) / columns
-        layout.itemSize = CGSize(width: size, height: size)
-        layout.headerReferenceSize = CGSizeMake(bounds.width, 22);
-    }
-
-    override func viewDidLayoutSubviews() {
-        self.sectionScrubber.containingViewFrame = CGRectMake(0, 64, self.view.bounds.width, self.view.bounds.height - 64 - self.sectionScrubber.viewHeight)
-        self.sectionScrubber.containingViewContentSize = self.collectionView!.contentSize
-        self.sectionScrubber.updateFrame(scrollView: self.collectionView!)
-    }
-
-    func alertControllerWithTitle(title: String) -> UIAlertController {
-        let alertController = UIAlertController(title: title, message: nil, preferredStyle: .Alert)
-        alertController.addAction(UIAlertAction(title: "Dismiss", style: .Default, handler: nil))
-        return alertController
-    }
-}
-
-extension RemoteCollectionController {
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return self.sections.count
     }
@@ -81,12 +63,10 @@ extension RemoteCollectionController {
     override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         let headerView = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: SectionHeader.Identifier, forIndexPath: indexPath) as! SectionHeader
         headerView.titleLabel.text = Photo.title(index: indexPath.section)
-       
+
         return headerView
     }
-}
 
-extension RemoteCollectionController: SectionScrubberDelegate {
     override func scrollViewDidScroll(scrollView: UIScrollView){
         self.sectionScrubber.updateFrame(scrollView: scrollView)
 
@@ -102,7 +82,9 @@ extension RemoteCollectionController: SectionScrubberDelegate {
             self.sectionScrubber.updateSectionTitle(Photo.title(index: indexPath.section))
         }
     }
+}
 
+extension RemoteCollectionController: SectionScrubberDelegate {
     func sectionScrubberDidStartScrubbing(sectionScrubber: SectionScrubber) {
         UIView.animateWithDuration(0.2) {
             self.overlayView.alpha = 0.4

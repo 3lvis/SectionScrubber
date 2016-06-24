@@ -1,18 +1,12 @@
 import UIKit
 
 public protocol SectionScrubberDelegate {
-    func sectionScrubber(sectionScrubber: SectionScrubber, didRequestToSetContentViewToYPosition yPosition: CGFloat)
-
     func sectionScrubberDidStartScrubbing(sectionScrubber: SectionScrubber)
 
     func sectionScrubberDidStopScrubbing(sectionScrubber: SectionScrubber)
 }
 
 public extension SectionScrubberDelegate where Self: UICollectionViewController {
-    func sectionScrubber(sectionScrubber: SectionScrubber, didRequestToSetContentViewToYPosition yPosition: CGFloat) {
-        self.collectionView?.setContentOffset(CGPoint(x: 0, y: yPosition), animated: false)
-    }
-
     func sectionScrubberDidStartScrubbing(sectionScrubber: SectionScrubber) {
     }
 
@@ -21,7 +15,6 @@ public extension SectionScrubberDelegate where Self: UICollectionViewController 
 }
 
 public class SectionScrubber: UIView {
-
     enum VisibilityState {
         case Hidden
         case Visible
@@ -51,6 +44,8 @@ public class SectionScrubber: UIView {
 
     private let dragGestureRecognizer = UIPanGestureRecognizer()
     private let longPressGestureRecognizer = UILongPressGestureRecognizer()
+
+    private unowned var collectionView: UICollectionView
 
     public var sectionLabelImage: UIImage? {
         didSet {
@@ -106,7 +101,9 @@ public class SectionScrubber: UIView {
         }
     }
 
-    public init() {
+    public init(collectionView: UICollectionView) {
+        self.collectionView = collectionView
+
         super.init(frame: CGRectZero)
 
         self.setSectionlabelFrame()
@@ -138,8 +135,9 @@ public class SectionScrubber: UIView {
         }
 
         let yPos = calculateYPosInView(forYPosInContentView: scrollView.contentOffset.y + containingViewFrame.minY)
-
-        self.setFrame(atYpos: yPos)
+        if yPos > 0 {
+            self.setFrame(atYpos: yPos)
+        }
     }
 
     public func updateSectionTitle(title: String) {
@@ -194,14 +192,14 @@ public class SectionScrubber: UIView {
 
             let yPosInContentInContentView = calculateYPosInContentView(forYPosInView: newYPosForSectionScrubber)
 
-            self.delegate?.sectionScrubber(self, didRequestToSetContentViewToYPosition: yPosInContentInContentView)
+            self.collectionView.setContentOffset(CGPoint(x: 0, y: yPosInContentInContentView), animated: false)
 
             panGestureRecognizer.setTranslation(CGPoint(x: translation.x, y: 0), inView: self)
         }
     }
 
     private func setFrame(atYpos yPos: CGFloat) {
-        self.frame = CGRectMake(0, yPos, UIScreen.mainScreen().bounds.width, viewHeight)
+        self.frame = CGRect(x: 0, y: yPos, width: UIScreen.mainScreen().bounds.width, height: self.viewHeight)
     }
 
     private func setSectionlabelFrame() {
@@ -252,6 +250,12 @@ public class SectionScrubber: UIView {
             return
         }
         self.sectionLabel.hide()
+    }
+
+    override public func layoutSubviews() {
+        self.containingViewFrame = CGRectMake(0, 64, self.collectionView.bounds.width, self.collectionView.bounds.height - 64 - self.viewHeight)
+        self.containingViewContentSize = self.collectionView.contentSize
+        self.updateFrame(scrollView: self.collectionView)
     }
 }
 
