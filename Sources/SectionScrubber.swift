@@ -1,17 +1,9 @@
 import UIKit
 
-public protocol SectionScrubberDelegate {
+public protocol SectionScrubberDelegate: class {
     func sectionScrubberDidStartScrubbing(sectionScrubber: SectionScrubber)
 
     func sectionScrubberDidStopScrubbing(sectionScrubber: SectionScrubber)
-}
-
-public extension SectionScrubberDelegate where Self: UICollectionViewController {
-    func sectionScrubberDidStartScrubbing(sectionScrubber: SectionScrubber) {
-    }
-
-    func sectionScrubberDidStopScrubbing(sectionScrubber: SectionScrubber) {
-    }
 }
 
 public class SectionScrubber: UIView {
