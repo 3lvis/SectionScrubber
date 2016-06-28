@@ -42,6 +42,11 @@ class RemoteCollectionController: UICollectionViewController {
         keyWindow.addSubview(self.sectionScrubber)
     }
 
+    override func viewDidLayoutSubviews(){
+        super.viewDidLayoutSubviews()
+        self.sectionScrubber.originalOriginY = self.navigationController?.navigationBar.bounds.height
+    }
+
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return self.sections.count
     }
