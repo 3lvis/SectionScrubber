@@ -18,10 +18,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let size = (bounds.width - numberOfColumns) / numberOfColumns
         layout.itemSize = CGSize(width: size, height: size)
         layout.sectionInset = UIEdgeInsets(top: AppDelegate.HeaderSize, left: 0, bottom: 10, right: 0)
+        layout.headerReferenceSize = CGSizeMake(bounds.width, 22);
 
         let remoteController = RemoteCollectionController(collectionViewLayout: layout)
         remoteController.title = "Remote"
         let remoteNavigationController = UINavigationController(rootViewController: remoteController)
+
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [remoteNavigationController]
 
         if AppDelegate.IsLightStatusBar {
             UINavigationBar.appearance().barTintColor = UIColor.orangeColor()
@@ -29,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             remoteNavigationController.navigationBar.barStyle = .Black
         }
 
-        self.window?.rootViewController = remoteNavigationController
+        self.window?.rootViewController = tabBarController
         self.window!.makeKeyAndVisible()
 
         return true
