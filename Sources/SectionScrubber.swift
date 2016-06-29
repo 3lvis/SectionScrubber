@@ -33,6 +33,7 @@ public class SectionScrubber: UIView {
     private let bottomBorderOffset = CGFloat(3.4)
 
     private let dragGestureRecognizer = UIPanGestureRecognizer()
+
     private let longPressGestureRecognizer = UILongPressGestureRecognizer()
 
     private let scrubberGestureView = UIView()
@@ -107,10 +108,10 @@ public class SectionScrubber: UIView {
         self.setSectionlabelFrame()
         self.addSubview(self.sectionLabel)
 
-        self.dragGestureRecognizer.addTarget(self, action: #selector(handleScrub))
+        self.dragGestureRecognizer.addTarget(self, action: #selector(self.handleScrub))
         self.dragGestureRecognizer.delegate = self
 
-        self.longPressGestureRecognizer.addTarget(self, action: #selector(handleScrub))
+        self.longPressGestureRecognizer.addTarget(self, action: #selector(self.handleScrub))
         self.longPressGestureRecognizer.minimumPressDuration = 0.2
         self.longPressGestureRecognizer.cancelsTouchesInView = false
         self.longPressGestureRecognizer.delegate = self
@@ -164,8 +165,8 @@ public class SectionScrubber: UIView {
     }
 
     private func userInteractionOnScrollViewDetected() {
-        NSObject.cancelPreviousPerformRequestsWithTarget(self, selector: #selector(hideScrubber), object: nil)
-        self.performSelector(#selector(hideScrubber), withObject: nil, afterDelay: 2)
+        NSObject.cancelPreviousPerformRequestsWithTarget(self, selector: #selector(self.hideScrubber), object: nil)
+        self.performSelector(#selector(self.hideScrubber), withObject: nil, afterDelay: 2)
 
         if self.scrubberState == .Hidden {
             self.scrubberState = .Visible
@@ -174,7 +175,7 @@ public class SectionScrubber: UIView {
 
     func calculateYPosInView(forYPosInContentView yPosInContentView: CGFloat) -> CGFloat {
         let percentageInContentView = yPosInContentView / self.containingViewContentSize.height
-        let y =  (containingViewFrame.height * percentageInContentView) + self.containingViewFrame.minY
+        let y =  (self.containingViewFrame.height * percentageInContentView) + self.containingViewFrame.minY
 
         return y
     }
