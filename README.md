@@ -1,13 +1,13 @@
 # SectionScrubber
 
-* The scrubber will move along when scrolling the collectionView it has been added to.
-* When you pan the sectionScrubber you 'scrub' over the collectionview
-* While scrubbing you can set the titles to be shown in the sectionLabel
-
 [![Version](https://img.shields.io/cocoapods/v/SectionScrubber.svg?style=flat)](https://cocoapods.org/pods/SectionScrubber)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/bakkenbaeck/SectionScrubber)
 ![platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20OS%20X%20%7C%20watchOS%20%7C%20tvOS%20-lightgrey.svg)
 [![License](https://img.shields.io/cocoapods/l/SectionScrubber.svg?style=flat)](https://cocoapods.org/pods/DATAStack)
+
+* The scrubber will move along when scrolling the collectionView it has been added to.
+* When you pan the sectionScrubber you 'scrub' over the `UICollectionView`.
+* While scrubbing you can set the titles to be shown in the sectionLabel.
 
 ## Usage
 
