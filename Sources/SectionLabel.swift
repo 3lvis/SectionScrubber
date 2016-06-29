@@ -55,14 +55,14 @@ class SectionLabel: UIView {
     }
 
     func hide() {
-        UIView.animateWithDuration(0.2){
+        UIView.animateWithDuration(0.2, delay: 0.0, options: [.AllowUserInteraction, .BeginFromCurrentState], animations: {
             self.alpha = 0
-        }
+            }, completion: nil)
     }
 
-    func show(){
-        UIView.animateWithDuration(0.2) {
+    func show() {
+        UIView.animateWithDuration(0.2, delay: 0.0, options: [.AllowUserInteraction, .BeginFromCurrentState], animations: {
             self.alpha = 1
-        }
+            }, completion: nil)
     }
 }
