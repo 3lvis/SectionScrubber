@@ -9,6 +9,10 @@
 * When you pan the scrubber you 'scrub' over the `UICollectionView`.
 * While scrubbing you can choose with title will be shown in the scrubber.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/bakkenbaeck/SectionScrubber/master/GitHub/demo.gif"/>
+</p>
+
 ## Usage
 
 From your UICollectionViewController:
