@@ -242,15 +242,15 @@ public class SectionScrubber: UIView {
     }
 
     private func updateSectionLabelFrame() {
-        UIView.animateWithDuration(0.2) {
+        UIView.animateWithDuration(0.2, delay: 0.0, options: .AllowUserInteraction, animations: {
             self.setSectionlabelFrame()
-        }
+            }, completion: nil)
     }
 
     private func updateSectionScrubberFrame() {
-        UIView.animateWithDuration(0.2) {
+        UIView.animateWithDuration(0.2, delay: 0.0, options: .AllowUserInteraction, animations: {
             self.setScrubberFrame()
-        }
+            }, completion: nil)
     }
 
     func hideScrubber() {

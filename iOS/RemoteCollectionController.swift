@@ -97,14 +97,14 @@ class RemoteCollectionController: UICollectionViewController {
 
 extension RemoteCollectionController: SectionScrubberDelegate {
     func sectionScrubberDidStartScrubbing(sectionScrubber: SectionScrubber) {
-        UIView.animateWithDuration(0.2) {
+        UIView.animateWithDuration(0.2, delay: 0.0, options: .AllowUserInteraction, animations: {
             self.overlayView.alpha = 0.4
-        }
+            }, completion: nil)
     }
 
     func sectionScrubberDidStopScrubbing(sectionScrubber: SectionScrubber) {
-        UIView.animateWithDuration(0.2) {
+        UIView.animateWithDuration(0.2, delay: 0.0, options: .AllowUserInteraction, animations: {
             self.overlayView.alpha = 0
-        }
+            }, completion: nil)
     }
 }
