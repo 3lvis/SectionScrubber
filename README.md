@@ -17,7 +17,7 @@ From your UICollectionViewController:
 
 ```swift
 lazy var sectionScrubber: SectionScrubber = {
-    let scrubber = SectionScrubber(collectionView: self.collectionView!)
+    let scrubber = SectionScrubber(collectionView: collectionView!)
     scrubber.scrubberImage = UIImage(named: "date-scrubber")
     scrubber.sectionLabelImage = UIImage(named: "section-label")
     scrubber.sectionLabelFont = UIFont(name: "DINNextLTPro-Light", size: 18)
@@ -28,23 +28,23 @@ lazy var sectionScrubber: SectionScrubber = {
 
 override func viewDidLoad() {
     super.viewDidLoad()
-    self.view.addSubview(sectionScrubber.view)
+    view.addSubview(sectionScrubber.view)
 }
 
 override func scrollViewDidScroll(scrollView: UIScrollView) {
-    self.sectionScrubber.updateFrame { indexPath in
+    sectionScrubber.updateFrame { indexPath in
         if let indexPath = indexPath {
             let title = titleForIndexPath(indexPath)
-            self.sectionScrubber.updateSectionTitle(title)
+            sectionScrubber.updateSectionTitle(title)
         }
     }
 }
 
 override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-    self.sectionScrubber.updateFrame { indexPath in
+    sectionScrubber.updateFrame { indexPath in
         if let indexPath = indexPath {
             let title = titleForIndexPath(indexPath)
-            self.sectionScrubber.updateSectionTitle(title)
+            sectionScrubber.updateSectionTitle(title)
         }
     }
 }

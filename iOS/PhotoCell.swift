@@ -13,9 +13,9 @@ class PhotoCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.clipsToBounds = true
-        self.backgroundColor = UIColor.blackColor()
-        self.addSubview(self.imageView)
+        clipsToBounds = true
+        backgroundColor = UIColor.blackColor()
+        addSubview(imageView)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -23,12 +23,12 @@ class PhotoCell: UICollectionViewCell {
     }
 
     func display(photo: Photo) {
-        self.imageView.image = photo.placeholder
+        imageView.image = photo.placeholder
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        self.imageView.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+        imageView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
     }
 }

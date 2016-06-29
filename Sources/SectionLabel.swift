@@ -7,7 +7,7 @@ class SectionLabel: UIView {
     private static let Margin : CGFloat = 19.0
 
     var sectionlabelWidth : CGFloat {
-        return self.textLabel.width() + (2 * SectionLabel.Margin) + 4
+        return textLabel.width() + (2 * SectionLabel.Margin) + 4
     }
 
     private let sectionLabelImageView = UIImageView()
@@ -16,10 +16,10 @@ class SectionLabel: UIView {
 
     var labelImage: UIImage? {
         didSet {
-            if let labelImage = self.labelImage {
-                self.sectionLabelImageView.image = labelImage
-                self.addSubview(sectionLabelImageView)
-                self.bringSubviewToFront(self.textLabel)
+            if let labelImage = labelImage {
+                sectionLabelImageView.image = labelImage
+                addSubview(sectionLabelImageView)
+                bringSubviewToFront(textLabel)
             }
         }
     }
@@ -27,9 +27,9 @@ class SectionLabel: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.hide()
+        hide()
 
-        self.addSubview(self.textLabel)
+        addSubview(textLabel)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -37,21 +37,21 @@ class SectionLabel: UIView {
     }
 
     override func layoutSubviews() {
-        self.sectionLabelImageView.frame = self.bounds
-        self.textLabel.frame = CGRectMake(SectionLabel.Margin, SectionLabel.Margin, self.textLabel.width(), 22)
+        sectionLabelImageView.frame = bounds
+        textLabel.frame = CGRectMake(SectionLabel.Margin, SectionLabel.Margin, textLabel.width(), 22)
     }
 
     func setFont(font : UIFont){
-         self.textLabel.font = font
+         textLabel.font = font
     }
 
     func setTextColor(color : UIColor){
-         self.textLabel.textColor = color
+         textLabel.textColor = color
     }
 
     func setText(text: String){
-        self.textLabel.text = text
-        self.setNeedsLayout()
+        textLabel.text = text
+        setNeedsLayout()
     }
 
     func hide() {
