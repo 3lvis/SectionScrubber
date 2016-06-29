@@ -15,7 +15,7 @@ struct Photo {
     }
 
     func media(completion: (image: UIImage?, error: NSError?) -> ()) {
-        completion(image: self.placeholder, error: nil)
+        completion(image: placeholder, error: nil)
     }
 
     static func constructRemoteElements() -> [String : [Photo]] {

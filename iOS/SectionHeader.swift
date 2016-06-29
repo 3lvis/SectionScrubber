@@ -12,8 +12,8 @@ class SectionHeader: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.backgroundColor = UIColor.whiteColor()
-        self.addSubview(self.titleLabel)
+        backgroundColor = UIColor.whiteColor()
+        addSubview(titleLabel)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -23,6 +23,6 @@ class SectionHeader: UICollectionReusableView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        self.titleLabel.frame = CGRect(x: 10, y: 40, width: self.frame.width, height: self.frame.height)
+        titleLabel.frame = CGRect(x: 10, y: 40, width: frame.width, height: frame.height)
     }
 }

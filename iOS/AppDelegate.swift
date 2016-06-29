@@ -8,7 +8,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window = UIWindow(frame: UIScreen.mainScreen().bounds)
 
         let numberOfColumns = CGFloat(4)
         let layout = UICollectionViewFlowLayout()
@@ -33,8 +33,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             remoteNavigationController.navigationBar.barStyle = .Black
         }
 
-        self.window?.rootViewController = tabBarController
-        self.window!.makeKeyAndVisible()
+        window?.rootViewController = tabBarController
+        window!.makeKeyAndVisible()
 
         return true
     }

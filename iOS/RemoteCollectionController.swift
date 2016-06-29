@@ -25,34 +25,34 @@ class RemoteCollectionController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.collectionView?.backgroundColor = UIColor.whiteColor()
-        self.collectionView?.registerClass(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.Identifier)
-        self.collectionView?.registerClass(SectionHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: SectionHeader.Identifier)
-        self.collectionView?.showsVerticalScrollIndicator = false
+        collectionView?.backgroundColor = UIColor.whiteColor()
+        collectionView?.registerClass(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.Identifier)
+        collectionView?.registerClass(SectionHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: SectionHeader.Identifier)
+        collectionView?.showsVerticalScrollIndicator = false
 
         var count = 0
-        for i in 0 ..< self.sections.count {
-            if let photos = self.sections[Photo.title(index: i)] {
+        for i in 0 ..< sections.count {
+            if let photos = sections[Photo.title(index: i)] {
                 count += photos.count
             }
         }
 
         let keyWindow = UIApplication.sharedApplication().keyWindow!
-        keyWindow.addSubview(self.overlayView)
-        keyWindow.addSubview(self.sectionScrubber)
+        keyWindow.addSubview(overlayView)
+        keyWindow.addSubview(sectionScrubber)
     }
 
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return self.sections.count
+        return sections.count
     }
 
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.sections[Photo.title(index: section)]?.count ?? 0
+        return sections[Photo.title(index: section)]?.count ?? 0
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(PhotoCell.Identifier, forIndexPath: indexPath) as! PhotoCell
-        if let photos = self.sections[Photo.title(index: indexPath.section)] {
+        if let photos = sections[Photo.title(index: indexPath.section)] {
             let photo = photos[indexPath.row]
             cell.display(photo)
         }
@@ -68,7 +68,7 @@ class RemoteCollectionController: UICollectionViewController {
     }
 
     override func scrollViewDidScroll(scrollView: UIScrollView) {
-        self.sectionScrubber.updateFrame { indexPath in
+        sectionScrubber.updateFrame { indexPath in
             if let indexPath = indexPath {
                 self.sectionScrubber.updateSectionTitle(Photo.title(index: indexPath.section))
             }
@@ -76,7 +76,7 @@ class RemoteCollectionController: UICollectionViewController {
     }
 
     override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        self.sectionScrubber.updateFrame { indexPath in
+        sectionScrubber.updateFrame { indexPath in
             if let indexPath = indexPath {
                 self.sectionScrubber.updateSectionTitle(Photo.title(index: indexPath.section))
             }
