@@ -42,13 +42,13 @@ class RemoteCollectionController: UICollectionViewController {
         keyWindow.addSubview(self.sectionScrubber)
     }
 
-    override func viewDidLayoutSubviews(){
+    override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         self.overlayView.frame = UIScreen.mainScreen().bounds
 
-        if let originY = self.navigationController?.navigationBar.bounds.height{
-            let originYWithStatusBar = originY + (UIApplication.sharedApplication().statusBarHidden ? 0 : 20)
+        if let originY = self.navigationController?.navigationBar.bounds.height {
+            let originYWithStatusBar = originY + (UIApplication.sharedApplication().statusBarFrame.height)
             self.sectionScrubber.originalOriginY = originYWithStatusBar
         }
     }
