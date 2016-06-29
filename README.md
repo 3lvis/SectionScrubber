@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/cocoapods/l/SectionScrubber.svg?style=flat)](https://cocoapods.org/pods/DATAStack)
 
 * The scrubber will move along when scrolling the `UICollectionView` it has been added to.
-* When you pan the sectionScrubber you 'scrub' over the `UICollectionView`.
+* When you pan the scrubber you 'scrub' over the `UICollectionView`.
 * While scrubbing you can choose with title will be shown in the scrubber.
 
 ## Usage
