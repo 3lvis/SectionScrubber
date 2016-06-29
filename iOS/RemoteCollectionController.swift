@@ -4,7 +4,7 @@ class RemoteCollectionController: UICollectionViewController {
     var sections = Photo.constructRemoteElements()
 
     lazy var overlayView: UIView = {
-        let view = UIView(frame: UIScreen.mainScreen().bounds)
+        let view = UIView()
         view.backgroundColor = UIColor.blackColor()
         view.alpha = 0.0
 
@@ -40,6 +40,17 @@ class RemoteCollectionController: UICollectionViewController {
         let keyWindow = UIApplication.sharedApplication().keyWindow!
         keyWindow.addSubview(self.overlayView)
         keyWindow.addSubview(self.sectionScrubber)
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        self.overlayView.frame = UIScreen.mainScreen().bounds
+
+        if let originY = self.navigationController?.navigationBar.bounds.height {
+            let originYWithStatusBar = originY + (UIApplication.sharedApplication().statusBarFrame.height)
+            self.sectionScrubber.originalOriginY = originYWithStatusBar
+        }
     }
 
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {

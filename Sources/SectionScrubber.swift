@@ -36,6 +36,8 @@ public class SectionScrubber: UIView {
 
     private let longPressGestureRecognizer = UILongPressGestureRecognizer()
 
+    private let scrubberGestureView = UIView()
+
     private unowned var collectionView: UICollectionView
 
     public var sectionLabelImage: UIImage? {
@@ -101,8 +103,7 @@ public class SectionScrubber: UIView {
 
         super.init(frame: CGRectZero)
 
-        self.setScrubberFrame()
-        self.addSubview(self.scrubberImageView)
+        self.addSubview(scrubberImageView)
 
         self.setSectionlabelFrame()
         self.addSubview(self.sectionLabel)
@@ -115,14 +116,30 @@ public class SectionScrubber: UIView {
         self.longPressGestureRecognizer.cancelsTouchesInView = false
         self.longPressGestureRecognizer.delegate = self
 
-        let scrubberGestureView = UIView(frame: CGRectMake(self.containingViewFrame.width - self.scrubberGestureWidth, 0, self.scrubberGestureWidth, self.viewHeight))
-        scrubberGestureView.addGestureRecognizer(self.longPressGestureRecognizer)
-        scrubberGestureView.addGestureRecognizer(self.dragGestureRecognizer)
+        self.scrubberGestureView.addGestureRecognizer(self.longPressGestureRecognizer)
+        self.scrubberGestureView.addGestureRecognizer(self.dragGestureRecognizer)
         self.addSubview(scrubberGestureView)
     }
 
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    var originalOriginY: CGFloat?
+    override public func layoutSubviews() {
+        if self.originalOriginY == nil {
+            self.originalOriginY = -self.collectionView.bounds.origin.y
+        }
+
+        if let originalOriginY = self.originalOriginY {
+            self.containingViewFrame = CGRectMake(0, originalOriginY, self.collectionView.bounds.width, self.collectionView.bounds.height - originalOriginY - self.viewHeight)
+            self.containingViewContentSize = self.collectionView.contentSize
+            self.updateFrame() { _ in }
+        }
+
+        self.setScrubberFrame()
+        self.updateFrame() { _ in }
+        self.scrubberGestureView.frame = CGRectMake(self.containingViewFrame.width - self.scrubberGestureWidth, 0, self.scrubberGestureWidth, self.viewHeight)
     }
 
     public func updateFrame(completion: ((indexPath: NSIndexPath?) -> Void)) {
@@ -245,19 +262,6 @@ public class SectionScrubber: UIView {
             return
         }
         self.sectionLabel.hide()
-    }
-
-    var originalOriginY: CGFloat?
-    override public func layoutSubviews() {
-        if self.originalOriginY == nil {
-            self.originalOriginY = -self.collectionView.bounds.origin.y
-        }
-
-        if let originalOriginY = self.originalOriginY {
-            self.containingViewFrame = CGRectMake(0, originalOriginY, self.collectionView.bounds.width, self.collectionView.bounds.height - originalOriginY - self.viewHeight)
-            self.containingViewContentSize = self.collectionView.contentSize
-            self.updateFrame() { _ in }
-        }
     }
 }
 
