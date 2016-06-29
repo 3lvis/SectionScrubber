@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "SectionScrubber"
-  s.summary          = "A short description of SectionScrubber."
+  s.summary          = "A component to quickly scroll between collection view sections"
   s.version          = "0.1.0"
   s.homepage         = "https://github.com/bakkenbaeck/SectionScrubber"
   s.license          = 'MIT'
