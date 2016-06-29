@@ -1,7 +1,5 @@
 # SectionScrubber
 
-![alt text](https://media.giphy.com/media/xT8qBsHiBYhAp0EomI/giphy.gif)
-
 * The scrubber will move along when scrolling the collectionView it has been added to.
 * When you pan the sectionScrubber you 'scrub' over the collectionview
 * While scrubbing you can set the titles to be shown in the sectionLabel
