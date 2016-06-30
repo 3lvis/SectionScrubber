@@ -14,6 +14,7 @@ class RemoteCollectionController: UICollectionViewController {
     lazy var sectionScrubber: SectionScrubber = {
         let scrubber = SectionScrubber(collectionView: self.collectionView!)
         scrubber.delegate = self
+        scrubber.dataSource = self
         scrubber.scrubberImage = UIImage(named: "date-scrubber")
         scrubber.sectionLabelImage = UIImage(named: "section-label")
         scrubber.sectionLabelFont = UIFont(name: "DINNextLTPro-Light", size: 18)
@@ -46,11 +47,6 @@ class RemoteCollectionController: UICollectionViewController {
         super.viewDidLayoutSubviews()
 
         self.overlayView.frame = UIScreen.mainScreen().bounds
-
-        if let originY = self.navigationController?.navigationBar.bounds.height {
-            let originYWithStatusBar = originY + (UIApplication.sharedApplication().statusBarFrame.height)
-            self.sectionScrubber.originalOriginY = originYWithStatusBar
-        }
     }
 
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -106,5 +102,28 @@ extension RemoteCollectionController: SectionScrubberDelegate {
         UIView.animateWithDuration(0.2, delay: 0.0, options: .AllowUserInteraction, animations: {
             self.overlayView.alpha = 0
             }, completion: nil)
+    }
+}
+
+extension RemoteCollectionController: SectionScrubberDataSource {
+    func sectionScrubberContainerFrame(sectionScrubber: SectionScrubber) -> CGRect {
+        let collectionFrame = UIScreen.mainScreen().bounds
+        var frame = CGRect(x: 0, y: 0, width: collectionFrame.size.width, height: collectionFrame.size.height)
+
+        let navigationBarHeight = self.navigationController?.navigationBar.frame.size.height ?? 0
+        frame.origin.y += navigationBarHeight
+        frame.size.height -= navigationBarHeight
+
+        let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.height
+        frame.origin.y += statusBarHeight
+        frame.size.height -= statusBarHeight
+
+        let tabBarHeight = self.tabBarController?.tabBar.frame.size.height ?? 0
+        frame.size.height -= tabBarHeight
+
+        let scrubberHeight = sectionScrubber.viewHeight
+        frame.size.height -= scrubberHeight
+
+        return frame
     }
 }
