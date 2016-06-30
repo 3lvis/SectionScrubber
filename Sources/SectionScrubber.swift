@@ -6,6 +6,10 @@ public protocol SectionScrubberDelegate: class {
     func sectionScrubberDidStopScrubbing(sectionScrubber: SectionScrubber)
 }
 
+public protocol SectionScrubberDataSource: class {
+    func sectionScrubberContainerFrame(sectionScrubber: SectionScrubber) -> CGRect
+}
+
 public class SectionScrubber: UIView {
     enum VisibilityState {
         case Hidden
@@ -15,6 +19,8 @@ public class SectionScrubber: UIView {
     static let RightEdgeInset: CGFloat = 5.0
 
     public var delegate: SectionScrubberDelegate?
+
+    public var dataSource: SectionScrubberDataSource?
 
     public var containingViewFrame = UIScreen.mainScreen().bounds
 
@@ -125,17 +131,10 @@ public class SectionScrubber: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    var originalOriginY: CGFloat?
     override public func layoutSubviews() {
-        if self.originalOriginY == nil {
-            self.originalOriginY = -self.collectionView.bounds.origin.y
-        }
-
-        if let originalOriginY = self.originalOriginY {
-            self.containingViewFrame = CGRectMake(0, originalOriginY, self.collectionView.bounds.width, self.collectionView.bounds.height - originalOriginY - self.viewHeight)
-            self.containingViewContentSize = self.collectionView.contentSize
-            self.updateFrame() { _ in }
-        }
+        self.containingViewFrame = self.dataSource?.sectionScrubberContainerFrame(self) ?? CGRectZero
+        self.containingViewContentSize = self.collectionView.contentSize
+        self.updateFrame() { _ in }
 
         self.setScrubberFrame()
         self.updateFrame() { _ in }
