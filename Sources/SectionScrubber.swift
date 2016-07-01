@@ -8,6 +8,9 @@ public protocol SectionScrubberDelegate: class {
 
 public protocol SectionScrubberDataSource: class {
     func sectionScrubberContainerFrame(sectionScrubber: SectionScrubber) -> CGRect
+
+    func sectionScrubberTitleForFirstSection(sectionScrubber: SectionScrubber) -> String
+    func sectionScrubberTitleForLastSection(sectionScrubber: SectionScrubber) -> String
 }
 
 public class SectionScrubber: UIView {
@@ -195,12 +198,12 @@ public class SectionScrubber: UIView {
 
             if newYPosForSectionScrubber <= containingViewFrame.minY {
                 newYPosForSectionScrubber = containingViewFrame.minY
-                self.updateSectionTitle("top")
+                self.updateSectionTitle(self.dataSource?.sectionScrubberTitleForFirstSection(self) ?? "")
             }
 
             if newYPosForSectionScrubber >= self.containingViewFrame.size.height + self.containingViewFrame.minY - bottomBorderOffset {
                 newYPosForSectionScrubber = self.containingViewFrame.size.height + self.containingViewFrame.minY - bottomBorderOffset
-                self.updateSectionTitle("bottom")
+                self.updateSectionTitle(self.dataSource?.sectionScrubberTitleForLastSection(self) ?? "")
             }
 
             self.setFrame(atYpos: newYPosForSectionScrubber)
