@@ -24,8 +24,6 @@ public class SectionScrubber: UIView {
 
     public var containingViewFrame = UIScreen.mainScreen().bounds
 
-    public var containingViewContentSize = UIScreen.mainScreen().bounds.size
-
     public var viewHeight = CGFloat(56.0)
 
     private var scrubberWidth = CGFloat(22.0)
@@ -133,8 +131,6 @@ public class SectionScrubber: UIView {
 
     override public func layoutSubviews() {
         self.containingViewFrame = self.dataSource?.sectionScrubberContainerFrame(self) ?? CGRectZero
-        self.containingViewContentSize = self.collectionView.contentSize
-        self.updateFrame() { _ in }
 
         self.setScrubberFrame()
         self.updateFrame() { _ in }
@@ -173,7 +169,7 @@ public class SectionScrubber: UIView {
     }
 
     func calculateYPosInView(forYPosInContentView yPosInContentView: CGFloat) -> CGFloat {
-        let percentageInContentView = yPosInContentView / self.containingViewContentSize.height
+        let percentageInContentView = yPosInContentView / self.collectionView.contentSize.height
         let y =  (self.containingViewFrame.height * percentageInContentView) + self.containingViewFrame.minY
 
         return y
@@ -181,7 +177,7 @@ public class SectionScrubber: UIView {
 
     func calculateYPosInContentView(forYPosInView yPosInView: CGFloat) -> CGFloat {
         let percentageInView = (yPosInView - containingViewFrame.minY) / containingViewFrame.height
-        return (containingViewContentSize.height * percentageInView) - containingViewFrame.minY
+        return (self.collectionView.contentSize.height * percentageInView) - containingViewFrame.minY
     }
 
     func handleScrub(gestureRecognizer: UIGestureRecognizer) {
