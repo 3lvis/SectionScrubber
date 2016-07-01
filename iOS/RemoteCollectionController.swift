@@ -4,15 +4,15 @@ class RemoteCollectionController: UICollectionViewController {
     var sections = Photo.constructRemoteElements()
 
     lazy var overlayView: UIView = {
-        let view = UIView()
+        let view = UIView(frame: self.collectionView?.frame ?? CGRectZero)
         view.backgroundColor = UIColor.blackColor()
-        view.alpha = 0.0
+        view.alpha = 0.3
 
         return view
     }()
 
     lazy var sectionScrubber: SectionScrubber = {
-        let scrubber = SectionScrubber(collectionView: self.collectionView!)
+        let scrubber = SectionScrubber(collectionView: self.collectionView)
         scrubber.delegate = self
         scrubber.dataSource = self
         scrubber.scrubberImage = UIImage(named: "date-scrubber")
@@ -38,15 +38,8 @@ class RemoteCollectionController: UICollectionViewController {
             }
         }
 
-        let keyWindow = UIApplication.sharedApplication().keyWindow!
-        keyWindow.addSubview(self.overlayView)
-        keyWindow.addSubview(self.sectionScrubber)
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        self.overlayView.frame = UIScreen.mainScreen().bounds
+        self.collectionView?.addSubview(self.overlayView)
+        self.collectionView?.addSubview(self.sectionScrubber)
     }
 
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -75,6 +68,10 @@ class RemoteCollectionController: UICollectionViewController {
     }
 
     override func scrollViewDidScroll(scrollView: UIScrollView) {
+        var overlayFrame = self.overlayView.frame
+        overlayFrame.origin.y = scrollView.contentOffset.y
+        self.overlayView.frame = overlayFrame
+
         self.sectionScrubber.updateFrame { indexPath in
             if let indexPath = indexPath {
                 self.sectionScrubber.updateSectionTitle(Photo.title(index: indexPath.section))
@@ -107,23 +104,6 @@ extension RemoteCollectionController: SectionScrubberDelegate {
 
 extension RemoteCollectionController: SectionScrubberDataSource {
     func sectionScrubberContainerFrame(sectionScrubber: SectionScrubber) -> CGRect {
-        let collectionFrame = UIScreen.mainScreen().bounds
-        var frame = CGRect(x: 0, y: 0, width: collectionFrame.size.width, height: collectionFrame.size.height)
-
-        let navigationBarHeight = self.navigationController?.navigationBar.frame.size.height ?? 0
-        frame.origin.y += navigationBarHeight
-        frame.size.height -= navigationBarHeight
-
-        let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.height
-        frame.origin.y += statusBarHeight
-        frame.size.height -= statusBarHeight
-
-        let tabBarHeight = self.tabBarController?.tabBar.frame.size.height ?? 0
-        frame.size.height -= tabBarHeight
-
-        let scrubberHeight = sectionScrubber.viewHeight
-        frame.size.height -= scrubberHeight
-
-        return frame
+        return self.collectionView?.frame ?? CGRectZero
     }
 }
