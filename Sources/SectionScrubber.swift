@@ -193,12 +193,14 @@ public class SectionScrubber: UIView {
             let translation = panGestureRecognizer.translationInView(self)
             var newYPosForSectionScrubber = self.frame.origin.y + translation.y
 
-            if newYPosForSectionScrubber < containingViewFrame.minY {
+            if newYPosForSectionScrubber <= containingViewFrame.minY {
                 newYPosForSectionScrubber = containingViewFrame.minY
+                self.updateSectionTitle("top")
             }
 
-            if newYPosForSectionScrubber > self.containingViewFrame.size.height + self.containingViewFrame.minY - bottomBorderOffset {
+            if newYPosForSectionScrubber >= self.containingViewFrame.size.height + self.containingViewFrame.minY - bottomBorderOffset {
                 newYPosForSectionScrubber = self.containingViewFrame.size.height + self.containingViewFrame.minY - bottomBorderOffset
+                self.updateSectionTitle("bottom")
             }
 
             self.setFrame(atYpos: newYPosForSectionScrubber)
