@@ -177,7 +177,9 @@ public class SectionScrubber: UIView {
 
     func calculateYPosInContentView(forYPosInView yPosInView: CGFloat) -> CGFloat {
         let percentageInView = (yPosInView - containingViewFrame.minY) / containingViewFrame.height
-        return (self.collectionView.contentSize.height * percentageInView) - containingViewFrame.minY
+        let y = (self.collectionView.contentSize.height * percentageInView) - containingViewFrame.minY
+
+        return y
     }
 
     func handleScrub(gestureRecognizer: UIGestureRecognizer) {
