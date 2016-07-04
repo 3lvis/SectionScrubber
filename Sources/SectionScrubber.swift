@@ -40,9 +40,7 @@ public class SectionScrubber: UIView {
 
     private let longPressGestureRecognizer = UILongPressGestureRecognizer()
 
-    private let scrubberGestureView = UIView()
-
-    private var originalYOffset = CGFloat(0)
+    private var originalYOffset: CGFloat?
 
     private weak var collectionView: UICollectionView?
 
@@ -109,22 +107,20 @@ public class SectionScrubber: UIView {
 
         super.init(frame: CGRectZero)
 
-        self.addSubview(scrubberImageView)
+        self.addSubview(self.scrubberImageView)
 
         self.setSectionlabelFrame()
         self.addSubview(self.sectionLabel)
 
         self.dragGestureRecognizer.addTarget(self, action: #selector(self.handleScrub))
         self.dragGestureRecognizer.delegate = self
+        self.addGestureRecognizer(self.dragGestureRecognizer)
 
         self.longPressGestureRecognizer.addTarget(self, action: #selector(self.handleScrub))
         self.longPressGestureRecognizer.minimumPressDuration = 0.2
         self.longPressGestureRecognizer.cancelsTouchesInView = false
         self.longPressGestureRecognizer.delegate = self
-
-        self.scrubberGestureView.addGestureRecognizer(self.longPressGestureRecognizer)
-        self.scrubberGestureView.addGestureRecognizer(self.dragGestureRecognizer)
-        self.addSubview(scrubberGestureView)
+        self.addGestureRecognizer(self.longPressGestureRecognizer)
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -132,7 +128,9 @@ public class SectionScrubber: UIView {
     }
 
     override public func layoutSubviews() {
-        self.originalYOffset = self.collectionView?.bounds.origin.y ?? 0
+        if self.originalYOffset == nil {
+            self.originalYOffset = self.collectionView?.bounds.origin.y ?? 0
+        }
         self.containingViewFrame = self.dataSource?.sectionScrubberContainerFrame(self) ?? CGRectZero
         self.setScrubberFrame()
         self.updateFrame() { _ in }
@@ -166,11 +164,11 @@ public class SectionScrubber: UIView {
     }
 
     func calculateYPosInView() -> CGFloat {
+        guard let originalYOffset = self.originalYOffset else { return 0 }
         guard let collectionView = self.collectionView else { return 0 }
         let yPosInContentView = collectionView.contentOffset.y + containingViewFrame.minY
         let percentageInContentView = collectionView.contentSize.height != 0 ? yPosInContentView / collectionView.contentSize.height : 0
-        let y =  (self.containingViewFrame.height * percentageInContentView) + self.containingViewFrame.minY + collectionView.contentOffset.y - self.originalYOffset
-        print(y)
+        let y =  (self.containingViewFrame.height * percentageInContentView) + self.containingViewFrame.minY + collectionView.contentOffset.y - originalYOffset
 
         return y
     }
