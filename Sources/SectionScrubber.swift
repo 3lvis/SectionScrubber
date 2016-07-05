@@ -171,11 +171,6 @@ public class SectionScrubber: UIView {
         let yPosInContentView = collectionView.contentOffset.y + self.containingViewFrame.minY
         let percentageInContentView = yPosInContentView / collectionView.contentSize.height
         let y =  (self.containingViewFrame.height * percentageInContentView) + self.containingViewFrame.minY + collectionView.contentOffset.y - originalYOffset
-        print("*********************")
-        print("yPosInContentView: \(yPosInContentView)")
-        print("percentageInContentView: \(percentageInContentView)")
-        print("y: \(y)")
-        print("*********************")
 
         return y
     }
@@ -184,20 +179,11 @@ public class SectionScrubber: UIView {
     func handleScrub(gestureRecognizer: UIGestureRecognizer) {
         guard let collectionView = self.collectionView else { return }
         guard self.containingViewFrame.height != 0 else { return }
-        guard let originalYOffset = self.originalYOffset else { return }
 
         self.sectionLabelState = gestureRecognizer.state == .Ended ? .Hidden : .Visible
 
         if let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer where panGestureRecognizer.state == .Began || panGestureRecognizer.state == .Changed {
             let translation = panGestureRecognizer.translationInView(self)
-
-//            print("panGestureRecognizer.state: \(panGestureRecognizer.state.rawValue)")
-//            print("self.scrubberImageView.bounds: \(self.scrubberImageView.bounds)")
-//            print("self.bounds: \(self.bounds)")
-//            print("self.frame: \(self.frame)")
-//            print("offset: \(collectionView.contentOffset)")
-//            print("diff: \((self.frame.origin.y + originalYOffset) - collectionView.contentOffset.y)")
-//            print("----")
 
             if panGestureRecognizer.state == .Began {
                 self.originalY = self.scrubberImageView.frame.origin.y
@@ -212,8 +198,6 @@ public class SectionScrubber: UIView {
             if y > self.containingViewFrame.size.height + self.containingViewFrame.minY {
                 y = self.containingViewFrame.size.height + self.containingViewFrame.minY
             }
-
-            print("y: \(y)")
 
             let percentageInView = (y - self.containingViewFrame.minY) / self.containingViewFrame.height
             let yPosInContentInContentView = (collectionView.contentSize.height * percentageInView) - self.containingViewFrame.minY
