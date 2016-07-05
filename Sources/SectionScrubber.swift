@@ -9,8 +9,7 @@ public protocol SectionScrubberDelegate: class {
 public protocol SectionScrubberDataSource: class {
     func sectionScrubberContainerFrame(sectionScrubber: SectionScrubber) -> CGRect
 
-    func sectionScrubberTitleForFirstSection(sectionScrubber: SectionScrubber) -> String
-    func sectionScrubberTitleForLastSection(sectionScrubber: SectionScrubber) -> String
+    func sectionScrubber(sectionScrubber: SectionScrubber, titleForSectionAtIndexPath indexPath: NSIndexPath) -> String
 }
 
 public class SectionScrubber: UIView {
@@ -137,14 +136,14 @@ public class SectionScrubber: UIView {
     override public func layoutSubviews() {
         self.containingViewFrame = self.dataSource?.sectionScrubberContainerFrame(self) ?? CGRectZero
         self.containingViewContentSize = self.collectionView.contentSize
-        self.updateFrame() { _ in }
+        self.updateScrubberPosition()
 
         self.setScrubberFrame()
-        self.updateFrame() { _ in }
+        self.updateScrubberPosition()
         self.scrubberGestureView.frame = CGRectMake(self.containingViewFrame.width - self.scrubberGestureWidth, 0, self.scrubberGestureWidth, self.viewHeight)
     }
 
-    public func updateFrame(completion: ((indexPath: NSIndexPath?) -> Void)) {
+    public func updateScrubberPosition() {
         self.userInteractionOnScrollViewDetected()
 
         let yPos = self.calculateYPosInView(forYPosInContentView: self.collectionView.contentOffset.y + self.containingViewFrame.minY)
@@ -153,11 +152,15 @@ public class SectionScrubber: UIView {
         }
 
         let centerPoint = CGPoint(x: self.center.x + self.collectionView.contentOffset.x, y: self.center.y + self.collectionView.contentOffset.y);
-        let indexPath = self.collectionView.indexPathForItemAtPoint(centerPoint)
-        completion(indexPath: indexPath)
+        print("centerPoint: \(centerPoint)")
+        if let indexPath = self.collectionView.indexPathForItemAtPoint(centerPoint) {
+            if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
+                self.updateSectionTitle(title)
+            }
+        }
     }
 
-    public func updateSectionTitle(title: String) {
+    private func updateSectionTitle(title: String) {
         if self.currentSectionTitle != title {
             self.currentSectionTitle = title
 
@@ -198,12 +201,28 @@ public class SectionScrubber: UIView {
 
             if newYPosForSectionScrubber <= containingViewFrame.minY {
                 newYPosForSectionScrubber = containingViewFrame.minY
-                self.updateSectionTitle(self.dataSource?.sectionScrubberTitleForFirstSection(self) ?? "")
+
+                print("first called")
+                let centerPoint = CGPoint(x: self.center.x + self.collectionView.contentOffset.x, y: self.viewHeight / 2 + self.containingViewFrame.minY);
+                if let indexPath = self.collectionView.indexPathForItemAtPoint(centerPoint) {
+                    print("first: \(indexPath)")
+                    if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
+                        self.updateSectionTitle(title)
+                    }
+                }
             }
 
             if newYPosForSectionScrubber >= self.containingViewFrame.size.height + self.containingViewFrame.minY - bottomBorderOffset {
                 newYPosForSectionScrubber = self.containingViewFrame.size.height + self.containingViewFrame.minY - bottomBorderOffset
-                self.updateSectionTitle(self.dataSource?.sectionScrubberTitleForLastSection(self) ?? "")
+
+                let centerPoint = CGPoint(x: self.center.x + self.collectionView.contentOffset.x, y: self.collectionView.contentSize.height - (self.viewHeight / 2) - bottomBorderOffset);
+                print(centerPoint)
+                if let indexPath = self.collectionView.indexPathForItemAtPoint(centerPoint) {
+                    print("last: \(indexPath)")
+                    if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
+                        self.updateSectionTitle(title)
+                    }
+                }
             }
 
             self.setFrame(atYpos: newYPosForSectionScrubber)
