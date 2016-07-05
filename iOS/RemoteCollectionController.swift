@@ -126,4 +126,12 @@ extension RemoteCollectionController: SectionScrubberDataSource {
 
         return frame
     }
+
+    func sectionScrubberTitleForFirstSection(sectionScrubber: SectionScrubber) -> String {
+       return Photo.title(index: 0)
+    }
+
+    func sectionScrubberTitleForLastSection(sectionScrubber: SectionScrubber) -> String {
+       return Photo.title(index: Photo.NumberOfSections-1)
+    }
 }

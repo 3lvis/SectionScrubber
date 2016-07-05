@@ -8,6 +8,9 @@ public protocol SectionScrubberDelegate: class {
 
 public protocol SectionScrubberDataSource: class {
     func sectionScrubberContainerFrame(sectionScrubber: SectionScrubber) -> CGRect
+
+    func sectionScrubberTitleForFirstSection(sectionScrubber: SectionScrubber) -> String
+    func sectionScrubberTitleForLastSection(sectionScrubber: SectionScrubber) -> String
 }
 
 public class SectionScrubber: UIView {
@@ -193,12 +196,14 @@ public class SectionScrubber: UIView {
             let translation = panGestureRecognizer.translationInView(self)
             var newYPosForSectionScrubber = self.frame.origin.y + translation.y
 
-            if newYPosForSectionScrubber < containingViewFrame.minY {
+            if newYPosForSectionScrubber <= containingViewFrame.minY {
                 newYPosForSectionScrubber = containingViewFrame.minY
+                self.updateSectionTitle(self.dataSource?.sectionScrubberTitleForFirstSection(self) ?? "")
             }
 
-            if newYPosForSectionScrubber > self.containingViewFrame.size.height + self.containingViewFrame.minY - bottomBorderOffset {
+            if newYPosForSectionScrubber >= self.containingViewFrame.size.height + self.containingViewFrame.minY - bottomBorderOffset {
                 newYPosForSectionScrubber = self.containingViewFrame.size.height + self.containingViewFrame.minY - bottomBorderOffset
+                self.updateSectionTitle(self.dataSource?.sectionScrubberTitleForLastSection(self) ?? "")
             }
 
             self.setFrame(atYpos: newYPosForSectionScrubber)
