@@ -55,6 +55,7 @@ public class SectionScrubber: UIView {
 
     lazy var scrubberImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.userInteractionEnabled = true
 
         return imageView
     }()
@@ -114,13 +115,13 @@ public class SectionScrubber: UIView {
 
         self.dragGestureRecognizer.addTarget(self, action: #selector(self.handleScrub))
         self.dragGestureRecognizer.delegate = self
-        self.addGestureRecognizer(self.dragGestureRecognizer)
+        self.scrubberImageView.addGestureRecognizer(self.dragGestureRecognizer)
 
         self.longPressGestureRecognizer.addTarget(self, action: #selector(self.handleScrub))
         self.longPressGestureRecognizer.minimumPressDuration = 0.2
         self.longPressGestureRecognizer.cancelsTouchesInView = false
         self.longPressGestureRecognizer.delegate = self
-        self.addGestureRecognizer(self.longPressGestureRecognizer)
+        self.scrubberImageView.addGestureRecognizer(self.longPressGestureRecognizer)
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -134,15 +135,6 @@ public class SectionScrubber: UIView {
         self.containingViewFrame = self.dataSource?.sectionScrubberContainerFrame(self) ?? CGRectZero
         self.setScrubberFrame()
         self.updateFrame() { _ in }
-    }
-
-    public func updateFrame(completion: ((indexPath: NSIndexPath?) -> Void)) {
-        guard let collectionView = self.collectionView else { return }
-        self.userInteractionOnScrollViewDetected()
-        self.setFrame(atYpos: self.calculateYPosInView())
-        let centerPoint = CGPoint(x: self.center.x + collectionView.contentOffset.x, y: self.center.y + collectionView.contentOffset.y);
-        let indexPath = collectionView.indexPathForItemAtPoint(centerPoint)
-        completion(indexPath: indexPath)
     }
 
     public func updateSectionTitle(title: String) {
@@ -163,55 +155,71 @@ public class SectionScrubber: UIView {
         }
     }
 
+    public func updateFrame(completion: ((indexPath: NSIndexPath?) -> Void)) {
+        guard let collectionView = self.collectionView else { return }
+        self.userInteractionOnScrollViewDetected()
+        self.frame = CGRect(x: 0, y: self.calculateYPosInView(), width: collectionView.frame.width, height: self.viewHeight)
+        let centerPoint = CGPoint(x: self.center.x + collectionView.contentOffset.x, y: self.center.y + collectionView.contentOffset.y);
+        let indexPath = collectionView.indexPathForItemAtPoint(centerPoint)
+        completion(indexPath: indexPath)
+    }
+
     func calculateYPosInView() -> CGFloat {
         guard let originalYOffset = self.originalYOffset else { return 0 }
         guard let collectionView = self.collectionView else { return 0 }
-        let yPosInContentView = collectionView.contentOffset.y + containingViewFrame.minY
-        let percentageInContentView = collectionView.contentSize.height != 0 ? yPosInContentView / collectionView.contentSize.height : 0
+        guard collectionView.contentSize.height != 0 else { return 0 }
+        let yPosInContentView = collectionView.contentOffset.y + self.containingViewFrame.minY
+        let percentageInContentView = yPosInContentView / collectionView.contentSize.height
         let y =  (self.containingViewFrame.height * percentageInContentView) + self.containingViewFrame.minY + collectionView.contentOffset.y - originalYOffset
+        print("*********************")
+        print("yPosInContentView: \(yPosInContentView)")
+        print("percentageInContentView: \(percentageInContentView)")
+        print("y: \(y)")
+        print("*********************")
 
         return y
     }
 
-    func calculateYPosInContentView(forYPosInView yPosInView: CGFloat) -> CGFloat {
-        guard let collectionView = self.collectionView else { return 0 }
-        let percentageInView = containingViewFrame.height != 0 ? (yPosInView - containingViewFrame.minY) / containingViewFrame.height : 0
-        let y = (collectionView.contentSize.height * percentageInView) - containingViewFrame.minY
-
-        return y
-    }
-
+    var originalY: CGFloat?
     func handleScrub(gestureRecognizer: UIGestureRecognizer) {
+        guard let collectionView = self.collectionView else { return }
+        guard self.containingViewFrame.height != 0 else { return }
+        guard let originalYOffset = self.originalYOffset else { return }
+
         self.sectionLabelState = gestureRecognizer.state == .Ended ? .Hidden : .Visible
-        self.userInteractionOnScrollViewDetected()
 
         if let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer where panGestureRecognizer.state == .Began || panGestureRecognizer.state == .Changed {
-
             let translation = panGestureRecognizer.translationInView(self)
-            var newYPosForSectionScrubber = self.frame.origin.y + translation.y
 
-            if newYPosForSectionScrubber < containingViewFrame.minY {
-                newYPosForSectionScrubber = containingViewFrame.minY
+//            print("panGestureRecognizer.state: \(panGestureRecognizer.state.rawValue)")
+//            print("self.scrubberImageView.bounds: \(self.scrubberImageView.bounds)")
+//            print("self.bounds: \(self.bounds)")
+//            print("self.frame: \(self.frame)")
+//            print("offset: \(collectionView.contentOffset)")
+//            print("diff: \((self.frame.origin.y + originalYOffset) - collectionView.contentOffset.y)")
+//            print("----")
+
+            if panGestureRecognizer.state == .Began {
+                self.originalY = self.scrubberImageView.frame.origin.y
             }
 
-            if newYPosForSectionScrubber > self.containingViewFrame.size.height + self.containingViewFrame.minY - bottomBorderOffset {
-                newYPosForSectionScrubber = self.containingViewFrame.size.height + self.containingViewFrame.minY - bottomBorderOffset
+            var y = translation.y + self.originalY!
+
+            if y < self.containingViewFrame.minY {
+                y = self.containingViewFrame.minY
             }
 
-            self.setFrame(atYpos: newYPosForSectionScrubber)
+            if y > self.containingViewFrame.size.height + self.containingViewFrame.minY {
+                y = self.containingViewFrame.size.height + self.containingViewFrame.minY
+            }
 
-            let yPosInContentInContentView = calculateYPosInContentView(forYPosInView: newYPosForSectionScrubber)
+            print("y: \(y)")
 
-            guard let collectionView = self.collectionView else { return }
+            let percentageInView = (y - self.containingViewFrame.minY) / self.containingViewFrame.height
+            let yPosInContentInContentView = (collectionView.contentSize.height * percentageInView) - self.containingViewFrame.minY
             collectionView.setContentOffset(CGPoint(x: 0, y: yPosInContentInContentView), animated: false)
-
-            panGestureRecognizer.setTranslation(CGPoint(x: translation.x, y: 0), inView: self)
+            panGestureRecognizer.setTranslation(CGPoint(x: translation.x, y: y), inView: self)
         }
-    }
-
-    private func setFrame(atYpos yPos: CGFloat) {
-        guard let collectionView = self.collectionView else { return }
-        self.frame = CGRect(x: 0, y: yPos, width: collectionView.frame.width, height: self.viewHeight)
     }
 
     private func setSectionlabelFrame() {

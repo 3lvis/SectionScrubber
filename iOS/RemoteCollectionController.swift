@@ -6,7 +6,7 @@ class RemoteCollectionController: UICollectionViewController {
     lazy var overlayView: UIView = {
         let view = UIView(frame: self.collectionView?.frame ?? CGRectZero)
         view.backgroundColor = UIColor.blackColor()
-        view.alpha = 0.3
+        view.alpha = 0
 
         return view
     }()
