@@ -24,17 +24,11 @@ public class SectionScrubber: UIView {
 
     public var containingViewFrame = CGRectZero
 
-    public var viewHeight = CGFloat(56.0)
+    public var viewHeight = CGFloat(54.0)
 
-    private var scrubberWidth = CGFloat(22.0)
-
-    private var currentSectionTitle = ""
+    private var scrubberWidth = CGFloat(26.0)
 
     private let sectionLabel = SectionLabel()
-
-    private let scrubberGestureWidth = CGFloat(44.0)
-
-    private let bottomBorderOffset = CGFloat(3.4)
 
     private let dragGestureRecognizer = UIPanGestureRecognizer()
 
@@ -56,6 +50,8 @@ public class SectionScrubber: UIView {
     lazy var scrubberImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.userInteractionEnabled = true
+        imageView.contentMode = .ScaleAspectFit
+        imageView.backgroundColor = UIColor.redColor()
 
         return imageView
     }()
@@ -122,6 +118,8 @@ public class SectionScrubber: UIView {
         self.longPressGestureRecognizer.cancelsTouchesInView = false
         self.longPressGestureRecognizer.delegate = self
         self.scrubberImageView.addGestureRecognizer(self.longPressGestureRecognizer)
+
+        self.backgroundColor = UIColor.greenColor()
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -138,12 +136,8 @@ public class SectionScrubber: UIView {
     }
 
     public func updateSectionTitle(title: String) {
-        if self.currentSectionTitle != title {
-            self.currentSectionTitle = title
-
-            self.sectionLabel.setText(title)
-            self.setSectionlabelFrame()
-        }
+        self.sectionLabel.setText(title)
+        self.setSectionlabelFrame()
     }
 
     private func userInteractionOnScrollViewDetected() {
@@ -168,9 +162,9 @@ public class SectionScrubber: UIView {
         guard let originalYOffset = self.originalYOffset else { return 0 }
         guard let collectionView = self.collectionView else { return 0 }
         guard collectionView.contentSize.height != 0 else { return 0 }
-        let yPosInContentView = collectionView.contentOffset.y + self.containingViewFrame.minY
+        let yPosInContentView = collectionView.contentOffset.y
         let percentageInContentView = yPosInContentView / collectionView.contentSize.height
-        let y =  (self.containingViewFrame.height * percentageInContentView) + self.containingViewFrame.minY + collectionView.contentOffset.y - originalYOffset
+        let y =  (self.containingViewFrame.height * percentageInContentView) + collectionView.contentOffset.y - originalYOffset
 
         return y
     }
@@ -195,8 +189,8 @@ public class SectionScrubber: UIView {
                 y = self.containingViewFrame.minY
             }
 
-            if y > self.containingViewFrame.size.height + self.containingViewFrame.minY {
-                y = self.containingViewFrame.size.height + self.containingViewFrame.minY
+            if y > self.containingViewFrame.maxY - self.containingViewFrame.minY {
+                y = self.containingViewFrame.maxY - self.containingViewFrame.minY
             }
 
             let percentageInView = (y - self.containingViewFrame.minY) / self.containingViewFrame.height
@@ -214,9 +208,9 @@ public class SectionScrubber: UIView {
     private func setScrubberFrame() {
         switch self.scrubberState {
         case .Visible:
-            scrubberImageView.frame = CGRectMake(self.containingViewFrame.width - self.scrubberWidth - SectionScrubber.RightEdgeInset, 0, self.scrubberWidth, self.viewHeight)
+            self.scrubberImageView.frame = CGRectMake(self.containingViewFrame.width - self.scrubberWidth - SectionScrubber.RightEdgeInset, 0, self.scrubberWidth, self.viewHeight)
         case .Hidden:
-            scrubberImageView.frame = CGRectMake(self.containingViewFrame.width, 0, self.scrubberWidth, self.viewHeight)
+            self.scrubberImageView.frame = CGRectMake(self.containingViewFrame.width, 0, self.scrubberWidth, self.viewHeight)
         }
     }
 

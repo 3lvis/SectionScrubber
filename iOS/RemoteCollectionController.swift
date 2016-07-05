@@ -104,6 +104,20 @@ extension RemoteCollectionController: SectionScrubberDelegate {
 
 extension RemoteCollectionController: SectionScrubberDataSource {
     func sectionScrubberContainerFrame(sectionScrubber: SectionScrubber) -> CGRect {
-        return self.collectionView?.frame ?? CGRectZero
+        let collectionFrame = self.collectionView?.frame ?? CGRectZero
+        var frame = CGRect(x: 0, y: 0, width: collectionFrame.size.width, height: collectionFrame.size.height)
+
+        let navigationBarHeight = self.navigationController?.navigationBar.frame.size.height ?? 0
+        frame.origin.y += navigationBarHeight
+        frame.size.height -= navigationBarHeight
+
+        let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.height
+        frame.origin.y += statusBarHeight
+        frame.size.height -= statusBarHeight
+
+        let tabBarHeight = self.tabBarController?.tabBar.frame.size.height ?? 0
+        frame.size.height -= tabBarHeight
+
+        return frame
     }
 }
