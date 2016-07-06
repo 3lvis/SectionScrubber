@@ -149,9 +149,7 @@ public class SectionScrubber: UIView {
         }
 
         let centerPoint = CGPoint(x: self.center.x + self.collectionView.contentOffset.x, y: self.center.y + self.collectionView.contentOffset.y);
-        print("scroll center: \(centerPoint)")
         if let indexPath = self.collectionView.indexPathForItemAtPoint(centerPoint) {
-            print("indexPath \(indexPath.row) - \(indexPath.section)")
             if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
                 self.updateSectionTitle(title)
             }
