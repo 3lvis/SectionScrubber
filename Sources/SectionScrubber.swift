@@ -177,23 +177,23 @@ public class SectionScrubber: UIView {
         self.sectionLabelState = gestureRecognizer.state == .Ended ? .Hidden : .Visible
 
         if let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer where panGestureRecognizer.state == .Began || panGestureRecognizer.state == .Changed {
-//            if panGestureRecognizer.state == .Began {
-//                print("()())()()()()()()()()()()()()()()()()()()")
-//                print("()())()()()()()()()()()()()()()()()()()()")
-//                print("()())()()()()()()()()()()()()()()()()()()")
-//                print("()())()()()() BEGANNNN NN NNNN ()()()()()")
-//                print("()())()()()()()()()()()()()()()()()()()()")
-//                print("()())()()()()()()()()()()()()()()()()()()")
-//                print("()())()()()()()()()()()()()()()()()()()()")
-//            } else {
-//                print("()())()()()()()()()()()()()()()()()()()()")
-//                print("()())()()()()()()()()()()()()()()()()()()")
-//                print("()())()()()()()()()()()()()()()()()()()()")
-//                print("()())()()()()() CHANGED  ()()()()()()()()")
-//                print("()())()()()()()()()()()()()()()()()()()()")
-//                print("()())()()()()()()()()()()()()()()()()()()")
-//                print("()())()()()()()()()()()()()()()()()()()()")
-//            }
+            if panGestureRecognizer.state == .Began {
+                print("()())()()()()()()()()()()()()()()()()()()")
+                print("()())()()()()()()()()()()()()()()()()()()")
+                print("()())()()()()()()()()()()()()()()()()()()")
+                print("()())()()()() BEGANNNN NN NNNN ()()()()()")
+                print("()())()()()()()()()()()()()()()()()()()()")
+                print("()())()()()()()()()()()()()()()()()()()()")
+                print("()())()()()()()()()()()()()()()()()()()()")
+            } else {
+                print("()())()()()()()()()()()()()()()()()()()()")
+                print("()())()()()()()()()()()()()()()()()()()()")
+                print("()())()()()()()()()()()()()()()()()()()()")
+                print("()())()()()()() CHANGED  ()()()()()()()()")
+                print("()())()()()()()()()()()()()()()()()()()()")
+                print("()())()()()()()()()()()()()()()()()()()()")
+                print("()())()()()()()()()()()()()()()()()()()()")
+            }
 
             let translation = panGestureRecognizer.translationInView(self)
 
@@ -201,28 +201,32 @@ public class SectionScrubber: UIView {
                 self.originalY = self.scrubberImageView.frame.origin.y
             }
 
-            var y = translation.y + self.originalY!
-
-            if y < self.containingViewFrame.minY {
-                y = self.containingViewFrame.minY
-            }
-
-            if y > self.containingViewFrame.maxY - self.containingViewFrame.minY {
-                y = self.containingViewFrame.maxY - self.containingViewFrame.minY
-            }
-            let percentageInView = (y - self.containingViewFrame.minY) / self.containingViewFrame.height
-            let yPositionInContentInContentView = (collectionView.contentSize.height * percentageInView) - self.containingViewFrame.minY
-            collectionView.setContentOffset(CGPoint(x: 0, y: yPositionInContentInContentView), animated: false)
+            let y = translation.y
+            let containerHeight = self.containingViewFrame.height
+//            let finalY = self.containingViewFrame.height - self.viewHeight - y
+            let percentageInView = y / containerHeight
+            let totalHeight = collectionView.contentSize.height
+            let yOffset = (totalHeight * percentageInView)
+            collectionView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: false)
             panGestureRecognizer.setTranslation(CGPoint(x: translation.x, y: y), inView: self)
 
-//            print("y \(y)")
-//            print("self.containingViewFrame.minY \(self.containingViewFrame.minY)")
-//            print("self.containingViewFrame.height \(self.containingViewFrame.height)")
-//            print("percentageInView \(percentageInView)")
-//            print("collectionView.contentSize.height * percentageInView \(collectionView.contentSize.height * percentageInView)")
-//            print("yPositionInContentInContentView \(yPositionInContentInContentView)")
-//            print("()())()()()()()()()()()()()()()()()()()()")
-//            print(" ")
+            print("translation.y: \(translation.y)")
+            print("self.originalY: \(self.originalY)")
+            print("y: \(y)")
+            print("-")
+            print("containerHeight: \(containerHeight)")
+            print("-")
+            print("self.containingViewFrame.height: \(self.containingViewFrame.height)")
+            print("self.viewHeight: \(self.viewHeight)")
+//            print("finalY: \(finalY)")
+            print("-")
+            print("percentageInView: \(percentageInView)")
+            print("-")
+            print("totalHeight: \(totalHeight)")
+            print("-")
+            print("yOffset: \(yOffset)")
+            print("()())()()()()()()()()()()()()()()()()()()")
+            print(" ")
         }
     }
 
