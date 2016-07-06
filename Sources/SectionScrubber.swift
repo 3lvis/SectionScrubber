@@ -8,6 +8,8 @@ public protocol SectionScrubberDelegate: class {
 
 public protocol SectionScrubberDataSource: class {
     func sectionScrubberContainerFrame(sectionScrubber: SectionScrubber) -> CGRect
+
+    func sectionScrubber(sectionScrubber: SectionScrubber, titleForSectionAtIndexPath indexPath: NSIndexPath) -> String
 }
 
 public class SectionScrubber: UIView {
@@ -182,6 +184,7 @@ public class SectionScrubber: UIView {
             if panGestureRecognizer.state == .Began {
                 self.originalY = self.scrubberImageView.frame.origin.y
             }
+        }
 
             var y = translation.y + self.originalY!
 
