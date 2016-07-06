@@ -75,19 +75,11 @@ class RemoteCollectionController: UICollectionViewController {
     }
 
     override func scrollViewDidScroll(scrollView: UIScrollView) {
-        self.sectionScrubber.updateFrame { indexPath in
-            if let indexPath = indexPath {
-                self.sectionScrubber.updateSectionTitle(Photo.title(index: indexPath.section))
-            }
-        }
+        self.sectionScrubber.updateScrubberPosition()
     }
 
     override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        self.sectionScrubber.updateFrame { indexPath in
-            if let indexPath = indexPath {
-                self.sectionScrubber.updateSectionTitle(Photo.title(index: indexPath.section))
-            }
-        }
+        self.sectionScrubber.updateScrubberPosition()
     }
 }
 
@@ -125,5 +117,9 @@ extension RemoteCollectionController: SectionScrubberDataSource {
         frame.size.height -= scrubberHeight
 
         return frame
+    }
+
+    func sectionScrubber(sectionScrubber: SectionScrubber, titleForSectionAtIndexPath indexPath: NSIndexPath) -> String {
+        return Photo.title(index: indexPath.section)
     }
 }
