@@ -156,15 +156,6 @@ public class SectionScrubber: UIView {
         }
     }
 
-    private func updateSectionTitle(title: String) {
-        if self.currentSectionTitle != title {
-            self.currentSectionTitle = title
-
-            self.sectionLabel.setText(title)
-            self.setSectionlabelFrame()
-        }
-    }
-
     private func userInteractionOnScrollViewDetected() {
         NSObject.cancelPreviousPerformRequestsWithTarget(self, selector: #selector(self.hideScrubber), object: nil)
         self.performSelector(#selector(self.hideScrubber), withObject: nil, afterDelay: 2)
@@ -179,6 +170,15 @@ public class SectionScrubber: UIView {
         let y =  (self.containingViewFrame.height * percentageInContentView) + self.containingViewFrame.minY
 
         return y
+    }
+
+    private func updateSectionTitle(title: String) {
+        if self.currentSectionTitle != title {
+            self.currentSectionTitle = title
+
+            self.sectionLabel.setText(title)
+            self.setSectionlabelFrame()
+        }
     }
 
     func handleScrub(gestureRecognizer: UIGestureRecognizer) {
