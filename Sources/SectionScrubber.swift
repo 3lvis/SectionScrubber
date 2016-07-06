@@ -190,7 +190,8 @@ public class SectionScrubber: UIView {
             let translation = panGestureRecognizer.translationInView(self)
             var newYPosForSectionScrubber = self.frame.origin.y + translation.y
 
-            if newYPosForSectionScrubber <= containingViewFrame.minY {
+            let scrubberReachedTheTopOfTheScreen = newYPosForSectionScrubber <= containingViewFrame.minY
+            if scrubberReachedTheTopOfTheScreen {
                 newYPosForSectionScrubber = containingViewFrame.minY
 
                 let centerPoint = CGPoint(x: self.center.x + self.collectionView.contentOffset.x, y: self.viewHeight / 2 + self.containingViewFrame.minY);
@@ -201,7 +202,8 @@ public class SectionScrubber: UIView {
                 }
             }
 
-            if newYPosForSectionScrubber >= self.containingViewFrame.size.height + self.containingViewFrame.minY - bottomBorderOffset {
+            let scrubberReachedEndOfTheScreen = newYPosForSectionScrubber >= self.containingViewFrame.size.height + self.containingViewFrame.minY - bottomBorderOffset
+            if scrubberReachedEndOfTheScreen {
                 newYPosForSectionScrubber = self.containingViewFrame.size.height + self.containingViewFrame.minY - bottomBorderOffset
 
                 let extraMargin = UIScreen.mainScreen().bounds.height - self.containingViewFrame.height
