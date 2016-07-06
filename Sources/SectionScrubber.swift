@@ -51,7 +51,7 @@ public class SectionScrubber: UIView {
         let imageView = UIImageView()
         imageView.userInteractionEnabled = true
         imageView.contentMode = .ScaleAspectFit
-        imageView.backgroundColor = UIColor.redColor()
+        imageView.backgroundColor = UIColor.redColor().colorWithAlphaComponent(0.5)
 
         return imageView
     }()
@@ -119,7 +119,7 @@ public class SectionScrubber: UIView {
         self.longPressGestureRecognizer.delegate = self
         self.scrubberImageView.addGestureRecognizer(self.longPressGestureRecognizer)
 
-        self.backgroundColor = UIColor.greenColor()
+        self.backgroundColor = UIColor.greenColor().colorWithAlphaComponent(0.5)
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -151,22 +151,21 @@ public class SectionScrubber: UIView {
 
     public func updateFrame(completion: ((indexPath: NSIndexPath?) -> Void)) {
         guard let collectionView = self.collectionView else { return }
+        guard collectionView.contentSize.height != 0 else { return }
+
         self.userInteractionOnScrollViewDetected()
-        self.frame = CGRect(x: 0, y: self.calculateYPosInView(), width: collectionView.frame.width, height: self.viewHeight)
+
+        let initialY = self.containingViewFrame.height
+        let totalHeight = collectionView.contentSize.height - self.containingViewFrame.height
+        let currentY = collectionView.contentOffset.y + self.containingViewFrame.height
+        let currentPercentage = (currentY - initialY) / totalHeight
+        let containerHeight = (self.containingViewFrame.height - self.viewHeight)
+        let y = (containerHeight * currentPercentage) + collectionView.contentOffset.y
+        self.frame = CGRect(x: 0, y: y, width: collectionView.frame.width, height: self.viewHeight)
+
         let centerPoint = CGPoint(x: self.center.x + collectionView.contentOffset.x, y: self.center.y + collectionView.contentOffset.y);
         let indexPath = collectionView.indexPathForItemAtPoint(centerPoint)
         completion(indexPath: indexPath)
-    }
-
-    func calculateYPosInView() -> CGFloat {
-        guard let originalYOffset = self.originalYOffset else { return 0 }
-        guard let collectionView = self.collectionView else { return 0 }
-        guard collectionView.contentSize.height != 0 else { return 0 }
-        let yPosInContentView = collectionView.contentOffset.y
-        let percentageInContentView = yPosInContentView / collectionView.contentSize.height
-        let y =  (self.containingViewFrame.height * percentageInContentView) + collectionView.contentOffset.y - originalYOffset
-
-        return y
     }
 
     var originalY: CGFloat?
@@ -177,6 +176,24 @@ public class SectionScrubber: UIView {
         self.sectionLabelState = gestureRecognizer.state == .Ended ? .Hidden : .Visible
 
         if let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer where panGestureRecognizer.state == .Began || panGestureRecognizer.state == .Changed {
+//            if panGestureRecognizer.state == .Began {
+//                print("()())()()()()()()()()()()()()()()()()()()")
+//                print("()())()()()()()()()()()()()()()()()()()()")
+//                print("()())()()()()()()()()()()()()()()()()()()")
+//                print("()())()()()() BEGANNNN NN NNNN ()()()()()")
+//                print("()())()()()()()()()()()()()()()()()()()()")
+//                print("()())()()()()()()()()()()()()()()()()()()")
+//                print("()())()()()()()()()()()()()()()()()()()()")
+//            } else {
+//                print("()())()()()()()()()()()()()()()()()()()()")
+//                print("()())()()()()()()()()()()()()()()()()()()")
+//                print("()())()()()()()()()()()()()()()()()()()()")
+//                print("()())()()()()() CHANGED  ()()()()()()()()")
+//                print("()())()()()()()()()()()()()()()()()()()()")
+//                print("()())()()()()()()()()()()()()()()()()()()")
+//                print("()())()()()()()()()()()()()()()()()()()()")
+//            }
+
             let translation = panGestureRecognizer.translationInView(self)
 
             if panGestureRecognizer.state == .Began {
@@ -192,11 +209,19 @@ public class SectionScrubber: UIView {
             if y > self.containingViewFrame.maxY - self.containingViewFrame.minY {
                 y = self.containingViewFrame.maxY - self.containingViewFrame.minY
             }
-
             let percentageInView = (y - self.containingViewFrame.minY) / self.containingViewFrame.height
-            let yPosInContentInContentView = (collectionView.contentSize.height * percentageInView) - self.containingViewFrame.minY
-            collectionView.setContentOffset(CGPoint(x: 0, y: yPosInContentInContentView), animated: false)
+            let yPositionInContentInContentView = (collectionView.contentSize.height * percentageInView) - self.containingViewFrame.minY
+            collectionView.setContentOffset(CGPoint(x: 0, y: yPositionInContentInContentView), animated: false)
             panGestureRecognizer.setTranslation(CGPoint(x: translation.x, y: y), inView: self)
+
+//            print("y \(y)")
+//            print("self.containingViewFrame.minY \(self.containingViewFrame.minY)")
+//            print("self.containingViewFrame.height \(self.containingViewFrame.height)")
+//            print("percentageInView \(percentageInView)")
+//            print("collectionView.contentSize.height * percentageInView \(collectionView.contentSize.height * percentageInView)")
+//            print("yPositionInContentInContentView \(yPositionInContentInContentView)")
+//            print("()())()()()()()()()()()()()()()()()()()()")
+//            print(" ")
         }
     }
 

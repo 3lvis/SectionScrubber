@@ -23,6 +23,9 @@ class RemoteCollectionController: UICollectionViewController {
         return scrubber
     }()
 
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -107,7 +110,11 @@ extension RemoteCollectionController: SectionScrubberDataSource {
         let collectionFrame = self.collectionView?.frame ?? CGRectZero
         var frame = CGRect(x: 0, y: 0, width: collectionFrame.size.width, height: collectionFrame.size.height)
 
-        let navigationBarHeight = self.navigationController?.navigationBar.frame.size.height ?? 0
+        var navigationBarHeight = self.navigationController?.navigationBar.frame.size.height ?? 0
+        let navigationBarHidden = self.navigationController?.navigationBar.hidden ?? true
+        if navigationBarHidden {
+            navigationBarHeight = 0
+        }
         frame.origin.y += navigationBarHeight
         frame.size.height -= navigationBarHeight
 
