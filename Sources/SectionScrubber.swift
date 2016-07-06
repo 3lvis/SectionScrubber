@@ -26,8 +26,6 @@ public class SectionScrubber: UIView {
 
     public var containingViewFrame = UIScreen.mainScreen().bounds
 
-    public var containingViewContentSize = UIScreen.mainScreen().bounds.size
-
     public var viewHeight = CGFloat(56.0)
 
     private var scrubberWidth = CGFloat(22.0)
@@ -135,7 +133,6 @@ public class SectionScrubber: UIView {
 
     override public func layoutSubviews() {
         self.containingViewFrame = self.dataSource?.sectionScrubberContainerFrame(self) ?? CGRectZero
-        self.containingViewContentSize = self.collectionView.contentSize
         self.updateScrubberPosition()
 
         self.setScrubberFrame()
@@ -152,8 +149,9 @@ public class SectionScrubber: UIView {
         }
 
         let centerPoint = CGPoint(x: self.center.x + self.collectionView.contentOffset.x, y: self.center.y + self.collectionView.contentOffset.y);
-        print("centerPoint: \(centerPoint)")
+        print("scroll center: \(centerPoint)")
         if let indexPath = self.collectionView.indexPathForItemAtPoint(centerPoint) {
+            print("indexPath \(indexPath.row) - \(indexPath.section)")
             if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
                 self.updateSectionTitle(title)
             }
@@ -179,15 +177,10 @@ public class SectionScrubber: UIView {
     }
 
     func calculateYPosInView(forYPosInContentView yPosInContentView: CGFloat) -> CGFloat {
-        let percentageInContentView = yPosInContentView / self.containingViewContentSize.height
+        let percentageInContentView = yPosInContentView / self.collectionView.contentSize.height
         let y =  (self.containingViewFrame.height * percentageInContentView) + self.containingViewFrame.minY
 
         return y
-    }
-
-    func calculateYPosInContentView(forYPosInView yPosInView: CGFloat) -> CGFloat {
-        let percentageInView = (yPosInView - containingViewFrame.minY) / containingViewFrame.height
-        return (containingViewContentSize.height * percentageInView) - containingViewFrame.minY
     }
 
     func handleScrub(gestureRecognizer: UIGestureRecognizer) {
@@ -202,10 +195,8 @@ public class SectionScrubber: UIView {
             if newYPosForSectionScrubber <= containingViewFrame.minY {
                 newYPosForSectionScrubber = containingViewFrame.minY
 
-                print("first called")
                 let centerPoint = CGPoint(x: self.center.x + self.collectionView.contentOffset.x, y: self.viewHeight / 2 + self.containingViewFrame.minY);
                 if let indexPath = self.collectionView.indexPathForItemAtPoint(centerPoint) {
-                    print("first: \(indexPath)")
                     if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
                         self.updateSectionTitle(title)
                     }
@@ -215,10 +206,9 @@ public class SectionScrubber: UIView {
             if newYPosForSectionScrubber >= self.containingViewFrame.size.height + self.containingViewFrame.minY - bottomBorderOffset {
                 newYPosForSectionScrubber = self.containingViewFrame.size.height + self.containingViewFrame.minY - bottomBorderOffset
 
-                let centerPoint = CGPoint(x: self.center.x + self.collectionView.contentOffset.x, y: self.collectionView.contentSize.height - (self.viewHeight / 2) - bottomBorderOffset);
-                print(centerPoint)
+                let extraMargin = UIScreen.mainScreen().bounds.height - self.containingViewFrame.height
+                let centerPoint = CGPoint(x: self.center.x + self.collectionView.contentOffset.x, y: self.collectionView.contentSize.height - (self.viewHeight / 2) - bottomBorderOffset - extraMargin);
                 if let indexPath = self.collectionView.indexPathForItemAtPoint(centerPoint) {
-                    print("last: \(indexPath)")
                     if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
                         self.updateSectionTitle(title)
                     }
@@ -233,6 +223,11 @@ public class SectionScrubber: UIView {
 
             panGestureRecognizer.setTranslation(CGPoint(x: translation.x, y: 0), inView: self)
         }
+    }
+
+    func calculateYPosInContentView(forYPosInView yPosInView: CGFloat) -> CGFloat {
+        let percentageInView = (yPosInView - containingViewFrame.minY) / containingViewFrame.height
+        return (self.collectionView.contentSize.height * percentageInView)
     }
 
     private func setFrame(atYpos yPos: CGFloat) {
