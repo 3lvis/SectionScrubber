@@ -68,11 +68,23 @@ class RemoteCollectionController: UICollectionViewController {
     }
 
     override func scrollViewDidScroll(scrollView: UIScrollView) {
-        self.sectionScrubber.updateScrubberPosition()
+        var overlayFrame = self.overlayView.frame
+        overlayFrame.origin.y = scrollView.contentOffset.y
+        self.overlayView.frame = overlayFrame
+
+        self.sectionScrubber.updateFrame { indexPath in
+            if let indexPath = indexPath {
+                self.sectionScrubber.updateSectionTitle(Photo.title(index: indexPath.section))
+            }
+        }
     }
 
     override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        self.sectionScrubber.updateScrubberPosition()
+        self.sectionScrubber.updateFrame { indexPath in
+            if let indexPath = indexPath {
+                self.sectionScrubber.updateSectionTitle(Photo.title(index: indexPath.section))
+            }
+        }
     }
 }
 
@@ -107,9 +119,5 @@ extension RemoteCollectionController: SectionScrubberDataSource {
         frame.size.height -= tabBarHeight
 
         return frame
-    }
-
-    func sectionScrubber(sectionScrubber: SectionScrubber, titleForSectionAtIndexPath indexPath: NSIndexPath) -> String {
-        return Photo.title(index: indexPath.section)
     }
 }
