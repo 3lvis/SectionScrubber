@@ -22,7 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let remoteController = RemoteCollectionController(collectionViewLayout: layout)
         remoteController.title = "Remote"
         let remoteNavigationController = UINavigationController(rootViewController: remoteController)
-        remoteNavigationController.navigationBarHidden = true
 
 //        let tabBarController = UITabBarController()
 //        tabBarController.viewControllers = [remoteNavigationController]

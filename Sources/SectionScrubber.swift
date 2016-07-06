@@ -152,15 +152,16 @@ public class SectionScrubber: UIView {
     public func updateFrame(completion: ((indexPath: NSIndexPath?) -> Void)) {
         guard let collectionView = self.collectionView else { return }
         guard collectionView.contentSize.height != 0 else { return }
+        guard let originalYOffset = self.originalYOffset else { return }
 
         self.userInteractionOnScrollViewDetected()
 
         let initialY = self.containingViewFrame.height
         let totalHeight = collectionView.contentSize.height - self.containingViewFrame.height
-        let currentY = collectionView.contentOffset.y + self.containingViewFrame.height
+        let currentY = (collectionView.contentOffset.y - originalYOffset) + self.containingViewFrame.height
         let currentPercentage = (currentY - initialY) / totalHeight
         let containerHeight = (self.containingViewFrame.height - self.viewHeight)
-        let y = (containerHeight * currentPercentage) + collectionView.contentOffset.y
+        let y = (containerHeight * currentPercentage) + collectionView.contentOffset.y - originalYOffset
         self.frame = CGRect(x: 0, y: y, width: collectionView.frame.width, height: self.viewHeight)
 
         let centerPoint = CGPoint(x: self.center.x + collectionView.contentOffset.x, y: self.center.y + collectionView.contentOffset.y);
