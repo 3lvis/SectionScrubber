@@ -164,12 +164,12 @@ public class SectionScrubber: UIView {
         let y = (containerHeight * currentPercentage) + collectionView.contentOffset.y - originalYOffset
         self.frame = CGRect(x: 0, y: y, width: collectionView.frame.width, height: self.viewHeight)
 
-        let centerPoint = CGPoint(x: self.center.x + collectionView.contentOffset.x, y: self.center.y + collectionView.contentOffset.y);
+        let centerPoint = CGPoint(x: self.center.x, y: self.center.y);
+        print("centerPoint: \(centerPoint)")
         let indexPath = collectionView.indexPathForItemAtPoint(centerPoint)
         completion(indexPath: indexPath)
     }
 
-    var originalY: CGFloat?
     func handleScrub(gestureRecognizer: UIGestureRecognizer) {
         guard let collectionView = self.collectionView else { return }
         guard self.containingViewFrame.height != 0 else { return }
@@ -177,6 +177,8 @@ public class SectionScrubber: UIView {
         self.sectionLabelState = gestureRecognizer.state == .Ended ? .Hidden : .Visible
 
         if let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer where panGestureRecognizer.state == .Began || panGestureRecognizer.state == .Changed {
+            let translation = panGestureRecognizer.translationInView(self)
+
             if panGestureRecognizer.state == .Began {
                 print("()())()()()()()()()()()()()()()()()()()()")
                 print("()())()()()()()()()()()()()()()()()()()()")
@@ -195,30 +197,21 @@ public class SectionScrubber: UIView {
                 print("()())()()()()()()()()()()()()()()()()()()")
             }
 
-            let translation = panGestureRecognizer.translationInView(self)
-
-            if panGestureRecognizer.state == .Began {
-                self.originalY = self.scrubberImageView.frame.origin.y
-            }
-
             let y = translation.y
-            let containerHeight = self.containingViewFrame.height
-//            let finalY = self.containingViewFrame.height - self.viewHeight - y
+            let containerHeight = self.containingViewFrame.height - self.viewHeight
             let percentageInView = y / containerHeight
-            let totalHeight = collectionView.contentSize.height
+            let totalHeight = collectionView.contentSize.height - self.containingViewFrame.height
             let yOffset = (totalHeight * percentageInView)
             collectionView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: false)
-            panGestureRecognizer.setTranslation(CGPoint(x: translation.x, y: y), inView: self)
 
+            print("collectionView.contentSize.height: \(collectionView.contentSize.height)")
             print("translation.y: \(translation.y)")
-            print("self.originalY: \(self.originalY)")
             print("y: \(y)")
             print("-")
             print("containerHeight: \(containerHeight)")
             print("-")
             print("self.containingViewFrame.height: \(self.containingViewFrame.height)")
             print("self.viewHeight: \(self.viewHeight)")
-//            print("finalY: \(finalY)")
             print("-")
             print("percentageInView: \(percentageInView)")
             print("-")

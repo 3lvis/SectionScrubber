@@ -22,9 +22,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let remoteController = RemoteCollectionController(collectionViewLayout: layout)
         remoteController.title = "Remote"
         let remoteNavigationController = UINavigationController(rootViewController: remoteController)
+        remoteNavigationController.navigationBarHidden = true
 
-        let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [remoteNavigationController]
+//        let tabBarController = UITabBarController()
+//        tabBarController.viewControllers = [remoteNavigationController]
 
         if AppDelegate.IsLightStatusBar {
             UINavigationBar.appearance().barTintColor = UIColor.orangeColor()
@@ -32,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             remoteNavigationController.navigationBar.barStyle = .Black
         }
 
-        self.window?.rootViewController = tabBarController
+        self.window?.rootViewController = remoteNavigationController
         self.window!.makeKeyAndVisible()
 
         return true

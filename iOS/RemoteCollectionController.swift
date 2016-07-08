@@ -42,6 +42,10 @@ class RemoteCollectionController: UICollectionViewController {
         self.collectionView?.addSubview(self.sectionScrubber)
     }
 
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
+
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return self.sections.count
     }
