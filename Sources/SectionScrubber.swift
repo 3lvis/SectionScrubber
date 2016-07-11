@@ -164,7 +164,8 @@ public class SectionScrubber: UIView {
         let y = (containerHeight * currentPercentage) + collectionView.contentOffset.y - originalYOffset
         self.frame = CGRect(x: 0, y: y, width: collectionView.frame.width, height: self.viewHeight)
 
-        let centerPoint = CGPoint(x: self.center.x, y: self.center.y);
+        let rightMargin = CGFloat(5)
+        let centerPoint = CGPoint(x: rightMargin, y: self.center.y);
         let indexPath = collectionView.indexPathForItemAtPoint(centerPoint)
         completion(indexPath: indexPath)
     }
