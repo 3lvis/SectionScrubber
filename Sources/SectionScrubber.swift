@@ -165,7 +165,6 @@ public class SectionScrubber: UIView {
         self.frame = CGRect(x: 0, y: y, width: collectionView.frame.width, height: self.viewHeight)
 
         let centerPoint = CGPoint(x: self.center.x, y: self.center.y);
-        print("centerPoint: \(centerPoint)")
         let indexPath = collectionView.indexPathForItemAtPoint(centerPoint)
         completion(indexPath: indexPath)
     }
@@ -179,47 +178,38 @@ public class SectionScrubber: UIView {
         if let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer where panGestureRecognizer.state == .Began || panGestureRecognizer.state == .Changed {
             let translation = panGestureRecognizer.translationInView(self)
 
-            if panGestureRecognizer.state == .Began {
-                print("()())()()()()()()()()()()()()()()()()()()")
-                print("()())()()()()()()()()()()()()()()()()()()")
-                print("()())()()()()()()()()()()()()()()()()()()")
-                print("()())()()()() BEGANNNN NN NNNN ()()()()()")
-                print("()())()()()()()()()()()()()()()()()()()()")
-                print("()())()()()()()()()()()()()()()()()()()()")
-                print("()())()()()()()()()()()()()()()()()()()()")
-            } else {
-                print("()())()()()()()()()()()()()()()()()()()()")
-                print("()())()()()()()()()()()()()()()()()()()()")
-                print("()())()()()()()()()()()()()()()()()()()()")
-                print("()())()()()()() CHANGED  ()()()()()()()()")
-                print("()())()()()()()()()()()()()()()()()()()()")
-                print("()())()()()()()()()()()()()()()()()()()()")
-                print("()())()()()()()()()()()()()()()()()()()()")
-            }
-
             let y = translation.y
             let containerHeight = self.containingViewFrame.height - self.viewHeight
-            let percentageInView = y / containerHeight
+            var percentageInView = y / containerHeight
+
+            if percentageInView < 0 {
+                percentageInView = 0
+            }
+
+            if percentageInView > 1 {
+                percentageInView = 1
+            }
+
             let totalHeight = collectionView.contentSize.height - self.containingViewFrame.height
             let yOffset = (totalHeight * percentageInView)
             collectionView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: false)
 
-            print("collectionView.contentSize.height: \(collectionView.contentSize.height)")
-            print("translation.y: \(translation.y)")
-            print("y: \(y)")
-            print("-")
-            print("containerHeight: \(containerHeight)")
-            print("-")
-            print("self.containingViewFrame.height: \(self.containingViewFrame.height)")
-            print("self.viewHeight: \(self.viewHeight)")
-            print("-")
-            print("percentageInView: \(percentageInView)")
-            print("-")
-            print("totalHeight: \(totalHeight)")
-            print("-")
-            print("yOffset: \(yOffset)")
-            print("()())()()()()()()()()()()()()()()()()()()")
-            print(" ")
+//            print("collectionView.contentSize.height: \(collectionView.contentSize.height)")
+//            print("translation.y: \(translation.y)")
+//            print("y: \(y)")
+//            print("-")
+//            print("containerHeight: \(containerHeight)")
+//            print("-")
+//            print("self.containingViewFrame.height: \(self.containingViewFrame.height)")
+//            print("self.viewHeight: \(self.viewHeight)")
+//            print("-")
+//            print("percentageInView: \(percentageInView)")
+//            print("-")
+//            print("totalHeight: \(totalHeight)")
+//            print("-")
+//            print("yOffset: \(yOffset)")
+//            print("()())()()()()()()()()()()()()()()()()()()")
+//            print(" ")
         }
     }
 
