@@ -8,6 +8,8 @@ public protocol SectionScrubberDelegate: class {
 
 public protocol SectionScrubberDataSource: class {
     func sectionScrubberContainerFrame(sectionScrubber: SectionScrubber) -> CGRect
+
+    func sectionScrubber(sectionScrubber: SectionScrubber, titleForSectionAtIndexPath indexPath: NSIndexPath) -> String
 }
 
 public class SectionScrubber: UIView {
@@ -17,6 +19,14 @@ public class SectionScrubber: UIView {
     }
 
     static let RightEdgeInset: CGFloat = 5.0
+
+    /*
+     When calculating the NSIndexPath for the current scrubber position we need to use a x and a y coordinate,
+     the y coordinate is provided by how far you have scrubber the scrubber, meanwhile we use a hardcoded x since
+     using 5 would ensure us that most of the time the first item in each row will be selected to retreive the
+     index path at certain location.
+    */
+    static let initialXCoordinateToCalculateIndexPath = CGFloat(5)
 
     public var delegate: SectionScrubberDelegate?
 
@@ -132,7 +142,7 @@ public class SectionScrubber: UIView {
         }
         self.containingViewFrame = self.dataSource?.sectionScrubberContainerFrame(self) ?? CGRectZero
         self.updateScrubberFrame()
-        self.updateFrame() { _ in }
+        self.updateScrubberPosition()
     }
 
     public func updateSectionTitle(title: String) {
@@ -149,7 +159,7 @@ public class SectionScrubber: UIView {
         }
     }
 
-    public func updateFrame(completion: ((indexPath: NSIndexPath?) -> Void)) {
+    public func updateScrubberPosition() {
         guard let collectionView = self.collectionView else { return }
         guard collectionView.contentSize.height != 0 else { return }
         guard let originalYOffset = self.originalYOffset else { return }
@@ -164,10 +174,12 @@ public class SectionScrubber: UIView {
         let y = (containerHeight * currentPercentage) + collectionView.contentOffset.y - originalYOffset
         self.frame = CGRect(x: 0, y: y, width: collectionView.frame.width, height: self.viewHeight)
 
-        let rightMargin = CGFloat(5)
-        let centerPoint = CGPoint(x: rightMargin, y: self.center.y);
-        let indexPath = collectionView.indexPathForItemAtPoint(centerPoint)
-        completion(indexPath: indexPath)
+        let centerPoint = CGPoint(x: SectionScrubber.initialXCoordinateToCalculateIndexPath, y: self.center.y);
+        if let indexPath = collectionView.indexPathForItemAtPoint(centerPoint) {
+            if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
+                self.updateSectionTitle(title)
+            }
+        }
     }
 
     var startOffset = CGFloat(0)
@@ -192,11 +204,25 @@ public class SectionScrubber: UIView {
             let minimumPercentage = self.originalYOffset! / totalHeight
             if percentageInView < minimumPercentage {
                 percentageInView = minimumPercentage
+
+                let centerPoint = CGPoint(x: SectionScrubber.initialXCoordinateToCalculateIndexPath, y: totalHeight * minimumPercentage);
+                if let indexPath = collectionView.indexPathForItemAtPoint(centerPoint) {
+                    if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
+                        self.updateSectionTitle(title)
+                    }
+                }
             }
 
             let maximumPercentage = 1 + minimumPercentage
             if percentageInView > maximumPercentage {
                 percentageInView = maximumPercentage
+
+                let centerPoint = CGPoint(x: SectionScrubber.initialXCoordinateToCalculateIndexPath, y: totalHeight * maximumPercentage);
+                if let indexPath = collectionView.indexPathForItemAtPoint(centerPoint) {
+                    if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
+                        self.updateSectionTitle(title)
+                    }
+                }
             }
 
             let yOffset = (totalHeight * percentageInView)
