@@ -13,12 +13,12 @@ public protocol SectionScrubberDataSource: class {
 }
 
 public class SectionScrubber: UIView {
-    enum VisibilityState {
+    private enum VisibilityState {
         case Hidden
         case Visible
     }
 
-    static let RightEdgeInset: CGFloat = 5.0
+    private static let RightEdgeInset: CGFloat = 5.0
 
     /*
      When calculating the NSIndexPath for the current scrubber position we need to use a x and a y coordinate,
@@ -26,23 +26,29 @@ public class SectionScrubber: UIView {
      using 5 would ensure us that most of the time the first item in each row will be selected to retreive the
      index path at certain location.
     */
-    static let initialXCoordinateToCalculateIndexPath = CGFloat(5)
+    private static let initialXCoordinateToCalculateIndexPath = CGFloat(5)
 
     public var delegate: SectionScrubberDelegate?
 
     public var dataSource: SectionScrubberDataSource?
 
-    public var containingViewFrame = CGRectZero
+    private var containingViewFrame = CGRectZero
 
-    public var viewHeight = CGFloat(54.0)
+    private var viewHeight = CGFloat(54.0)
 
     private var scrubberWidth = CGFloat(26.0)
 
     private let sectionLabel = SectionLabel()
 
-    private let dragGestureRecognizer = UIPanGestureRecognizer()
+    private var startOffset = CGFloat(0)
 
-    private let longPressGestureRecognizer = UILongPressGestureRecognizer()
+    private lazy var dragGestureRecognizer: UIPanGestureRecognizer = {
+        UIPanGestureRecognizer()
+    }()
+
+    private lazy var longPressGestureRecognizer: UILongPressGestureRecognizer = {
+        UILongPressGestureRecognizer()
+    }()
 
     private var originalYOffset: CGFloat?
 
@@ -57,7 +63,7 @@ public class SectionScrubber: UIView {
         }
     }
 
-    lazy var scrubberImageView: UIImageView = {
+    private lazy var scrubberImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.userInteractionEnabled = true
         imageView.contentMode = .ScaleAspectFit
@@ -147,7 +153,7 @@ public class SectionScrubber: UIView {
         self.updateScrubberPosition()
     }
 
-    public func updateSectionTitle(title: String) {
+    private func updateSectionTitle(title: String) {
         self.sectionLabel.setText(title)
         self.setSectionlabelFrame()
     }
@@ -184,7 +190,6 @@ public class SectionScrubber: UIView {
         }
     }
 
-    var startOffset = CGFloat(0)
     func handleScrub(gestureRecognizer: UIGestureRecognizer) {
         guard let collectionView = self.collectionView else { return }
         guard self.containingViewFrame.height != 0 else { return }
