@@ -121,13 +121,13 @@ public class SectionScrubber: UIView {
 
         self.dragGestureRecognizer.addTarget(self, action: #selector(self.handleScrub))
         self.dragGestureRecognizer.delegate = self
-        self.addGestureRecognizer(self.dragGestureRecognizer)
+        self.scrubberImageView.addGestureRecognizer(self.dragGestureRecognizer)
 
         self.longPressGestureRecognizer.addTarget(self, action: #selector(self.handleScrub))
         self.longPressGestureRecognizer.minimumPressDuration = 0.2
         self.longPressGestureRecognizer.cancelsTouchesInView = false
         self.longPressGestureRecognizer.delegate = self
-        self.addGestureRecognizer(self.longPressGestureRecognizer)
+        self.scrubberImageView.addGestureRecognizer(self.longPressGestureRecognizer)
 
         self.backgroundColor = UIColor.greenColor().colorWithAlphaComponent(0.5)
     }
