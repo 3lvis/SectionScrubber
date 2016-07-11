@@ -170,7 +170,7 @@ public class SectionScrubber: UIView {
         completion(indexPath: indexPath)
     }
 
-    var startOffset: CGFloat?
+    var startOffset = CGFloat(0)
     func handleScrub(gestureRecognizer: UIGestureRecognizer) {
         guard let collectionView = self.collectionView else { return }
         guard self.containingViewFrame.height != 0 else { return }
@@ -182,22 +182,21 @@ public class SectionScrubber: UIView {
             let translation = gesture.translationInView(self)
 
             if gesture.state == .Began {
-                self.startOffset = self.collectionView?.contentOffset.y
+                self.startOffset = collectionView.contentOffset.y
             }
 
-            let y = translation.y
             let containerHeight = self.containingViewFrame.height - self.viewHeight
             let totalHeight = collectionView.contentSize.height - self.containingViewFrame.height
+            var percentageInView = (translation.y / containerHeight) + (self.startOffset / totalHeight)
 
-            let offset = self.startOffset ?? 0
-            var percentageInView = (y / containerHeight) + (offset / totalHeight)
-
-            if percentageInView < 0 {
-                percentageInView = 0
+            let minimumPercentage = self.originalYOffset! / totalHeight
+            if percentageInView < minimumPercentage {
+                percentageInView = minimumPercentage
             }
 
-            if percentageInView > 1 {
-                percentageInView = 1
+            let maximumPercentage = 1 + minimumPercentage
+            if percentageInView > maximumPercentage {
+                percentageInView = maximumPercentage
             }
 
             let yOffset = (totalHeight * percentageInView)
