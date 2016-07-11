@@ -99,6 +99,7 @@ extension RemoteCollectionController: SectionScrubberDataSource {
         let collectionFrame = self.collectionView?.frame ?? CGRectZero
         var frame = CGRect(x: 0, y: 0, width: collectionFrame.size.width, height: collectionFrame.size.height)
 
+        // For some reason this is returning 44, even when the navigation controller is in landscape. #killme
         var navigationBarHeight = self.navigationController?.navigationBar.frame.size.height ?? 0
         let navigationBarHidden = self.navigationController?.navigationBar.hidden ?? true
         if navigationBarHidden {
