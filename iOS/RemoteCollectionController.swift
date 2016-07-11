@@ -4,8 +4,7 @@ class RemoteCollectionController: UICollectionViewController {
     var sections = Photo.constructRemoteElements()
 
     lazy var overlayView: UIView = {
-        // Needs a frame, otherwise it won't show up.
-        let view = UIView(frame: self.collectionView?.frame ?? CGRectZero)
+        let view = UIView()
         view.backgroundColor = UIColor.blackColor()
         view.alpha = 0
 
@@ -69,7 +68,7 @@ class RemoteCollectionController: UICollectionViewController {
     }
 
     override func scrollViewDidScroll(scrollView: UIScrollView) {
-        var overlayFrame = self.overlayView.frame
+        var overlayFrame = self.collectionView?.frame ?? CGRectZero
         overlayFrame.origin.y = scrollView.contentOffset.y
         self.overlayView.frame = overlayFrame
 

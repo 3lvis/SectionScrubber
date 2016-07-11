@@ -137,6 +137,8 @@ public class SectionScrubber: UIView {
     }
 
     override public func layoutSubviews() {
+        super.layoutSubviews()
+
         if self.originalYOffset == nil {
             self.originalYOffset = self.collectionView?.bounds.origin.y ?? 0
         }
