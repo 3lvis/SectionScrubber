@@ -4,7 +4,8 @@ class RemoteCollectionController: UICollectionViewController {
     var sections = Photo.constructRemoteElements()
 
     lazy var overlayView: UIView = {
-        let view = UIView()
+        // Needs a frame, otherwise it won't show up.
+        let view = UIView(frame: self.collectionView?.frame ?? CGRectZero)
         view.backgroundColor = UIColor.blackColor()
         view.alpha = 0
 
