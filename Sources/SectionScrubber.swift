@@ -111,13 +111,13 @@ public class SectionScrubber: UIView {
 
         self.dragGestureRecognizer.addTarget(self, action: #selector(self.handleScrub))
         self.dragGestureRecognizer.delegate = self
-        self.scrubberImageView.addGestureRecognizer(self.dragGestureRecognizer)
+        self.addGestureRecognizer(self.dragGestureRecognizer)
 
         self.longPressGestureRecognizer.addTarget(self, action: #selector(self.handleScrub))
         self.longPressGestureRecognizer.minimumPressDuration = 0.2
         self.longPressGestureRecognizer.cancelsTouchesInView = false
         self.longPressGestureRecognizer.delegate = self
-        self.scrubberImageView.addGestureRecognizer(self.longPressGestureRecognizer)
+        self.addGestureRecognizer(self.longPressGestureRecognizer)
 
         self.backgroundColor = UIColor.greenColor().colorWithAlphaComponent(0.5)
     }
@@ -131,7 +131,7 @@ public class SectionScrubber: UIView {
             self.originalYOffset = self.collectionView?.bounds.origin.y ?? 0
         }
         self.containingViewFrame = self.dataSource?.sectionScrubberContainerFrame(self) ?? CGRectZero
-        self.setScrubberFrame()
+        self.updateScrubberFrame()
         self.updateFrame() { _ in }
     }
 
@@ -218,7 +218,7 @@ public class SectionScrubber: UIView {
         self.sectionLabel.frame = CGRectMake(self.frame.width - rightOffset - self.sectionLabel.sectionlabelWidth, 0, self.sectionLabel.sectionlabelWidth, viewHeight)
     }
 
-    private func setScrubberFrame() {
+    private func updateScrubberFrame() {
         switch self.scrubberState {
         case .Visible:
             self.scrubberImageView.frame = CGRectMake(self.containingViewFrame.width - self.scrubberWidth - SectionScrubber.RightEdgeInset, 0, self.scrubberWidth, self.viewHeight)
@@ -246,7 +246,7 @@ public class SectionScrubber: UIView {
 
     private func updateSectionScrubberFrame() {
         UIView.animateWithDuration(0.2, delay: 0.0, options: [.AllowUserInteraction, .BeginFromCurrentState], animations: {
-            self.setScrubberFrame()
+            self.updateScrubberFrame()
             }, completion: nil)
     }
 
