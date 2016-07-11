@@ -284,6 +284,30 @@ public class SectionScrubber: UIView {
         }
         self.sectionLabel.hide()
     }
+
+    public func containerFrameForController(controller: UIViewController) -> CGRect {
+        let collectionFrame = self.collectionView?.frame ?? CGRectZero
+        var frame = CGRect(x: 0, y: 0, width: collectionFrame.size.width, height: collectionFrame.size.height)
+
+        // For some reason this is returning 44, even when the navigation controller is in landscape. #killme
+        var navigationBarHeight = controller.navigationController?.navigationBar.frame.size.height ?? 0
+        let navigationBarHidden = controller.navigationController?.navigationBar.hidden ?? true
+        if navigationBarHidden {
+            navigationBarHeight = 0
+        }
+        frame.origin.y += navigationBarHeight
+        frame.size.height -= navigationBarHeight
+
+        let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.height
+        frame.origin.y += statusBarHeight
+        frame.size.height -= statusBarHeight
+
+        let tabBarHeight = controller.tabBarController?.tabBar.frame.size.height ?? 0
+        frame.size.height -= tabBarHeight
+
+        return frame
+
+    }
 }
 
 extension SectionScrubber: UIGestureRecognizerDelegate {
