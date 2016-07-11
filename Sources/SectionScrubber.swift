@@ -67,7 +67,6 @@ public class SectionScrubber: UIView {
         let imageView = UIImageView()
         imageView.userInteractionEnabled = true
         imageView.contentMode = .ScaleAspectFit
-        imageView.backgroundColor = UIColor.redColor().colorWithAlphaComponent(0.5)
 
         return imageView
     }()
@@ -134,8 +133,6 @@ public class SectionScrubber: UIView {
         self.longPressGestureRecognizer.cancelsTouchesInView = false
         self.longPressGestureRecognizer.delegate = self
         self.scrubberImageView.addGestureRecognizer(self.longPressGestureRecognizer)
-
-        self.backgroundColor = UIColor.greenColor().colorWithAlphaComponent(0.5)
     }
 
     required public init?(coder aDecoder: NSCoder) {
