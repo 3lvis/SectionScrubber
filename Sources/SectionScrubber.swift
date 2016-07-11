@@ -22,7 +22,7 @@ public class SectionScrubber: UIView {
 
     /*
      When calculating the NSIndexPath for the current scrubber position we need to use a x and a y coordinate,
-     the y coordinate is provided by how far you have scrubber the scrubber, meanwhile we use a hardcoded x since
+     the y coordinate is provided by how far you have scrubbed the scrubber, meanwhile we use a hardcoded x since
      using 5 would ensure us that most of the time the first item in each row will be selected to retreive the
      index path at certain location.
     */
