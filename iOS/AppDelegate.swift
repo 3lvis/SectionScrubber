@@ -9,6 +9,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        guard let window = self.window else { return false }
 
         let numberOfColumns = CGFloat(4)
         let layout = UICollectionViewFlowLayout()
@@ -23,8 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         remoteController.title = "Remote"
         let remoteNavigationController = UINavigationController(rootViewController: remoteController)
 
-//        let tabBarController = UITabBarController()
-//        tabBarController.viewControllers = [remoteNavigationController]
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [remoteNavigationController]
 
         if AppDelegate.IsLightStatusBar {
             UINavigationBar.appearance().barTintColor = UIColor.orangeColor()
@@ -32,8 +33,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             remoteNavigationController.navigationBar.barStyle = .Black
         }
 
-        self.window?.rootViewController = remoteNavigationController
-        self.window!.makeKeyAndVisible()
+        window.rootViewController = tabBarController
+        window.makeKeyAndVisible()
 
         return true
     }
