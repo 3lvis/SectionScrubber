@@ -170,18 +170,27 @@ public class SectionScrubber: UIView {
         completion(indexPath: indexPath)
     }
 
+    var startOffset: CGFloat?
     func handleScrub(gestureRecognizer: UIGestureRecognizer) {
         guard let collectionView = self.collectionView else { return }
         guard self.containingViewFrame.height != 0 else { return }
+        guard let gesture = gestureRecognizer as? UIPanGestureRecognizer else { return }
 
         self.sectionLabelState = gestureRecognizer.state == .Ended ? .Hidden : .Visible
 
-        if let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer where panGestureRecognizer.state == .Began || panGestureRecognizer.state == .Changed {
-            let translation = panGestureRecognizer.translationInView(self)
+        if gesture.state == .Began || gesture.state == .Changed {
+            let translation = gesture.translationInView(self)
+
+            if gesture.state == .Began {
+                self.startOffset = self.collectionView?.contentOffset.y
+            }
 
             let y = translation.y
             let containerHeight = self.containingViewFrame.height - self.viewHeight
-            var percentageInView = y / containerHeight
+            let totalHeight = collectionView.contentSize.height - self.containingViewFrame.height
+
+            let offset = self.startOffset ?? 0
+            var percentageInView = (y / containerHeight) + (offset / totalHeight)
 
             if percentageInView < 0 {
                 percentageInView = 0
@@ -191,26 +200,8 @@ public class SectionScrubber: UIView {
                 percentageInView = 1
             }
 
-            let totalHeight = collectionView.contentSize.height - self.containingViewFrame.height
             let yOffset = (totalHeight * percentageInView)
             collectionView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: false)
-
-//            print("collectionView.contentSize.height: \(collectionView.contentSize.height)")
-//            print("translation.y: \(translation.y)")
-//            print("y: \(y)")
-//            print("-")
-//            print("containerHeight: \(containerHeight)")
-//            print("-")
-//            print("self.containingViewFrame.height: \(self.containingViewFrame.height)")
-//            print("self.viewHeight: \(self.viewHeight)")
-//            print("-")
-//            print("percentageInView: \(percentageInView)")
-//            print("-")
-//            print("totalHeight: \(totalHeight)")
-//            print("-")
-//            print("yOffset: \(yOffset)")
-//            print("()())()()()()()()()()()()()()()()()()()()")
-//            print(" ")
         }
     }
 
