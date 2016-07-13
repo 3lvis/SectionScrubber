@@ -192,7 +192,7 @@ public class SectionScrubber: UIView {
         guard self.containingViewFrame.height != 0 else { return }
         guard let gesture = gestureRecognizer as? UIPanGestureRecognizer else { return }
 
-        self.sectionLabelState = gestureRecognizer.state == .Ended ? .Hidden : .Visible
+        self.sectionLabelState = gesture.state == .Ended ? .Hidden : .Visible
 
         if gesture.state == .Began || gesture.state == .Changed || gesture.state == .Ended {
             let translation = gesture.translationInView(self)
