@@ -216,12 +216,29 @@ public class SectionScrubber: UIView {
                 }
             }
 
+//            top:
+//            scroll centerPoint: (5.0, 28.0)
+
+//            bottom:
+//            scroll centerPoint: (5.0, 3774.5)
+//            scroll indexPath: <NSIndexPath: 0xc000000001000916> {length = 2, path = 9 - 8}
+
+//            self.containingViewFrame.height: 554.0
+//            totalHeight * maximumPercentage: 3184.5
+//            scrub centerPoint: (5.0, 3184.5)
+//            scrub indexPath: <NSIndexPath: 0xc000000000000816> {length = 2, path = 8 - 0}
+
             let maximumPercentage = 1 + minimumPercentage
             if percentageInView > maximumPercentage {
                 percentageInView = maximumPercentage
 
-                let centerPoint = CGPoint(x: SectionScrubber.initialXCoordinateToCalculateIndexPath, y: totalHeight * maximumPercentage);
+                let y = collectionView.contentSize.height * maximumPercentage // totalHeight * maximumPercentage
+                print("self.containingViewFrame.height: \(self.containingViewFrame.height)")
+                print("totalHeight * maximumPercentage: \(y)")
+                let centerPoint = CGPoint(x: SectionScrubber.initialXCoordinateToCalculateIndexPath, y: y);
+                print("scrub centerPoint: \(centerPoint)")
                 if let indexPath = collectionView.indexPathForItemAtPoint(centerPoint) {
+                    print("scrub indexPath: \(indexPath)")
                     if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
                         self.updateSectionTitle(title)
                     }
@@ -309,6 +326,16 @@ public class SectionScrubber: UIView {
 
 extension SectionScrubber: UIGestureRecognizerDelegate {
     public func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
+        print(self.dragGestureRecognizer.state.rawValue)
+
+        if gestureRecognizer == self.longPressGestureRecognizer && otherGestureRecognizer == self.dragGestureRecognizer {
+            return true
+        }
+
+        if gestureRecognizer == self.dragGestureRecognizer && otherGestureRecognizer == self.longPressGestureRecognizer {
+            return true
+        }
+
+        return false
     }
 }
