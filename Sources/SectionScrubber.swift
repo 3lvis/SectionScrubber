@@ -230,7 +230,7 @@ public class SectionScrubber: UIView {
             }
 
             let yOffset = (totalHeight * percentageInView)
-            collectionView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: false)
+            collectionView.setContentOffset(CGPoint(x: collectionView.contentOffset.x, y: yOffset), animated: false)
         }
     }
 
