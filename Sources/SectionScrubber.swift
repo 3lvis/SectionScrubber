@@ -194,7 +194,7 @@ public class SectionScrubber: UIView {
 
         self.sectionLabelState = gestureRecognizer.state == .Ended ? .Hidden : .Visible
 
-        if gesture.state == .Began || gesture.state == .Changed {
+        if gesture.state == .Began || gesture.state == .Changed || gesture.state == .Ended {
             let translation = gesture.translationInView(self)
 
             if gesture.state == .Began {
