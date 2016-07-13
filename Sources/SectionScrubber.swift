@@ -109,7 +109,7 @@ public class SectionScrubber: UIView {
     private var scrubberState = VisibilityState.Hidden {
         didSet {
             if self.scrubberState != oldValue {
-                self.updateSectionScrubberFrame()
+                self.animateScrubberState(self.scrubberState, animated: true)
             }
         }
     }
@@ -146,7 +146,7 @@ public class SectionScrubber: UIView {
             self.originalYOffset = self.collectionView?.bounds.origin.y ?? 0
         }
         self.containingViewFrame = self.dataSource?.sectionScrubberContainerFrame(self) ?? CGRectZero
-        self.updateScrubberFrame()
+        self.animateScrubberState(self.scrubberState, animated: false)
         self.updateScrubberPosition()
     }
 
@@ -239,13 +239,16 @@ public class SectionScrubber: UIView {
         self.sectionLabel.frame = CGRectMake(self.frame.width - rightOffset - self.sectionLabel.sectionlabelWidth, 0, self.sectionLabel.sectionlabelWidth, viewHeight)
     }
 
-    private func updateScrubberFrame() {
-        switch self.scrubberState {
-        case .Visible:
-            self.scrubberImageView.frame = CGRectMake(self.containingViewFrame.width - self.scrubberWidth - SectionScrubber.RightEdgeInset, 0, self.scrubberWidth, self.viewHeight)
-        case .Hidden:
-            self.scrubberImageView.frame = CGRectMake(self.containingViewFrame.width, 0, self.scrubberWidth, self.viewHeight)
-        }
+    private func animateScrubberState(state: VisibilityState, animated: Bool) {
+        let duration = animated ? 0.2 : 0.0
+        UIView.animateWithDuration(duration, delay: 0.0, options: [.AllowUserInteraction, .BeginFromCurrentState], animations: {
+            switch state {
+            case .Visible:
+                self.scrubberImageView.frame = CGRectMake(self.containingViewFrame.width - self.scrubberWidth - SectionScrubber.RightEdgeInset, 0, self.scrubberWidth, self.viewHeight)
+            case .Hidden:
+                self.scrubberImageView.frame = CGRectMake(self.containingViewFrame.width, 0, self.scrubberWidth, self.viewHeight)
+            }
+            }, completion: nil)
     }
 
     private func setSectionLabelActive() {
@@ -262,12 +265,6 @@ public class SectionScrubber: UIView {
     private func updateSectionLabelFrame() {
         UIView.animateWithDuration(0.2, delay: 0.0, options: [.AllowUserInteraction, .BeginFromCurrentState], animations: {
             self.setSectionlabelFrame()
-            }, completion: nil)
-    }
-
-    private func updateSectionScrubberFrame() {
-        UIView.animateWithDuration(0.2, delay: 0.0, options: [.AllowUserInteraction, .BeginFromCurrentState], animations: {
-            self.updateScrubberFrame()
             }, completion: nil)
     }
 
