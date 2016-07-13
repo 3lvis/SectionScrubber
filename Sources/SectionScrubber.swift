@@ -121,7 +121,7 @@ public class SectionScrubber: UIView {
 
         self.addSubview(self.scrubberImageView)
 
-        self.setSectionlabelFrame()
+        self.setSectionLabelFrame()
         self.addSubview(self.sectionLabel)
 
         self.dragGestureRecognizer.addTarget(self, action: #selector(self.handleScrub))
@@ -152,7 +152,7 @@ public class SectionScrubber: UIView {
 
     private func updateSectionTitle(title: String) {
         self.sectionLabel.setText(title)
-        self.setSectionlabelFrame()
+        self.setSectionLabelFrame()
     }
 
     private func userInteractionOnScrollViewDetected() {
@@ -234,7 +234,7 @@ public class SectionScrubber: UIView {
         }
     }
 
-    private func setSectionlabelFrame() {
+    private func setSectionLabelFrame() {
         let rightOffset = self.sectionLabelState == .Visible ? SectionLabel.RightOffsetForActiveSectionLabel : SectionLabel.RightOffsetForInactiveSectionLabel
         self.sectionLabel.frame = CGRectMake(self.frame.width - rightOffset - self.sectionLabel.sectionlabelWidth, 0, self.sectionLabel.sectionlabelWidth, viewHeight)
     }
@@ -264,7 +264,7 @@ public class SectionScrubber: UIView {
 
     private func updateSectionLabelFrame() {
         UIView.animateWithDuration(0.2, delay: 0.0, options: [.AllowUserInteraction, .BeginFromCurrentState], animations: {
-            self.setSectionlabelFrame()
+            self.setSectionLabelFrame()
             }, completion: nil)
     }
 
