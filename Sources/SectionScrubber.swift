@@ -128,7 +128,7 @@ public class SectionScrubber: UIView {
         self.dragGestureRecognizer.delegate = self
         self.scrubberImageView.addGestureRecognizer(self.dragGestureRecognizer)
 
-        self.longPressGestureRecognizer.addTarget(self, action: #selector(self.handleScrub))
+        self.longPressGestureRecognizer.addTarget(self, action: #selector(self.handleLongPress))
         self.longPressGestureRecognizer.minimumPressDuration = 0.2
         self.longPressGestureRecognizer.cancelsTouchesInView = false
         self.longPressGestureRecognizer.delegate = self
@@ -187,10 +187,9 @@ public class SectionScrubber: UIView {
         }
     }
 
-    func handleScrub(gestureRecognizer: UIGestureRecognizer) {
+    func handleScrub(gesture: UIPanGestureRecognizer) {
         guard let collectionView = self.collectionView else { return }
         guard self.containingViewFrame.height != 0 else { return }
-        guard let gesture = gestureRecognizer as? UIPanGestureRecognizer else { return }
 
         self.sectionLabelState = gesture.state == .Ended ? .Hidden : .Visible
 
@@ -232,6 +231,11 @@ public class SectionScrubber: UIView {
             let yOffset = (totalHeight * percentageInView)
             collectionView.setContentOffset(CGPoint(x: collectionView.contentOffset.x, y: yOffset), animated: false)
         }
+    }
+
+    func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
+        self.sectionLabelState = gestureRecognizer.state == .Ended ? .Hidden : .Visible
+        self.userInteractionOnScrollViewDetected()
     }
 
     private func setSectionLabelFrame() {
