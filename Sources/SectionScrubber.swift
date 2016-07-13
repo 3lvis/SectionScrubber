@@ -300,7 +300,6 @@ public class SectionScrubber: UIView {
         frame.size.height -= tabBarHeight
 
         return frame
-
     }
 }
 
