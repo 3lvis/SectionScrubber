@@ -232,7 +232,8 @@ public class SectionScrubber: UIView {
             if percentageInView > maximumPercentage {
                 percentageInView = maximumPercentage
 
-                let y = collectionView.contentSize.height * maximumPercentage // totalHeight * maximumPercentage
+                let y = totalHeight * maximumPercentage
+                print("maximumPercentage: \(maximumPercentage)")
                 print("self.containingViewFrame.height: \(self.containingViewFrame.height)")
                 print("totalHeight * maximumPercentage: \(y)")
                 let centerPoint = CGPoint(x: SectionScrubber.initialXCoordinateToCalculateIndexPath, y: y);
@@ -243,9 +244,19 @@ public class SectionScrubber: UIView {
                         self.updateSectionTitle(title)
                     }
                 }
+                print("---")
+                print("  ")
             }
 
+//            BOTTOM:
+//            percentageInView: 0.981566820276498
+//            totalHeight: 3472.0
+//            yOffset: 3408.0
+
             let yOffset = (totalHeight * percentageInView)
+//            print("percentageInView: \(percentageInView)")
+//            print("totalHeight: \(totalHeight)")
+//            print("yOffset: \(yOffset)")
             collectionView.setContentOffset(CGPoint(x: collectionView.contentOffset.x, y: yOffset), animated: false)
         }
     }
