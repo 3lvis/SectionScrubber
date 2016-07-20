@@ -185,6 +185,17 @@ public class SectionScrubber: UIView {
                 self.updateSectionTitle(title)
             }
         }
+//
+//        print("**********************************")
+//        print("centerPoint: \(centerPoint)")
+//        print("collectionView.contentOffset.y: \(collectionView.contentOffset.y)")
+//        print("currentPercentage: \(currentPercentage)")
+//        print("containerHeight: \(containerHeight)")
+//        print("frame: \(self.frame)")
+//        print("y: \(y)")
+//        print("**********************************")
+//        print(" ")
+//        print(" ")
     }
 
     func handleScrub(gesture: UIPanGestureRecognizer) {
@@ -217,9 +228,8 @@ public class SectionScrubber: UIView {
             }
 
             if percentageInView > 1 {
-                let y = totalHeight
                 percentageInView = 1
-                let centerPoint = CGPoint(x: SectionScrubber.initialXCoordinateToCalculateIndexPath, y: y);
+                let centerPoint = CGPoint(x: SectionScrubber.initialXCoordinateToCalculateIndexPath, y: totalHeight);
                 if let indexPath = collectionView.indexPathForItemAtPoint(centerPoint) {
                     if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
                         self.updateSectionTitle(title)
