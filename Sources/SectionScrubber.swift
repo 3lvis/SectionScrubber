@@ -185,17 +185,6 @@ public class SectionScrubber: UIView {
                 self.updateSectionTitle(title)
             }
         }
-//
-//        print("**********************************")
-//        print("centerPoint: \(centerPoint)")
-//        print("collectionView.contentOffset.y: \(collectionView.contentOffset.y)")
-//        print("currentPercentage: \(currentPercentage)")
-//        print("containerHeight: \(containerHeight)")
-//        print("frame: \(self.frame)")
-//        print("y: \(y)")
-//        print("**********************************")
-//        print(" ")
-//        print(" ")
     }
 
     func handleScrub(gesture: UIPanGestureRecognizer) {
@@ -219,17 +208,6 @@ public class SectionScrubber: UIView {
 
             if percentageInView < 0 {
                 percentageInView = 0
-
-                /**
-                 Fast swiping to the top of the screen requires us to ask for the minimum indexPath that
-                 we could get, this doesn't seem to be needed when swiping fast to the end of the screen.
-                **/
-                let centerPoint = CGPoint(x: SectionScrubber.initialXCoordinateToCalculateIndexPath, y: 0);
-                if let indexPath = collectionView.indexPathForItemAtPoint(centerPoint) {
-                    if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
-                        self.updateSectionTitle(title)
-                    }
-                }
             }
 
             if percentageInView > 1 {
@@ -317,13 +295,7 @@ public class SectionScrubber: UIView {
 
 extension SectionScrubber: UIGestureRecognizerDelegate {
     public func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        print(self.dragGestureRecognizer.state.rawValue)
-
         if gestureRecognizer == self.longPressGestureRecognizer && otherGestureRecognizer == self.dragGestureRecognizer {
-            return true
-        }
-
-        if gestureRecognizer == self.dragGestureRecognizer && otherGestureRecognizer == self.longPressGestureRecognizer {
             return true
         }
 
