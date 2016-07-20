@@ -179,15 +179,6 @@ public class SectionScrubber: UIView {
         let y = (containerHeight * currentPercentage) + collectionView.contentOffset.y - originalYOffset
         self.frame = CGRect(x: 0, y: y, width: collectionView.frame.width, height: self.viewHeight)
 
-        print("**********************************")
-        print("collectionView.contentOffset.y: \(collectionView.contentOffset.y)")
-        print("currentPercentage: \(currentPercentage)")
-        print("containerHeight: \(containerHeight)")
-        print("y: \(y)")
-        print("**********************************")
-        print(" ")
-        print(" ")
-
         let centerPoint = CGPoint(x: SectionScrubber.initialXCoordinateToCalculateIndexPath, y: self.center.y);
         if let indexPath = collectionView.indexPathForItemAtPoint(centerPoint) {
             if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
@@ -205,8 +196,6 @@ public class SectionScrubber: UIView {
 
         if gesture.state == .Began || gesture.state == .Changed || gesture.state == .Ended {
             let translation = gesture.translationInView(self)
-            print("--------------------")
-
             if gesture.state == .Began {
                 self.startOffset = collectionView.contentOffset.y
             }
@@ -217,75 +206,28 @@ public class SectionScrubber: UIView {
             let currentPercentage = translation.y / containerHeight
             var percentageInView = basePercentage + currentPercentage
 
-            print("self.startOffset: \(self.startOffset)")
-            print("self.originalYOffset!: \(self.originalYOffset!)")
-            print("totalHeight: \(totalHeight)")
-            print("basePercentage: \(basePercentage)")
-            print("-")
-
-            print("translation.y: \(translation.y)")
-            print("containerHeight: \(containerHeight)")
-            print("currentPercentage: \(currentPercentage)")
-            print("-")
-
-            print("percentageInView: \(percentageInView)")
-
             if percentageInView < 0 {
-                print("!!!!!!!!!!!!!!!!!!")
                 percentageInView = 0
-                print("altered percentageInView: \(percentageInView)")
                 let centerPoint = CGPoint(x: SectionScrubber.initialXCoordinateToCalculateIndexPath, y: 0);
-                print("centerPoint: \(centerPoint)")
                 if let indexPath = collectionView.indexPathForItemAtPoint(centerPoint) {
-                    print("indexPath: \(indexPath)")
                     if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
                         self.updateSectionTitle(title)
                     }
                 }
-                print("¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡")
             }
-
-//            top:
-//            scroll centerPoint: (5.0, 28.0)
-
-//            bottom:
-//            scroll centerPoint: (5.0, 3774.5)
-//            scroll indexPath: <NSIndexPath: 0xc000000001000916> {length = 2, path = 9 - 8}
-
-//            self.containingViewFrame.height: 554.0
-//            totalHeight * maximumPercentage: 3184.5
-//            scrub centerPoint: (5.0, 3184.5)
-//            scrub indexPath: <NSIndexPath: 0xc000000000000816> {length = 2, path = 8 - 0}
 
             if percentageInView > 1 {
                 let y = totalHeight
-                print("!!!!!!!!!!!!!!!!!!")
-                print("self.containingViewFrame.height: \(self.containingViewFrame.height)")
                 percentageInView = 1
-                print("totalHeight * maximumPercentage: \(y)")
                 let centerPoint = CGPoint(x: SectionScrubber.initialXCoordinateToCalculateIndexPath, y: y);
-                print("scrub centerPoint: \(centerPoint)")
                 if let indexPath = collectionView.indexPathForItemAtPoint(centerPoint) {
-                    print("scrub indexPath: \(indexPath)")
                     if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
                         self.updateSectionTitle(title)
                     }
                 }
-                print("¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡")
             }
 
-//            BOTTOM:
-//            percentageInView: 0.981566820276498
-//            totalHeight: 3472.0
-//            yOffset: 3408.0
-
             let yOffset = (totalHeight * percentageInView) + originalYOffset
-            print("percentageInView: \(percentageInView)")
-            print("totalHeight: \(totalHeight)")
-            print("yOffset: \(yOffset)")
-            print("--------------------")
-            print("  ")
-
             collectionView.setContentOffset(CGPoint(x: collectionView.contentOffset.x, y: yOffset), animated: false)
         }
     }
