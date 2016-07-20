@@ -13,38 +13,46 @@ public protocol SectionScrubberDataSource: class {
 }
 
 public class SectionScrubber: UIView {
-    enum VisibilityState {
+    private enum VisibilityState {
         case Hidden
         case Visible
     }
 
-    static let RightEdgeInset: CGFloat = 5.0
+    private static let RightEdgeInset: CGFloat = 5.0
+
+    /*
+     When calculating the NSIndexPath for the current scrubber position we need to use a x and a y coordinate,
+     the y coordinate is provided by how far you have scrubbed the scrubber, meanwhile we use a hardcoded x since
+     using 5 would ensure us that most of the time the first item in each row will be selected to retreive the
+     index path at certain location.
+    */
+    private static let initialXCoordinateToCalculateIndexPath = CGFloat(5)
 
     public var delegate: SectionScrubberDelegate?
 
     public var dataSource: SectionScrubberDataSource?
 
-    public var containingViewFrame = UIScreen.mainScreen().bounds
+    private var containingViewFrame = CGRectZero
 
-    public var viewHeight = CGFloat(56.0)
+    private var viewHeight = CGFloat(54.0)
 
-    private var scrubberWidth = CGFloat(22.0)
-
-    private var currentSectionTitle = ""
+    private var scrubberWidth = CGFloat(26.0)
 
     private let sectionLabel = SectionLabel()
 
-    private let scrubberGestureWidth = CGFloat(44.0)
+    private var startOffset = CGFloat(0)
 
-    private let bottomBorderOffset = CGFloat(3.4)
+    private lazy var dragGestureRecognizer: UIPanGestureRecognizer = {
+        UIPanGestureRecognizer()
+    }()
 
-    private let dragGestureRecognizer = UIPanGestureRecognizer()
+    private lazy var longPressGestureRecognizer: UILongPressGestureRecognizer = {
+        UILongPressGestureRecognizer()
+    }()
 
-    private let longPressGestureRecognizer = UILongPressGestureRecognizer()
+    private var originalYOffset: CGFloat?
 
-    private let scrubberGestureView = UIView()
-
-    private unowned var collectionView: UICollectionView
+    private weak var collectionView: UICollectionView?
 
     public var sectionLabelImage: UIImage? {
         didSet {
@@ -55,8 +63,10 @@ public class SectionScrubber: UIView {
         }
     }
 
-    lazy var scrubberImageView: UIImageView = {
+    private lazy var scrubberImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.userInteractionEnabled = true
+        imageView.contentMode = .ScaleAspectFit
 
         return imageView
     }()
@@ -99,32 +109,30 @@ public class SectionScrubber: UIView {
     private var scrubberState = VisibilityState.Hidden {
         didSet {
             if self.scrubberState != oldValue {
-                self.updateSectionScrubberFrame()
+                self.animateScrubberState(self.scrubberState, animated: true)
             }
         }
     }
 
-    public init(collectionView: UICollectionView) {
+    public init(collectionView: UICollectionView?) {
         self.collectionView = collectionView
 
         super.init(frame: CGRectZero)
 
-        self.addSubview(scrubberImageView)
+        self.addSubview(self.scrubberImageView)
 
-        self.setSectionlabelFrame()
+        self.setSectionLabelFrame()
         self.addSubview(self.sectionLabel)
 
         self.dragGestureRecognizer.addTarget(self, action: #selector(self.handleScrub))
         self.dragGestureRecognizer.delegate = self
+        self.scrubberImageView.addGestureRecognizer(self.dragGestureRecognizer)
 
-        self.longPressGestureRecognizer.addTarget(self, action: #selector(self.handleScrub))
+        self.longPressGestureRecognizer.addTarget(self, action: #selector(self.handleLongPress))
         self.longPressGestureRecognizer.minimumPressDuration = 0.2
         self.longPressGestureRecognizer.cancelsTouchesInView = false
         self.longPressGestureRecognizer.delegate = self
-
-        self.scrubberGestureView.addGestureRecognizer(self.longPressGestureRecognizer)
-        self.scrubberGestureView.addGestureRecognizer(self.dragGestureRecognizer)
-        self.addSubview(scrubberGestureView)
+        self.scrubberImageView.addGestureRecognizer(self.longPressGestureRecognizer)
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -132,28 +140,19 @@ public class SectionScrubber: UIView {
     }
 
     override public func layoutSubviews() {
-        self.containingViewFrame = self.dataSource?.sectionScrubberContainerFrame(self) ?? CGRectZero
-        self.updateScrubberPosition()
+        super.layoutSubviews()
 
-        self.setScrubberFrame()
+        if self.originalYOffset == nil {
+            self.originalYOffset = self.collectionView?.bounds.origin.y ?? 0
+        }
+        self.containingViewFrame = self.dataSource?.sectionScrubberContainerFrame(self) ?? CGRectZero
+        self.animateScrubberState(self.scrubberState, animated: false)
         self.updateScrubberPosition()
-        self.scrubberGestureView.frame = CGRectMake(self.containingViewFrame.width - self.scrubberGestureWidth, 0, self.scrubberGestureWidth, self.viewHeight)
     }
 
-    public func updateScrubberPosition() {
-        self.userInteractionOnScrollViewDetected()
-
-        let yPos = self.calculateYPosInView(forYPosInContentView: self.collectionView.contentOffset.y + self.containingViewFrame.minY)
-        if yPos > 0 {
-            self.setFrame(atYpos: yPos)
-        }
-
-        let centerPoint = CGPoint(x: self.center.x + self.collectionView.contentOffset.x, y: self.center.y + self.collectionView.contentOffset.y);
-        if let indexPath = self.collectionView.indexPathForItemAtPoint(centerPoint) {
-            if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
-                self.updateSectionTitle(title)
-            }
-        }
+    private func updateSectionTitle(title: String) {
+        self.sectionLabel.setText(title)
+        self.setSectionLabelFrame()
     }
 
     private func userInteractionOnScrollViewDetected() {
@@ -165,85 +164,85 @@ public class SectionScrubber: UIView {
         }
     }
 
-    func calculateYPosInView(forYPosInContentView yPosInContentView: CGFloat) -> CGFloat {
-        let percentageInContentView = yPosInContentView / self.collectionView.contentSize.height
-        let y =  (self.containingViewFrame.height * percentageInContentView) + self.containingViewFrame.minY
+    public func updateScrubberPosition() {
+        guard let collectionView = self.collectionView else { return }
+        guard collectionView.contentSize.height != 0 else { return }
+        guard let originalYOffset = self.originalYOffset else { return }
 
-        return y
-    }
+        self.userInteractionOnScrollViewDetected()
 
-    private func updateSectionTitle(title: String) {
-        if self.currentSectionTitle != title {
-            self.currentSectionTitle = title
+        let initialY = self.containingViewFrame.height
+        let totalHeight = collectionView.contentSize.height - self.containingViewFrame.height
+        let currentY = (collectionView.contentOffset.y - originalYOffset) + self.containingViewFrame.height
+        let currentPercentage = (currentY - initialY) / totalHeight
+        let containerHeight = (self.containingViewFrame.height - self.viewHeight)
+        let y = (containerHeight * currentPercentage) + collectionView.contentOffset.y - originalYOffset
+        self.frame = CGRect(x: 0, y: y, width: collectionView.frame.width, height: self.viewHeight)
 
-            self.sectionLabel.setText(title)
-            self.setSectionlabelFrame()
+        /**
+         Initial dragging doesn't take in account collection view headers, just cells, so before the scrubber reaches
+         a cell, this is not going to return an index path.
+        **/
+        let centerPoint = CGPoint(x: SectionScrubber.initialXCoordinateToCalculateIndexPath, y: self.center.y);
+        if let indexPath = collectionView.indexPathForItemAtPoint(centerPoint) {
+            if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
+                self.updateSectionTitle(title)
+            }
         }
     }
 
-    func handleScrub(gestureRecognizer: UIGestureRecognizer) {
+    func handleScrub(gesture: UIPanGestureRecognizer) {
+        guard let collectionView = self.collectionView else { return }
+        guard self.containingViewFrame.height != 0 else { return }
+        guard let originalYOffset = self.originalYOffset else { return }
+
+        self.sectionLabelState = gesture.state == .Ended ? .Hidden : .Visible
+
+        if gesture.state == .Began || gesture.state == .Changed || gesture.state == .Ended {
+            let translation = gesture.translationInView(self)
+            if gesture.state == .Began {
+                self.startOffset = collectionView.contentOffset.y
+            }
+
+            let containerHeight = self.containingViewFrame.height - self.viewHeight
+            let totalHeight = collectionView.contentSize.height - self.containingViewFrame.height
+            let basePercentage = (self.startOffset - originalYOffset) / totalHeight
+            let currentPercentage = translation.y / containerHeight
+            var percentageInView = basePercentage + currentPercentage
+
+            if percentageInView < 0 {
+                percentageInView = 0
+            }
+
+            if percentageInView > 1 {
+                percentageInView = 1
+            }
+
+            let yOffset = (totalHeight * percentageInView) + originalYOffset
+            collectionView.setContentOffset(CGPoint(x: collectionView.contentOffset.x, y: yOffset), animated: false)
+        }
+    }
+
+    func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
         self.sectionLabelState = gestureRecognizer.state == .Ended ? .Hidden : .Visible
         self.userInteractionOnScrollViewDetected()
-        guard let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer where panGestureRecognizer.state == .Began || panGestureRecognizer.state == .Changed else { return }
-
-        let translation = panGestureRecognizer.translationInView(self)
-        var newYPosForSectionScrubber = self.frame.origin.y + translation.y
-
-        let scrubberReachedTheTopOfTheScreen = newYPosForSectionScrubber <= containingViewFrame.minY
-        if scrubberReachedTheTopOfTheScreen {
-            newYPosForSectionScrubber = containingViewFrame.minY
-
-            let centerPoint = CGPoint(x: self.center.x + self.collectionView.contentOffset.x, y: self.viewHeight / 2 + self.containingViewFrame.minY);
-            if let indexPath = self.collectionView.indexPathForItemAtPoint(centerPoint) {
-                if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
-                    self.updateSectionTitle(title)
-                }
-            }
-        }
-
-        let scrubberReachedEndOfTheScreen = newYPosForSectionScrubber >= self.containingViewFrame.size.height + self.containingViewFrame.minY - bottomBorderOffset
-        if scrubberReachedEndOfTheScreen {
-            newYPosForSectionScrubber = self.containingViewFrame.size.height + self.containingViewFrame.minY - bottomBorderOffset
-
-            let extraMargin = UIScreen.mainScreen().bounds.height - self.containingViewFrame.height
-            let centerPoint = CGPoint(x: self.center.x + self.collectionView.contentOffset.x, y: self.collectionView.contentSize.height - (self.viewHeight / 2) - bottomBorderOffset - extraMargin);
-            if let indexPath = self.collectionView.indexPathForItemAtPoint(centerPoint) {
-                if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
-                    self.updateSectionTitle(title)
-                }
-            }
-        }
-
-        self.setFrame(atYpos: newYPosForSectionScrubber)
-
-        let yPosInContentInContentView = calculateYPosInContentView(forYPosInView: newYPosForSectionScrubber)
-
-        self.collectionView.setContentOffset(CGPoint(x: 0, y: yPosInContentInContentView), animated: false)
-
-        panGestureRecognizer.setTranslation(CGPoint(x: translation.x, y: 0), inView: self)
     }
 
-    func calculateYPosInContentView(forYPosInView yPosInView: CGFloat) -> CGFloat {
-        let percentageInView = (yPosInView - containingViewFrame.minY) / containingViewFrame.height
-        return (self.collectionView.contentSize.height * percentageInView)
-    }
-
-    private func setFrame(atYpos yPos: CGFloat) {
-        self.frame = CGRect(x: 0, y: yPos, width: UIScreen.mainScreen().bounds.width, height: self.viewHeight)
-    }
-
-    private func setSectionlabelFrame() {
+    private func setSectionLabelFrame() {
         let rightOffset = self.sectionLabelState == .Visible ? SectionLabel.RightOffsetForActiveSectionLabel : SectionLabel.RightOffsetForInactiveSectionLabel
         self.sectionLabel.frame = CGRectMake(self.frame.width - rightOffset - self.sectionLabel.sectionlabelWidth, 0, self.sectionLabel.sectionlabelWidth, viewHeight)
     }
 
-    private func setScrubberFrame() {
-        switch self.scrubberState {
-        case .Visible:
-            scrubberImageView.frame = CGRectMake(self.containingViewFrame.width - self.scrubberWidth - SectionScrubber.RightEdgeInset, 0, self.scrubberWidth, self.viewHeight)
-        case .Hidden:
-            scrubberImageView.frame = CGRectMake(self.containingViewFrame.width, 0, self.scrubberWidth, self.viewHeight)
-        }
+    private func animateScrubberState(state: VisibilityState, animated: Bool) {
+        let duration = animated ? 0.2 : 0.0
+        UIView.animateWithDuration(duration, delay: 0.0, options: [.AllowUserInteraction, .BeginFromCurrentState], animations: {
+            switch state {
+            case .Visible:
+                self.scrubberImageView.frame = CGRectMake(self.containingViewFrame.width - self.scrubberWidth - SectionScrubber.RightEdgeInset, 0, self.scrubberWidth, self.viewHeight)
+            case .Hidden:
+                self.scrubberImageView.frame = CGRectMake(self.containingViewFrame.width, 0, self.scrubberWidth, self.viewHeight)
+            }
+            }, completion: nil)
     }
 
     private func setSectionLabelActive() {
@@ -259,13 +258,7 @@ public class SectionScrubber: UIView {
 
     private func updateSectionLabelFrame() {
         UIView.animateWithDuration(0.2, delay: 0.0, options: [.AllowUserInteraction, .BeginFromCurrentState], animations: {
-            self.setSectionlabelFrame()
-            }, completion: nil)
-    }
-
-    private func updateSectionScrubberFrame() {
-        UIView.animateWithDuration(0.2, delay: 0.0, options: [.AllowUserInteraction, .BeginFromCurrentState], animations: {
-            self.setScrubberFrame()
+            self.setSectionLabelFrame()
             }, completion: nil)
     }
 
@@ -279,10 +272,37 @@ public class SectionScrubber: UIView {
         }
         self.sectionLabel.hide()
     }
+
+    public func containerFrameForController(controller: UIViewController) -> CGRect {
+        let collectionFrame = self.collectionView?.frame ?? CGRectZero
+        var frame = CGRect(x: 0, y: 0, width: collectionFrame.size.width, height: collectionFrame.size.height)
+
+        // For some reason this is returning 44, even when the navigation controller is in landscape. #killme
+        var navigationBarHeight = controller.navigationController?.navigationBar.frame.size.height ?? 0
+        let navigationBarHidden = controller.navigationController?.navigationBar.hidden ?? true
+        if navigationBarHidden {
+            navigationBarHeight = 0
+        }
+        frame.origin.y += navigationBarHeight
+        frame.size.height -= navigationBarHeight
+
+        let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.height
+        frame.origin.y += statusBarHeight
+        frame.size.height -= statusBarHeight
+
+        let tabBarHeight = controller.tabBarController?.tabBar.frame.size.height ?? 0
+        frame.size.height -= tabBarHeight
+
+        return frame
+    }
 }
 
 extension SectionScrubber: UIGestureRecognizerDelegate {
     public func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
+        if gestureRecognizer == self.longPressGestureRecognizer && otherGestureRecognizer == self.dragGestureRecognizer {
+            return true
+        }
+
+        return false
     }
 }

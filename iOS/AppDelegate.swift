@@ -3,12 +3,13 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     static let IsLightStatusBar = false
-    static let HeaderSize = CGFloat(60)
+    static let HeaderSize = CGFloat(100)
 
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        guard let window = self.window else { return false }
 
         let numberOfColumns = CGFloat(4)
         let layout = UICollectionViewFlowLayout()
@@ -17,8 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         layout.minimumInteritemSpacing = 1
         let size = (bounds.width - numberOfColumns) / numberOfColumns
         layout.itemSize = CGSize(width: size, height: size)
-        layout.sectionInset = UIEdgeInsets(top: AppDelegate.HeaderSize, left: 0, bottom: 10, right: 0)
-        layout.headerReferenceSize = CGSizeMake(bounds.width, 22);
+        layout.headerReferenceSize = CGSizeMake(bounds.width, AppDelegate.HeaderSize);
 
         let remoteController = RemoteCollectionController(collectionViewLayout: layout)
         remoteController.title = "Remote"
@@ -33,8 +33,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             remoteNavigationController.navigationBar.barStyle = .Black
         }
 
-        self.window?.rootViewController = tabBarController
-        self.window!.makeKeyAndVisible()
+        window.rootViewController = tabBarController
+        window.makeKeyAndVisible()
 
         return true
     }
