@@ -179,6 +179,10 @@ public class SectionScrubber: UIView {
         let y = (containerHeight * currentPercentage) + collectionView.contentOffset.y - originalYOffset
         self.frame = CGRect(x: 0, y: y, width: collectionView.frame.width, height: self.viewHeight)
 
+        /**
+         Initial dragging doesn't take in account collection view headers, just cells, so before the scrubber reaches
+         a cell, this is not going to return an index path.
+        **/
         let centerPoint = CGPoint(x: SectionScrubber.initialXCoordinateToCalculateIndexPath, y: self.center.y);
         if let indexPath = collectionView.indexPathForItemAtPoint(centerPoint) {
             if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
