@@ -219,6 +219,11 @@ public class SectionScrubber: UIView {
 
             if percentageInView < 0 {
                 percentageInView = 0
+
+                /**
+                 Fast swiping to the top of the screen requires us to ask for the minimum indexPath that
+                 we could get, this doesn't seem to be needed when swiping fast to the end of the screen.
+                **/
                 let centerPoint = CGPoint(x: SectionScrubber.initialXCoordinateToCalculateIndexPath, y: 0);
                 if let indexPath = collectionView.indexPathForItemAtPoint(centerPoint) {
                     if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
@@ -229,12 +234,6 @@ public class SectionScrubber: UIView {
 
             if percentageInView > 1 {
                 percentageInView = 1
-                let centerPoint = CGPoint(x: SectionScrubber.initialXCoordinateToCalculateIndexPath, y: totalHeight);
-                if let indexPath = collectionView.indexPathForItemAtPoint(centerPoint) {
-                    if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
-                        self.updateSectionTitle(title)
-                    }
-                }
             }
 
             let yOffset = (totalHeight * percentageInView) + originalYOffset
