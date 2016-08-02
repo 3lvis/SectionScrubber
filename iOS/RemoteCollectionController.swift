@@ -95,10 +95,6 @@ extension RemoteCollectionController: SectionScrubberDelegate {
 }
 
 extension RemoteCollectionController: SectionScrubberDataSource {
-    func sectionScrubberContainerFrame(sectionScrubber: SectionScrubber) -> CGRect {
-        return sectionScrubber.containerFrameForController(self)
-    }
-
     func sectionScrubber(sectionScrubber: SectionScrubber, titleForSectionAtIndexPath indexPath: NSIndexPath) -> String {
         return Photo.title(index: indexPath.section)
     }
