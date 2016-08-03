@@ -48,7 +48,7 @@ public class SectionScrubber: UIView {
         return view
     }()
 
-    private lazy var dragGestureRecognizer: UIPanGestureRecognizer = {
+    private lazy var panGestureRecognizer: UIPanGestureRecognizer = {
         UIPanGestureRecognizer()
     }()
 
@@ -137,9 +137,9 @@ public class SectionScrubber: UIView {
         self.sectionLabel.centerYAnchor.constraintEqualToAnchor(self.centerYAnchor).active = true
         self.sectionLabel.rightAnchor.constraintEqualToAnchor(self.scrubberImageView.leftAnchor, constant: -60).active = true
 
-        self.dragGestureRecognizer.addTarget(self, action: #selector(self.handleScrub))
-        self.dragGestureRecognizer.delegate = self
-        self.scrubberImageView.addGestureRecognizer(self.dragGestureRecognizer)
+        self.panGestureRecognizer.addTarget(self, action: #selector(self.handleScrub))
+        self.panGestureRecognizer.delegate = self
+        self.scrubberImageView.addGestureRecognizer(self.panGestureRecognizer)
 
         self.longPressGestureRecognizer.addTarget(self, action: #selector(self.handleLongPress))
         self.longPressGestureRecognizer.minimumPressDuration = 0.2
@@ -273,7 +273,7 @@ public class SectionScrubber: UIView {
 
 extension SectionScrubber: UIGestureRecognizerDelegate {
     public func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        if gestureRecognizer == self.longPressGestureRecognizer && otherGestureRecognizer == self.dragGestureRecognizer {
+        if gestureRecognizer == self.longPressGestureRecognizer && otherGestureRecognizer == self.panGestureRecognizer {
             return true
         }
 
