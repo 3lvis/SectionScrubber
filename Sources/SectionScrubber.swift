@@ -102,10 +102,9 @@ public class SectionScrubber: UIView {
             if let scrubberImage = self.scrubberImage {
                 self.scrubberWidth = scrubberImage.size.width
                 self.scrubberImageView.image = scrubberImage
-                // scrubber is hidden by default
-                self.scrubberImageRightConstraint.constant = scrubberImage.size.width
-                self.scrubberImageRightConstraint.active = true
                 self.heightAnchor.constraintEqualToConstant(scrubberImage.size.height).active = true
+                self.scrubberImageRightConstraint.active = true
+                self.animateScrubberState(.Hidden, animated: false)
             }
         }
     }
