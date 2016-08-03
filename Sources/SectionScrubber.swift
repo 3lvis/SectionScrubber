@@ -187,13 +187,13 @@ public class SectionScrubber: UIView {
         let newY = self.adjustedContainerOffset + (self.adjustedContainerBoundsHeight * percentage)
         self.topConstraint?.constant = newY
 
-        /**
-         Initial dragging doesn't take in account collection view headers, just cells, so before the scrubber reaches
-         a cell, this is not going to return an index path.
-         **/
         self.updateSectionTitle()
     }
 
+    /**
+     Initial dragging doesn't take in account collection view headers, just cells, so before the scrubber reaches
+     a cell, this is not going to return an index path.
+     **/
     private func indexPath(at point: CGPoint) -> NSIndexPath? {
         if let indexPath = self.collectionView?.indexPathForItemAtPoint(point) {
             return indexPath
