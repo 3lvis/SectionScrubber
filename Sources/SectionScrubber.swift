@@ -163,8 +163,6 @@ public class SectionScrubber: UIView {
 
             self.topConstraint = self.topAnchor.constraintEqualToAnchor(superview.topAnchor)
             self.topConstraint?.active = true
-
-            self.layoutIfNeeded()
         }
     }
 
