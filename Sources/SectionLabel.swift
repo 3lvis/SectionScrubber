@@ -33,7 +33,7 @@ class SectionLabel: UIView {
 
         self.sectionLabelImageView.centerYAnchor.constraintEqualToAnchor(self.centerYAnchor).active = true
         self.sectionLabelImageView.heightAnchor.constraintEqualToAnchor(self.heightAnchor, multiplier: 0.8).active = true
-        self.sectionLabelImageView.widthAnchor.constraintEqualToAnchor(self.textLabel.widthAnchor, constant: 16).active = true
+        self.sectionLabelImageView.widthAnchor.constraintEqualToAnchor(self.textLabel.widthAnchor, constant: 48 ).active = true
 
         self.sectionLabelImageView.rightAnchor.constraintEqualToAnchor(self.rightAnchor).active = true
 
