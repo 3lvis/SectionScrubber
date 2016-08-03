@@ -22,7 +22,7 @@ public class SectionScrubber: UIView {
 
     private var adjustedContainerBoundsHeight: CGFloat {
         guard let collectionView = self.collectionView else { return 0 }
-        return collectionView.bounds.height - (collectionView.contentInset.top + collectionView.contentInset.bottom)
+        return collectionView.bounds.height - (collectionView.contentInset.top + collectionView.contentInset.bottom + self.frame.height)
     }
 
     private var adjustedContainerOrigin: CGFloat {
@@ -31,14 +31,14 @@ public class SectionScrubber: UIView {
 
         if collectionView.superview?.isKindOfClass(NSClassFromString("UICollectionViewControllerWrapperView")!) != nil {
             return (collectionView.superview?.convertPoint(collectionView.frame.origin, toView: window).y)!
+        } else {
+            return collectionView.convertPoint(collectionView.frame.origin, toView: window).y
         }
-
-        return collectionView.convertPoint(collectionView.frame.origin, toView: window).y
     }
 
     private var adjustedContainerHeight: CGFloat {
         guard let collectionView = self.collectionView else { return 0 }
-        return collectionView.contentSize.height - (collectionView.contentInset.bottom + collectionView.contentInset.top + self.adjustedContainerBoundsHeight)
+        return collectionView.contentSize.height - collectionView.bounds.height
     }
 
     private var adjustedContainerOffset: CGFloat {
@@ -242,7 +242,7 @@ public class SectionScrubber: UIView {
             let location = locationInWindow.y - (self.adjustedContainerOrigin + collectionView.contentInset.top)
 
             let gesturePercentage = self.boundedPercentage(location / self.adjustedContainerBoundsHeight)
-            let y = (self.adjustedContainerHeight * gesturePercentage)
+            let y = (self.adjustedContainerHeight * gesturePercentage) - collectionView.contentInset.top
             collectionView.setContentOffset(CGPoint(x: collectionView.contentOffset.x, y: y), animated: false)
         }
     }
