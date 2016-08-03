@@ -16,6 +16,10 @@ public class SectionScrubber: UIView {
         case Visible
     }
 
+    private let thumbMargin: CGFloat = -60
+
+    private let scrubberImageMargin: CGFloat = -6
+
     public weak var delegate: SectionScrubberDelegate?
 
     public weak var dataSource: SectionScrubberDataSource?
@@ -153,7 +157,7 @@ public class SectionScrubber: UIView {
 
         self.sectionLabel.heightAnchor.constraintEqualToAnchor(self.heightAnchor).active = true
         self.sectionLabel.centerYAnchor.constraintEqualToAnchor(self.centerYAnchor).active = true
-        self.sectionLabel.rightAnchor.constraintEqualToAnchor(self.scrubberImageView.leftAnchor, constant: -60).active = true
+        self.sectionLabel.rightAnchor.constraintEqualToAnchor(self.scrubberImageView.leftAnchor, constant: self.thumbMargin).active = true
 
         self.panGestureRecognizer.addTarget(self, action: #selector(self.handleScrub))
         self.panGestureRecognizer.delegate = self
@@ -260,6 +264,7 @@ public class SectionScrubber: UIView {
 
         newPercentage = max(newPercentage, 0.0)
         newPercentage = min(newPercentage, 1.0)
+
         return newPercentage
     }
 
@@ -272,7 +277,7 @@ public class SectionScrubber: UIView {
         let duration = animated ? 0.2 : 0.0
         switch state {
         case .Visible:
-            self.scrubberImageRightConstraint.constant = -6
+            self.scrubberImageRightConstraint.constant = self.scrubberImageMargin
         case .Hidden:
             self.scrubberImageRightConstraint.constant = self.scrubberImageView.image?.size.width ?? 0
         }
