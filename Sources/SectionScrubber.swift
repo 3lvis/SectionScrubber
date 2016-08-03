@@ -222,7 +222,7 @@ public class SectionScrubber: UIView {
     }
 
     private func updateSectionTitle() {
-        //WARNING: this makes too many assumptions about the collection view layout. 😔
+        // This makes too many assumptions about the collection view layout. 😔
         // It just uses 0, because it works for now, but we might need to come up with a better method for this.
         let centerPoint = CGPoint(x: 0, y: self.center.y);
         if let indexPath = self.indexPath(at: centerPoint) {
