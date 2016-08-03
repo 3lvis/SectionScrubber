@@ -20,15 +20,6 @@ public class SectionScrubber: UIView {
 
     public weak var dataSource: SectionScrubberDataSource?
 
-    /*
-     //WARNING: this makes too many assumptions about the collection view layout. 😔
-     When calculating the NSIndexPath for the current scrubber position we need to use a x and a y coordinate,
-     the y coordinate is provided by how far you have scrubbed the scrubber, meanwhile we use a hardcoded x since
-     using 5 would ensure us that most of the time the first item in each row will be selected to retreive the
-     index path at certain location.
-    */
-    private static let initialXCoordinateToCalculateIndexPath = CGFloat(5)
-
     private var adjustedContainerBoundsHeight: CGFloat {
         guard let collectionView = self.collectionView else { return 0 }
         return collectionView.frame.height - (collectionView.contentInset.top + collectionView.contentInset.bottom) - self.frame.size.height
@@ -211,7 +202,9 @@ public class SectionScrubber: UIView {
     }
 
     private func updateSectionTitle() {
-        let centerPoint = CGPoint(x: SectionScrubber.initialXCoordinateToCalculateIndexPath, y: self.center.y);
+        //WARNING: this makes too many assumptions about the collection view layout. 😔
+        // It just uses 0, because it works for now, but we might need to come up with a better method for this.
+        let centerPoint = CGPoint(x: 0, y: self.center.y);
         if let indexPath = self.indexPath(at: centerPoint) {
             if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
                 self.updateSectionTitle(with: title)
