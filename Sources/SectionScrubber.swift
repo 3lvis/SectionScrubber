@@ -22,7 +22,18 @@ public class SectionScrubber: UIView {
 
     private var adjustedContainerBoundsHeight: CGFloat {
         guard let collectionView = self.collectionView else { return 0 }
-        return collectionView.frame.height - (collectionView.contentInset.top + collectionView.contentInset.bottom) - self.frame.size.height
+        return collectionView.bounds.height - (collectionView.contentInset.top + collectionView.contentInset.bottom)
+    }
+
+    private var adjustedContainerOrigin: CGFloat {
+        guard let collectionView = self.collectionView else { return 0 }
+        guard let window = collectionView.window else { return 0 }
+
+        if collectionView.superview?.isKindOfClass(NSClassFromString("UICollectionViewControllerWrapperView")!) != nil {
+            return (collectionView.superview?.convertPoint(collectionView.frame.origin, toView: window).y)!
+        }
+
+        return collectionView.convertPoint(collectionView.frame.origin, toView: window).y
     }
 
     private var adjustedContainerHeight: CGFloat {
@@ -181,7 +192,7 @@ public class SectionScrubber: UIView {
 
         self.userInteractionOnScrollViewDetected()
 
-        let percentage = collectionView.contentOffset.y / self.adjustedContainerHeight
+        let percentage = self.boundedPercentage(collectionView.contentOffset.y / self.adjustedContainerHeight)
         let newY = self.adjustedContainerOffset + (self.adjustedContainerBoundsHeight * percentage)
         self.topConstraint?.constant = newY
 
@@ -220,20 +231,27 @@ public class SectionScrubber: UIView {
 
     func handleScrub(gesture: UIPanGestureRecognizer) {
         guard let collectionView = self.collectionView else { return }
+        guard let window = collectionView.window else { return }
         guard self.containingViewFrame.height != 0 else { return }
         self.sectionLabelState = gesture.state == .Ended ? .Hidden : .Visible
 
         if gesture.state == .Began || gesture.state == .Changed || gesture.state == .Ended {
-            let location = gesture.locationInView(self.window).y - collectionView.contentInset.top
+            let locationInCollectionView = gesture.locationInView(collectionView)
+            let locationInWindow = collectionView.convertPoint(locationInCollectionView, toView: window)
+            let location = locationInWindow.y - (self.adjustedContainerOrigin + collectionView.contentInset.top)
 
-            var gesturePercentage = location / self.adjustedContainerBoundsHeight
-            // We want some leeway here, so we can go a bit further up/down, otherwise the scrubber feels a bit... locked?
-            gesturePercentage = max(gesturePercentage, -0.01)
-            gesturePercentage = min(gesturePercentage, 1.01)
-
+            let gesturePercentage = self.boundedPercentage(location / self.adjustedContainerBoundsHeight)
             let y = (self.adjustedContainerHeight * gesturePercentage)
             collectionView.setContentOffset(CGPoint(x: collectionView.contentOffset.x, y: y), animated: false)
         }
+    }
+
+    private func boundedPercentage(percentage: CGFloat) -> CGFloat {
+        var newPercentage = percentage
+
+        newPercentage = max(newPercentage, 0.0)
+        newPercentage = min(newPercentage, 1.0)
+        return newPercentage
     }
 
     func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
