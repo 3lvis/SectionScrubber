@@ -94,6 +94,7 @@ public class SectionScrubber: UIView {
             if let scrubberImage = self.scrubberImage {
                 self.scrubberWidth = scrubberImage.size.width
                 self.scrubberImageView.image = scrubberImage
+                self.heightAnchor.constraintEqualToConstant(scrubberImage.size.height).active = true
             }
         }
     }
