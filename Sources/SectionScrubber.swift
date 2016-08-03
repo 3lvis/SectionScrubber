@@ -42,7 +42,7 @@ public class SectionScrubber: UIView {
 
     private var adjustedContainerHeight: CGFloat {
         guard let collectionView = self.collectionView else { return 0 }
-        return collectionView.contentSize.height - collectionView.bounds.height
+        return collectionView.contentSize.height - collectionView.bounds.height + (collectionView.contentInset.top + collectionView.contentInset.bottom)
     }
 
     private var adjustedContainerOffset: CGFloat {
@@ -248,10 +248,11 @@ public class SectionScrubber: UIView {
         if gesture.state == .Began || gesture.state == .Changed || gesture.state == .Ended {
             let locationInCollectionView = gesture.locationInView(collectionView)
             let locationInWindow = collectionView.convertPoint(locationInCollectionView, toView: window)
-            let location = locationInWindow.y - (self.adjustedContainerOrigin + collectionView.contentInset.top)
+            let location = locationInWindow.y - (self.adjustedContainerOrigin + collectionView.contentInset.top + 49)
 
             let gesturePercentage = self.boundedPercentage(location / self.adjustedContainerBoundsHeight)
             let y = (self.adjustedContainerHeight * gesturePercentage) - collectionView.contentInset.top
+            print(gesturePercentage, ";", y)
             collectionView.setContentOffset(CGPoint(x: collectionView.contentOffset.x, y: y), animated: false)
 
             self.userInteractionOnScrollViewDetected()
