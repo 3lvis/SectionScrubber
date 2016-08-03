@@ -177,10 +177,6 @@ public class SectionScrubber: UIView {
         }
     }
 
-    override public func layoutSubviews() {
-        super.layoutSubviews()
-    }
-
     private func userInteractionOnScrollViewDetected() {
         NSObject.cancelPreviousPerformRequestsWithTarget(self, selector: #selector(self.hideScrubber), object: nil)
         self.performSelector(#selector(self.hideScrubber), withObject: nil, afterDelay: 2)
