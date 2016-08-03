@@ -124,6 +124,7 @@ public class SectionScrubber: UIView {
     private var scrubberState = VisibilityState.Hidden {
         didSet {
             if self.scrubberState != oldValue {
+                self.updateSectionTitle()
                 self.animateScrubberState(self.scrubberState, animated: true)
             }
         }
