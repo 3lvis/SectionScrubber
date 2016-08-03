@@ -71,6 +71,10 @@ public class SectionScrubber: UIView {
 
     private var topConstraint: NSLayoutConstraint?
 
+    private lazy var scrubberImageRightConstraint: NSLayoutConstraint = {
+        return self.scrubberImageView.rightAnchor.constraintEqualToAnchor(self.rightAnchor)
+    }()
+
     public var sectionLabelImage: UIImage? {
         didSet {
             if let sectionLabelImage = self.sectionLabelImage {
@@ -94,6 +98,9 @@ public class SectionScrubber: UIView {
             if let scrubberImage = self.scrubberImage {
                 self.scrubberWidth = scrubberImage.size.width
                 self.scrubberImageView.image = scrubberImage
+                // scrubber is hidden by default
+                self.scrubberImageRightConstraint.constant = scrubberImage.size.width
+                self.scrubberImageRightConstraint.active = true
                 self.heightAnchor.constraintEqualToConstant(scrubberImage.size.height).active = true
             }
         }
@@ -143,7 +150,6 @@ public class SectionScrubber: UIView {
         self.addSubview(self.sectionLabel)
 
         self.scrubberImageView.centerYAnchor.constraintEqualToAnchor(self.centerYAnchor).active = true
-        self.scrubberImageView.rightAnchor.constraintEqualToAnchor(self.rightAnchor, constant: -6).active = true
 
         self.sectionLabel.heightAnchor.constraintEqualToAnchor(self.heightAnchor).active = true
         self.sectionLabel.centerYAnchor.constraintEqualToAnchor(self.centerYAnchor).active = true
@@ -244,6 +250,8 @@ public class SectionScrubber: UIView {
             let gesturePercentage = self.boundedPercentage(location / self.adjustedContainerBoundsHeight)
             let y = (self.adjustedContainerHeight * gesturePercentage) - collectionView.contentInset.top
             collectionView.setContentOffset(CGPoint(x: collectionView.contentOffset.x, y: y), animated: false)
+
+            self.userInteractionOnScrollViewDetected()
         }
     }
 
@@ -262,7 +270,15 @@ public class SectionScrubber: UIView {
 
     private func animateScrubberState(state: VisibilityState, animated: Bool) {
         let duration = animated ? 0.2 : 0.0
-        UIView.animateWithDuration(duration, delay: 0.0, options: [.AllowUserInteraction, .BeginFromCurrentState], animations: { }, completion: { success in })
+        switch state {
+        case .Visible:
+            self.scrubberImageRightConstraint.constant = -6
+        case .Hidden:
+            self.scrubberImageRightConstraint.constant = self.scrubberImageView.image?.size.width ?? 0
+        }
+        UIView.animateWithDuration(duration, delay: 0.0, options: [.AllowUserInteraction, .BeginFromCurrentState], animations: {
+                self.layoutIfNeeded()
+            }, completion: { success in })
     }
 
     private func setSectionLabelActive() {
