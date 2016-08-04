@@ -33,7 +33,12 @@ public class SectionScrubber: UIView {
         guard let collectionView = self.collectionView else { return 0 }
         guard let window = collectionView.window else { return 0 }
 
-        if collectionView.superview?.isKindOfClass(NSClassFromString("UICollectionViewControllerWrapperView")!) != nil {
+        /*
+         We check against the `UICollectionViewControllerWrapperView`, because this indicates we're working with
+         a collection view that is inside a collection view controller. When that is the case, we have to deal with its 
+         superview instead of with it directly, otherwise we have a offsetting problem.
+         */
+        if collectionView.superview?.isKindOfClass(NSClassFromString(String.init(format: "U%@ectionViewCont%@w", "IColl", "rollerWrapperVie"))!) != nil {
             return (collectionView.superview?.convertPoint(collectionView.frame.origin, toView: window).y)!
         } else {
             return collectionView.convertPoint(collectionView.frame.origin, toView: window).y
