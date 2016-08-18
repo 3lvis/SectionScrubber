@@ -1,25 +1,24 @@
 import UIKit
 
 class SectionLabel: UIView {
-    static let RightOffsetForActiveSectionLabel: CGFloat = 80.0
-    static let RightOffsetForInactiveSectionLabel: CGFloat = 60.0
+    private lazy var sectionLabelImageView: UIImageView = {
+        let view = UIImageView()
+        view.translatesAutoresizingMaskIntoConstraints = false
 
-    private static let Margin : CGFloat = 19.0
+        return view
+    }()
 
-    var sectionlabelWidth : CGFloat {
-        return self.textLabel.width() + (2 * SectionLabel.Margin) + 4
-    }
+    private lazy var textLabel: UILabel = {
+        let view = UILabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
 
-    private let sectionLabelImageView = UIImageView()
-
-    private let textLabel = UILabel()
+        return view
+    }()
 
     var labelImage: UIImage? {
         didSet {
             if let labelImage = self.labelImage {
                 self.sectionLabelImageView.image = labelImage
-                self.addSubview(sectionLabelImageView)
-                self.bringSubviewToFront(self.textLabel)
             }
         }
     }
@@ -29,16 +28,27 @@ class SectionLabel: UIView {
 
         self.hide()
 
+        self.addSubview(self.sectionLabelImageView)
         self.addSubview(self.textLabel)
+
+        self.sectionLabelImageView.centerYAnchor.constraintEqualToAnchor(self.centerYAnchor).active = true
+        self.sectionLabelImageView.heightAnchor.constraintEqualToAnchor(self.heightAnchor, multiplier: 0.8).active = true
+        self.sectionLabelImageView.widthAnchor.constraintEqualToAnchor(self.textLabel.widthAnchor, constant: 48 ).active = true
+
+        self.sectionLabelImageView.rightAnchor.constraintEqualToAnchor(self.rightAnchor).active = true
+
+        self.widthAnchor.constraintEqualToAnchor(self.textLabel.widthAnchor).active = true
+
+        self.textLabel.centerYAnchor.constraintEqualToAnchor(self.sectionLabelImageView.centerYAnchor, constant: 1.0).active = true
+        self.textLabel.centerXAnchor.constraintEqualToAnchor(self.sectionLabelImageView.centerXAnchor, constant: -2 ).active = true
+        self.textLabel.heightAnchor.constraintEqualToAnchor(self.heightAnchor, multiplier: 0.8).active = true
+
+        self.textLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+        self.textLabel.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override func layoutSubviews() {
-        self.sectionLabelImageView.frame = self.bounds
-        self.textLabel.frame = CGRectMake(SectionLabel.Margin, SectionLabel.Margin, self.textLabel.width(), 22)
     }
 
     func setFont(font : UIFont){
@@ -51,7 +61,7 @@ class SectionLabel: UIView {
 
     func setText(text: String){
         self.textLabel.text = text
-        self.setNeedsLayout()
+        self.widthAnchor.constraintEqualToConstant(self.textLabel.width())
     }
 
     func hide() {
