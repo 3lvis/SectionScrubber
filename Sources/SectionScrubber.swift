@@ -219,8 +219,15 @@ public class SectionScrubber: UIView {
      a cell, this is not going to return an index path.
      **/
     private func indexPath(at point: CGPoint) -> NSIndexPath? {
-        if let indexPath = self.collectionView?.indexPathForItemAtPoint(point) {
+        guard let collectionView = self.collectionView else { return nil }
+        if let indexPath = collectionView.indexPathForItemAtPoint(point) {
             return indexPath
+        }
+        for indexPath in collectionView.indexPathsForVisibleSupplementaryElementsOfKind(UICollectionElementKindSectionHeader) {
+            let view = collectionView.supplementaryViewForElementKind(UICollectionElementKindSectionHeader, atIndexPath: indexPath)
+            if view.frame.contains(point) {
+                return indexPath
+            }
         }
         return nil
     }
