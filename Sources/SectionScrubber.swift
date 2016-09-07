@@ -224,7 +224,11 @@ public class SectionScrubber: UIView {
             return indexPath
         }
         for indexPath in collectionView.indexPathsForVisibleSupplementaryElementsOfKind(UICollectionElementKindSectionHeader) {
-            let view = collectionView.supplementaryViewForElementKind(UICollectionElementKindSectionHeader, atIndexPath: indexPath)
+            #if swift(>=2.3)
+                guard let view = collectionView.supplementaryViewForElementKind(UICollectionElementKindSectionHeader, atIndexPath: indexPath) else { continue }
+            #else
+                let view = collectionView.supplementaryViewForElementKind(UICollectionElementKindSectionHeader, atIndexPath: indexPath)
+            #endif
             if view.frame.contains(point) {
                 return indexPath
             }
