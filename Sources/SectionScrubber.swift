@@ -225,7 +225,7 @@ public class SectionScrubber: UIView {
         }
         for indexPath in collectionView.indexPathsForVisibleSupplementaryElementsOfKind(UICollectionElementKindSectionHeader) {
             #if swift(>=2.3)
-                let view = collectionView.supplementaryViewForElementKind(UICollectionElementKindSectionHeader, atIndexPath: indexPath)!
+                guard let view = collectionView.supplementaryViewForElementKind(UICollectionElementKindSectionHeader, atIndexPath: indexPath) else { continue }
             #else
                 let view = collectionView.supplementaryViewForElementKind(UICollectionElementKindSectionHeader, atIndexPath: indexPath)
             #endif
