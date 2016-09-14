@@ -5,7 +5,7 @@ class PhotoCell: UICollectionViewCell {
 
     lazy var imageView: UIImageView = {
         let view = UIImageView()
-        view.contentMode = .ScaleAspectFill
+        view.contentMode = .scaleAspectFill
 
         return view
     }()
@@ -14,7 +14,7 @@ class PhotoCell: UICollectionViewCell {
         super.init(frame: frame)
 
         self.clipsToBounds = true
-        self.backgroundColor = UIColor.blackColor()
+        self.backgroundColor = UIColor.black
         self.addSubview(self.imageView)
     }
 
@@ -22,7 +22,7 @@ class PhotoCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func display(photo: Photo) {
+    func display(_ photo: Photo) {
         self.imageView.image = photo.placeholder
     }
 

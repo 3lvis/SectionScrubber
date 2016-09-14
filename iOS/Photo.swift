@@ -2,7 +2,7 @@ import UIKit
 
 struct Photo {
     enum Size {
-        case Small, Large
+        case small, large
     }
 
     var remoteID: String
@@ -14,8 +14,8 @@ struct Photo {
         self.remoteID = remoteID
     }
 
-    func media(completion: (image: UIImage?, error: NSError?) -> ()) {
-        completion(image: self.placeholder, error: nil)
+    func media(_ completion: (_ image: UIImage?, _ error: NSError?) -> ()) {
+        completion(self.placeholder, nil)
     }
 
     static func constructRemoteElements() -> [String : [Photo]] {
@@ -56,7 +56,7 @@ struct Photo {
         return sections
     }
 
-    static func title(index index: Int) -> String {
+    static func title(index: Int) -> String {
         return "Section \(index)"
     }
 }
