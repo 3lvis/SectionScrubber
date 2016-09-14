@@ -52,8 +52,8 @@ class RemoteCollectionController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.Identifier, for: indexPath) as! PhotoCell
-        if let photos = self.sections[Photo.title(index: (indexPath as NSIndexPath).section)] {
-            let photo = photos[(indexPath as NSIndexPath).row]
+        if let photos = self.sections[Photo.title(index: indexPath.section)] {
+            let photo = photos[indexPath.row]
             cell.display(photo)
         }
 
@@ -62,7 +62,7 @@ class RemoteCollectionController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SectionHeader.Identifier, for: indexPath) as! SectionHeader
-        headerView.titleLabel.text = Photo.title(index: (indexPath as NSIndexPath).section)
+        headerView.titleLabel.text = Photo.title(index: indexPath.section)
 
         return headerView
     }
@@ -96,6 +96,6 @@ extension RemoteCollectionController: SectionScrubberDelegate {
 
 extension RemoteCollectionController: SectionScrubberDataSource {
     func sectionScrubber(_ sectionScrubber: SectionScrubber, titleForSectionAtIndexPath indexPath: IndexPath) -> String {
-        return Photo.title(index: (indexPath as NSIndexPath).section)
+        return Photo.title(index: indexPath.section)
     }
 }
