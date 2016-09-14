@@ -7,18 +7,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        self.window = UIWindow(frame: UIScreen.main.bounds)
         guard let window = self.window else { return false }
 
         let numberOfColumns = CGFloat(4)
         let layout = UICollectionViewFlowLayout()
-        let bounds = UIScreen.mainScreen().bounds
+        let bounds = UIScreen.main.bounds
         layout.minimumLineSpacing = 1
         layout.minimumInteritemSpacing = 1
         let size = (bounds.width - numberOfColumns) / numberOfColumns
         layout.itemSize = CGSize(width: size, height: size)
-        layout.headerReferenceSize = CGSizeMake(bounds.width, AppDelegate.HeaderSize);
+        layout.headerReferenceSize = CGSize(width: bounds.width, height: AppDelegate.HeaderSize);
 
         let remoteController = RemoteCollectionController(collectionViewLayout: layout)
         remoteController.title = "Remote"
@@ -28,9 +28,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabBarController.viewControllers = [remoteNavigationController]
 
         if AppDelegate.IsLightStatusBar {
-            UINavigationBar.appearance().barTintColor = UIColor.orangeColor()
-            UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
-            remoteNavigationController.navigationBar.barStyle = .Black
+            UINavigationBar.appearance().barTintColor = UIColor.orange
+            UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+            remoteNavigationController.navigationBar.barStyle = .black
         }
 
         window.rootViewController = tabBarController

@@ -1,19 +1,19 @@
 import UIKit
 
 public protocol SectionScrubberDelegate: class {
-    func sectionScrubberDidStartScrubbing(sectionScrubber: SectionScrubber)
+    func sectionScrubberDidStartScrubbing(_ sectionScrubber: SectionScrubber)
 
-    func sectionScrubberDidStopScrubbing(sectionScrubber: SectionScrubber)
+    func sectionScrubberDidStopScrubbing(_ sectionScrubber: SectionScrubber)
 }
 
 public protocol SectionScrubberDataSource: class {
-    func sectionScrubber(sectionScrubber: SectionScrubber, titleForSectionAtIndexPath indexPath: NSIndexPath) -> String
+    func sectionScrubber(_ sectionScrubber: SectionScrubber, titleForSectionAtIndexPath indexPath: IndexPath) -> String
 }
 
 public class SectionScrubber: UIView {
     private enum VisibilityState {
-        case Hidden
-        case Visible
+        case hidden
+        case visible
     }
 
     private let thumbMargin: CGFloat = -60
@@ -38,10 +38,10 @@ public class SectionScrubber: UIView {
          a collection view that is inside a collection view controller. When that is the case, we have to deal with its 
          superview instead of with it directly, otherwise we have a offsetting problem.
          */
-        if collectionView.superview?.isKindOfClass(NSClassFromString(String.init(format: "U%@ectionViewCont%@w", "IColl", "rollerWrapperVie"))!) != nil {
-            return (collectionView.superview?.convertPoint(collectionView.frame.origin, toView: window).y)!
+        if collectionView.superview?.isKind(of: NSClassFromString(String.init(format: "U%@ectionViewCont%@w", "IColl", "rollerWrapperVie"))!) != nil {
+            return (collectionView.superview?.convert(collectionView.frame.origin, to: window).y)!
         } else {
-            return collectionView.convertPoint(collectionView.frame.origin, toView: window).y
+            return collectionView.convert(collectionView.frame.origin, to: window).y
         }
     }
 
@@ -56,7 +56,7 @@ public class SectionScrubber: UIView {
     }
 
     private var containingViewFrame: CGRect {
-        return self.superview?.frame ?? CGRectZero
+        return self.superview?.frame ?? CGRect.zero
     }
 
     private var scrubberWidth = CGFloat(26.0)
@@ -68,11 +68,11 @@ public class SectionScrubber: UIView {
         return view
     }()
 
-    private lazy var panGestureRecognizer: UIPanGestureRecognizer = {
+    fileprivate lazy var panGestureRecognizer: UIPanGestureRecognizer = {
         UIPanGestureRecognizer()
     }()
 
-    private lazy var longPressGestureRecognizer: UILongPressGestureRecognizer = {
+    fileprivate lazy var longPressGestureRecognizer: UILongPressGestureRecognizer = {
         UILongPressGestureRecognizer()
     }()
 
@@ -81,7 +81,7 @@ public class SectionScrubber: UIView {
     private var topConstraint: NSLayoutConstraint?
 
     private lazy var scrubberImageRightConstraint: NSLayoutConstraint = {
-        return self.scrubberImageView.rightAnchor.constraintEqualToAnchor(self.rightAnchor)
+        return self.scrubberImageView.rightAnchor.constraint(equalTo: self.rightAnchor)
     }()
 
     public var sectionLabelImage: UIImage? {
@@ -95,9 +95,9 @@ public class SectionScrubber: UIView {
     private lazy var scrubberImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.userInteractionEnabled = true
-        imageView.contentMode = .ScaleAspectFit
-        imageView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        imageView.isUserInteractionEnabled = true
+        imageView.contentMode = .scaleAspectFit
+        imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
         return imageView
     }()
@@ -107,9 +107,9 @@ public class SectionScrubber: UIView {
             if let scrubberImage = self.scrubberImage {
                 self.scrubberWidth = scrubberImage.size.width
                 self.scrubberImageView.image = scrubberImage
-                self.heightAnchor.constraintEqualToConstant(scrubberImage.size.height).active = true
-                self.scrubberImageRightConstraint.active = true
-                self.animateScrubberState(.Hidden, animated: false)
+                self.heightAnchor.constraint(equalToConstant: scrubberImage.size.height).isActive = true
+                self.scrubberImageRightConstraint.isActive = true
+                self.animateScrubberState(.hidden, animated: false)
             }
         }
     }
@@ -130,16 +130,16 @@ public class SectionScrubber: UIView {
         }
     }
 
-    private var sectionLabelState = VisibilityState.Hidden {
+    private var sectionLabelState = VisibilityState.hidden {
         didSet {
             if self.sectionLabelState != oldValue {
-                if self.sectionLabelState == .Visible { self.setSectionLabelActive() }
-                if self.sectionLabelState == .Hidden { self.setSectionLabelInactive() }
+                if self.sectionLabelState == .visible { self.setSectionLabelActive() }
+                if self.sectionLabelState == .hidden { self.setSectionLabelInactive() }
             }
         }
     }
 
-    private var scrubberState = VisibilityState.Hidden {
+    private var scrubberState = VisibilityState.hidden {
         didSet {
             if self.scrubberState != oldValue {
                 self.updateSectionTitle()
@@ -151,17 +151,17 @@ public class SectionScrubber: UIView {
     public init(collectionView: UICollectionView?) {
         self.collectionView = collectionView
 
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         self.translatesAutoresizingMaskIntoConstraints = false
 
         self.addSubview(self.scrubberImageView)
         self.addSubview(self.sectionLabel)
 
-        self.scrubberImageView.centerYAnchor.constraintEqualToAnchor(self.centerYAnchor).active = true
+        self.scrubberImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
 
-        self.sectionLabel.heightAnchor.constraintEqualToAnchor(self.heightAnchor).active = true
-        self.sectionLabel.centerYAnchor.constraintEqualToAnchor(self.centerYAnchor).active = true
-        self.sectionLabel.rightAnchor.constraintEqualToAnchor(self.scrubberImageView.leftAnchor, constant: self.thumbMargin).active = true
+        self.sectionLabel.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        self.sectionLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        self.sectionLabel.rightAnchor.constraint(equalTo: self.scrubberImageView.leftAnchor, constant: self.thumbMargin).isActive = true
 
         self.panGestureRecognizer.addTarget(self, action: #selector(self.handleScrub))
         self.panGestureRecognizer.delegate = self
@@ -183,21 +183,21 @@ public class SectionScrubber: UIView {
         self.animateScrubberState(self.scrubberState, animated: false)
 
         if let superview = self.superview {
-            self.leftAnchor.constraintEqualToAnchor(superview.leftAnchor).active = true
-            self.rightAnchor.constraintEqualToAnchor(superview.rightAnchor).active = true
-            self.centerXAnchor.constraintEqualToAnchor(superview.centerXAnchor).active = true
+            self.leftAnchor.constraint(equalTo: superview.leftAnchor).isActive = true
+            self.rightAnchor.constraint(equalTo: superview.rightAnchor).isActive = true
+            self.centerXAnchor.constraint(equalTo: superview.centerXAnchor).isActive = true
 
-            self.topConstraint = self.topAnchor.constraintEqualToAnchor(superview.topAnchor)
-            self.topConstraint?.active = true
+            self.topConstraint = self.topAnchor.constraint(equalTo: superview.topAnchor)
+            self.topConstraint?.isActive = true
         }
     }
 
     private func userInteractionOnScrollViewDetected() {
-        NSObject.cancelPreviousPerformRequestsWithTarget(self, selector: #selector(self.hideScrubber), object: nil)
-        self.performSelector(#selector(self.hideScrubber), withObject: nil, afterDelay: 2)
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(self.hideScrubber), object: nil)
+        self.perform(#selector(self.hideScrubber), with: nil, afterDelay: 2)
 
-        if self.scrubberState == .Hidden {
-            self.scrubberState = .Visible
+        if self.scrubberState == .hidden {
+            self.scrubberState = .visible
         }
     }
 
@@ -218,17 +218,13 @@ public class SectionScrubber: UIView {
      Initial dragging doesn't take in account collection view headers, just cells, so before the scrubber reaches
      a cell, this is not going to return an index path.
      **/
-    private func indexPath(at point: CGPoint) -> NSIndexPath? {
+    private func indexPath(at point: CGPoint) -> IndexPath? {
         guard let collectionView = self.collectionView else { return nil }
-        if let indexPath = collectionView.indexPathForItemAtPoint(point) {
+        if let indexPath = collectionView.indexPathForItem(at: point) {
             return indexPath
         }
-        for indexPath in collectionView.indexPathsForVisibleSupplementaryElementsOfKind(UICollectionElementKindSectionHeader) {
-            #if swift(>=2.3)
-                guard let view = collectionView.supplementaryViewForElementKind(UICollectionElementKindSectionHeader, atIndexPath: indexPath) else { continue }
-            #else
-                let view = collectionView.supplementaryViewForElementKind(UICollectionElementKindSectionHeader, atIndexPath: indexPath)
-            #endif
+        for indexPath in collectionView.indexPathsForVisibleSupplementaryElements(ofKind: UICollectionElementKindSectionHeader) {
+            guard let view = collectionView.supplementaryView(forElementKind: UICollectionElementKindSectionHeader, at: indexPath) else { continue }
             if view.frame.contains(point) {
                 return indexPath
             }
@@ -245,7 +241,7 @@ public class SectionScrubber: UIView {
                 self.updateSectionTitle(with: title)
             }
         } else if self.center.y < self.collectionView?.contentInset.top ?? 0 {
-            if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: NSIndexPath.init(forItem: 0, inSection: 0)) {
+            if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: IndexPath.init(item: 0, section: 0)) {
                 self.updateSectionTitle(with: title)
             }
         }
@@ -255,15 +251,15 @@ public class SectionScrubber: UIView {
         self.sectionLabel.setText(title)
     }
 
-    func handleScrub(gesture: UIPanGestureRecognizer) {
+    func handleScrub(_ gesture: UIPanGestureRecognizer) {
         guard let collectionView = self.collectionView else { return }
         guard let window = collectionView.window else { return }
         guard self.containingViewFrame.height != 0 else { return }
-        self.sectionLabelState = gesture.state == .Ended ? .Hidden : .Visible
+        self.sectionLabelState = gesture.state == .ended ? .hidden : .visible
 
-        if gesture.state == .Began || gesture.state == .Changed || gesture.state == .Ended {
-            let locationInCollectionView = gesture.locationInView(collectionView)
-            let locationInWindow = collectionView.convertPoint(locationInCollectionView, toView: window)
+        if gesture.state == .began || gesture.state == .changed || gesture.state == .ended {
+            let locationInCollectionView = gesture.location(in: collectionView)
+            let locationInWindow = collectionView.convert(locationInCollectionView, to: window)
             let location = locationInWindow.y - (self.adjustedContainerOrigin + collectionView.contentInset.top + collectionView.contentInset.bottom)
 
             let gesturePercentage = self.boundedPercentage(location / self.adjustedContainerBoundsHeight)
@@ -274,7 +270,7 @@ public class SectionScrubber: UIView {
         }
     }
 
-    private func boundedPercentage(percentage: CGFloat) -> CGFloat {
+    private func boundedPercentage(_ percentage: CGFloat) -> CGFloat {
         var newPercentage = percentage
 
         newPercentage = max(newPercentage, 0.0)
@@ -283,20 +279,20 @@ public class SectionScrubber: UIView {
         return newPercentage
     }
 
-    func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
-        self.sectionLabelState = gestureRecognizer.state == .Ended ? .Hidden : .Visible
+    func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        self.sectionLabelState = gestureRecognizer.state == .ended ? .hidden : .visible
         self.userInteractionOnScrollViewDetected()
     }
 
-    private func animateScrubberState(state: VisibilityState, animated: Bool) {
+    private func animateScrubberState(_ state: VisibilityState, animated: Bool) {
         let duration = animated ? 0.2 : 0.0
         switch state {
-        case .Visible:
+        case .visible:
             self.scrubberImageRightConstraint.constant = self.scrubberImageMargin
-        case .Hidden:
+        case .hidden:
             self.scrubberImageRightConstraint.constant = self.scrubberImageView.image?.size.width ?? 0
         }
-        UIView.animateWithDuration(duration, delay: 0.0, options: [.AllowUserInteraction, .BeginFromCurrentState], animations: {
+        UIView.animate(withDuration: duration, delay: 0.0, options: [.allowUserInteraction, .beginFromCurrentState], animations: {
                 self.layoutIfNeeded()
             }, completion: { success in })
     }
@@ -308,16 +304,16 @@ public class SectionScrubber: UIView {
 
     private func setSectionLabelInactive() {
         self.delegate?.sectionScrubberDidStopScrubbing(self)
-        NSObject.cancelPreviousPerformRequestsWithTarget(self, selector: #selector(hideSectionLabel), object: nil)
-        self.performSelector(#selector(hideSectionLabel), withObject: nil, afterDelay: 2)
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(hideSectionLabel), object: nil)
+        self.perform(#selector(hideSectionLabel), with: nil, afterDelay: 2)
     }
 
     func hideScrubber() {
-        self.scrubberState = .Hidden
+        self.scrubberState = .hidden
     }
 
     func hideSectionLabel() {
-        guard self.sectionLabelState != .Visible else {
+        guard self.sectionLabelState != .visible else {
             return
         }
         self.sectionLabel.hide()
@@ -325,7 +321,7 @@ public class SectionScrubber: UIView {
 }
 
 extension SectionScrubber: UIGestureRecognizerDelegate {
-    public func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer == self.longPressGestureRecognizer && otherGestureRecognizer == self.panGestureRecognizer {
             return true
         }

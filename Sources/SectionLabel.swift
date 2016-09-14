@@ -31,47 +31,47 @@ class SectionLabel: UIView {
         self.addSubview(self.sectionLabelImageView)
         self.addSubview(self.textLabel)
 
-        self.sectionLabelImageView.centerYAnchor.constraintEqualToAnchor(self.centerYAnchor).active = true
-        self.sectionLabelImageView.heightAnchor.constraintEqualToAnchor(self.heightAnchor, multiplier: 0.8).active = true
-        self.sectionLabelImageView.widthAnchor.constraintEqualToAnchor(self.textLabel.widthAnchor, constant: 48 ).active = true
+        self.sectionLabelImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        self.sectionLabelImageView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.8).isActive = true
+        self.sectionLabelImageView.widthAnchor.constraint(equalTo: self.textLabel.widthAnchor, constant: 48 ).isActive = true
 
-        self.sectionLabelImageView.rightAnchor.constraintEqualToAnchor(self.rightAnchor).active = true
+        self.sectionLabelImageView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
 
-        self.widthAnchor.constraintEqualToAnchor(self.textLabel.widthAnchor).active = true
+        self.widthAnchor.constraint(equalTo: self.textLabel.widthAnchor).isActive = true
 
-        self.textLabel.centerYAnchor.constraintEqualToAnchor(self.sectionLabelImageView.centerYAnchor, constant: 1.0).active = true
-        self.textLabel.centerXAnchor.constraintEqualToAnchor(self.sectionLabelImageView.centerXAnchor, constant: -2 ).active = true
-        self.textLabel.heightAnchor.constraintEqualToAnchor(self.heightAnchor, multiplier: 0.8).active = true
+        self.textLabel.centerYAnchor.constraint(equalTo: self.sectionLabelImageView.centerYAnchor, constant: 1.0).isActive = true
+        self.textLabel.centerXAnchor.constraint(equalTo: self.sectionLabelImageView.centerXAnchor, constant: -2 ).isActive = true
+        self.textLabel.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.8).isActive = true
 
-        self.textLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: .Horizontal)
-        self.textLabel.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+        self.textLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        self.textLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setFont(font : UIFont){
+    func setFont(_ font : UIFont){
          self.textLabel.font = font
     }
 
-    func setTextColor(color : UIColor){
+    func setTextColor(_ color : UIColor){
          self.textLabel.textColor = color
     }
 
-    func setText(text: String){
+    func setText(_ text: String){
         self.textLabel.text = text
-        self.widthAnchor.constraintEqualToConstant(self.textLabel.width())
+        self.widthAnchor.constraint(equalToConstant: self.textLabel.width())
     }
 
     func hide() {
-        UIView.animateWithDuration(0.2, delay: 0.0, options: [.AllowUserInteraction, .BeginFromCurrentState], animations: {
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: [.allowUserInteraction, .beginFromCurrentState], animations: {
             self.alpha = 0
             }, completion: nil)
     }
 
     func show() {
-        UIView.animateWithDuration(0.2, delay: 0.0, options: [.AllowUserInteraction, .BeginFromCurrentState], animations: {
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: [.allowUserInteraction, .beginFromCurrentState], animations: {
             self.alpha = 1
             }, completion: nil)
     }
