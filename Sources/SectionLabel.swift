@@ -61,6 +61,7 @@ class SectionLabel: UIView {
 
     func setText(_ text: String){
         self.textLabel.text = text
+        // Source: https://github.com/bakkenbaeck/SweetUIKit/blob/master/Sources/UILabel%2BSweetness.swift
         let rect = (self.textLabel.attributedText ?? NSAttributedString()).boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options: .usesLineFragmentOrigin, context: nil)
         self.widthAnchor.constraint(equalToConstant: rect.width)
     }
