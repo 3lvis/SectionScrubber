@@ -15,7 +15,7 @@ class RemoteCollectionController: UICollectionViewController {
         let scrubber = SectionScrubber(collectionView: self.collectionView)
         scrubber.delegate = self
         scrubber.dataSource = self
-        scrubber.scrubberImage = UIImage(named: "date-scrubber")
+        scrubber.scrubberImage = UIImage(named: "Oval")
         scrubber.sectionLabelImage = UIImage(named: "section-label")
         scrubber.sectionLabelFont = UIFont(name: "DINNextLTPro-Light", size: 18)
         scrubber.sectionlabelTextColor = UIColor(red: 69/255, green: 67/255, blue: 76/255, alpha: 0.8)
@@ -29,7 +29,7 @@ class RemoteCollectionController: UICollectionViewController {
         self.collectionView?.backgroundColor = UIColor.white
         self.collectionView?.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.Identifier)
         self.collectionView?.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: SectionHeader.Identifier)
-        self.collectionView?.showsVerticalScrollIndicator = false
+        self.collectionView?.showsVerticalScrollIndicator = true
 
         var count = 0
         for i in 0 ..< self.sections.count {

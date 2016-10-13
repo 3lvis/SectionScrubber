@@ -59,8 +59,6 @@ public class SectionScrubber: UIView {
         return self.superview?.frame ?? CGRect.zero
     }
 
-    private var scrubberWidth = CGFloat(26.0)
-
     private lazy var sectionLabel: SectionLabel = {
         let view = SectionLabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -92,20 +90,26 @@ public class SectionScrubber: UIView {
         }
     }
 
-    private lazy var scrubberImageView: UIImageView = {
+    lazy var scrubberImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.isUserInteractionEnabled = true
+        imageView.isUserInteractionEnabled = false
         imageView.contentMode = .scaleAspectFit
         imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
         return imageView
     }()
 
+    fileprivate lazy var draggedView: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+        view.backgroundColor = .green
+
+        return view
+    }()
+
     public var scrubberImage: UIImage? {
         didSet {
             if let scrubberImage = self.scrubberImage {
-                self.scrubberWidth = scrubberImage.size.width
                 self.scrubberImageView.image = scrubberImage
                 self.heightAnchor.constraint(equalToConstant: scrubberImage.size.height).isActive = true
                 self.scrubberImageRightConstraint.isActive = true
@@ -155,9 +159,11 @@ public class SectionScrubber: UIView {
         self.translatesAutoresizingMaskIntoConstraints = false
 
         self.addSubview(self.scrubberImageView)
+        self.addSubview(self.draggedView)
         self.addSubview(self.sectionLabel)
 
         self.scrubberImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        self.draggedView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
 
         self.sectionLabel.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
         self.sectionLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
@@ -165,13 +171,13 @@ public class SectionScrubber: UIView {
 
         self.panGestureRecognizer.addTarget(self, action: #selector(self.handleScrub))
         self.panGestureRecognizer.delegate = self
-        self.scrubberImageView.addGestureRecognizer(self.panGestureRecognizer)
+        self.draggedView.addGestureRecognizer(self.panGestureRecognizer)
 
         self.longPressGestureRecognizer.addTarget(self, action: #selector(self.handleLongPress))
         self.longPressGestureRecognizer.minimumPressDuration = 0.2
         self.longPressGestureRecognizer.cancelsTouchesInView = false
         self.longPressGestureRecognizer.delegate = self
-        self.scrubberImageView.addGestureRecognizer(self.longPressGestureRecognizer)
+        self.draggedView.addGestureRecognizer(self.longPressGestureRecognizer)
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -322,7 +328,7 @@ public class SectionScrubber: UIView {
 
 extension SectionScrubber: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        if gestureRecognizer == self.longPressGestureRecognizer && otherGestureRecognizer == self.panGestureRecognizer {
+        if gestureRecognizer.view == self.draggedView {
             return true
         }
 
