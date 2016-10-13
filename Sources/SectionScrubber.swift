@@ -101,7 +101,8 @@ public class SectionScrubber: UIView {
     }()
 
     fileprivate lazy var draggedView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .green
 
         return view
@@ -112,6 +113,12 @@ public class SectionScrubber: UIView {
             if let scrubberImage = self.scrubberImage {
                 self.scrubberImageView.image = scrubberImage
                 self.heightAnchor.constraint(equalToConstant: scrubberImage.size.height).isActive = true
+
+                let minimumDragableArea = CGFloat(60)
+                let size = scrubberImage.size.height < minimumDragableArea ? minimumDragableArea : scrubberImage.size.height
+                self.draggedView.widthAnchor.constraint(equalToConstant: size).isActive = true
+                self.draggedView.heightAnchor.constraint(equalToConstant: size).isActive = true
+
                 self.scrubberImageRightConstraint.isActive = true
                 self.animateScrubberState(.hidden, animated: false)
             }
@@ -328,10 +335,35 @@ public class SectionScrubber: UIView {
 
 extension SectionScrubber: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        if gestureRecognizer.view == self.draggedView {
-            return true
-        }
+        print("gestureRecognizer: \(gestureRecognizer)")
+        print("**")
+        print("**")
+        print("**")
+        print("**")
+        print("otherGestureRecognizer: \(otherGestureRecognizer)")
+        print("|")
+        print("|")
+        print("|")
+        print("|")
+        print("|")
+        print("|")
+        print("|")
+        print("|")
+        print("|")
+        print("|")
+        print("|")
+        print("|")
+        print("|")
+        print("|")
+        print("|")
+        print("|")
 
-        return false
+        return true
+
+//        if gestureRecognizer.view == self.draggedView {
+//            return true
+//        }
+//
+//        return false
     }
 }
