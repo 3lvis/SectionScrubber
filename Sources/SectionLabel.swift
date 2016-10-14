@@ -11,6 +11,7 @@ class SectionLabel: UIView {
     private lazy var textLabel: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .center
 
         return view
     }()
@@ -32,16 +33,16 @@ class SectionLabel: UIView {
         self.addSubview(self.textLabel)
 
         self.sectionLabelImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        self.sectionLabelImageView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.8).isActive = true
-        self.sectionLabelImageView.widthAnchor.constraint(equalTo: self.textLabel.widthAnchor, constant: 48 ).isActive = true
+        self.sectionLabelImageView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1).isActive = true
+        self.sectionLabelImageView.widthAnchor.constraint(equalTo: self.textLabel.widthAnchor, constant: 48).isActive = true
 
         self.sectionLabelImageView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
 
         self.widthAnchor.constraint(equalTo: self.textLabel.widthAnchor).isActive = true
 
-        self.textLabel.centerYAnchor.constraint(equalTo: self.sectionLabelImageView.centerYAnchor, constant: 1.0).isActive = true
-        self.textLabel.centerXAnchor.constraint(equalTo: self.sectionLabelImageView.centerXAnchor, constant: -2 ).isActive = true
-        self.textLabel.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.8).isActive = true
+        self.textLabel.centerYAnchor.constraint(equalTo: self.sectionLabelImageView.centerYAnchor, constant: 1).isActive = true
+        self.textLabel.centerXAnchor.constraint(equalTo: self.sectionLabelImageView.centerXAnchor, constant: -5).isActive = true
+        self.textLabel.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1).isActive = true
 
         self.textLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         self.textLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
@@ -52,11 +53,11 @@ class SectionLabel: UIView {
     }
 
     func setFont(_ font : UIFont){
-         self.textLabel.font = font
+        self.textLabel.font = font
     }
 
     func setTextColor(_ color : UIColor){
-         self.textLabel.textColor = color
+        self.textLabel.textColor = color
     }
 
     func setText(_ text: String){
