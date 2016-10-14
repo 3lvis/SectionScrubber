@@ -35,7 +35,7 @@ public class SectionScrubber: UIView {
 
         /*
          We check against the `UICollectionViewControllerWrapperView`, because this indicates we're working with
-         a collection view that is inside a collection view controller. When that is the case, we have to deal with its 
+         a collection view that is inside a collection view controller. When that is the case, we have to deal with its
          superview instead of with it directly, otherwise we have a offsetting problem.
          */
         if collectionView.superview?.isKind(of: NSClassFromString(String.init(format: "U%@ectionViewCont%@w", "IColl", "rollerWrapperVie"))!) != nil {
@@ -92,7 +92,7 @@ public class SectionScrubber: UIView {
         }
     }
 
-    private lazy var scrubberImageView: UIImageView = {
+    fileprivate lazy var scrubberImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.isUserInteractionEnabled = true
@@ -293,7 +293,7 @@ public class SectionScrubber: UIView {
             self.scrubberImageRightConstraint.constant = self.scrubberImageView.image?.size.width ?? 0
         }
         UIView.animate(withDuration: duration, delay: 0.0, options: [.allowUserInteraction, .beginFromCurrentState], animations: {
-                self.layoutIfNeeded()
+            self.layoutIfNeeded()
             }, completion: { success in })
     }
 
@@ -322,10 +322,10 @@ public class SectionScrubber: UIView {
 
 extension SectionScrubber: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        if gestureRecognizer == self.longPressGestureRecognizer && otherGestureRecognizer == self.panGestureRecognizer {
-            return true
+        if gestureRecognizer.view != self.scrubberImageView {
+            return false
         }
-
-        return false
+        
+        return true
     }
 }
