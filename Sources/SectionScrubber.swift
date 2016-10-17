@@ -214,6 +214,18 @@ public class SectionScrubber: UIView {
         self.updateSectionTitle()
     }
 
+    /*
+     * Only process touch events if we're hitting the actual scrubber image.
+     * Every other touch is ignored.
+     */
+    public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if self.scrubberImageView.frame.contains(point) {
+            return super.hitTest(point, with: event)
+        }
+
+        return nil
+    }
+
     /**
      Initial dragging doesn't take in account collection view headers, just cells, so before the scrubber reaches
      a cell, this is not going to return an index path.
@@ -292,6 +304,7 @@ public class SectionScrubber: UIView {
         case .hidden:
             self.scrubberImageRightConstraint.constant = self.scrubberImageView.image?.size.width ?? 0
         }
+
         UIView.animate(withDuration: duration, delay: 0.0, options: [.allowUserInteraction, .beginFromCurrentState], animations: {
             self.layoutIfNeeded()
             }, completion: { success in })
