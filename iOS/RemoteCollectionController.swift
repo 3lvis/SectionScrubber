@@ -19,6 +19,7 @@ class RemoteCollectionController: UICollectionViewController {
         scrubber.sectionLabelImage = UIImage(named: "section-label")
         scrubber.sectionLabelFont = UIFont(name: "DINNextLTPro-Light", size: 18)
         scrubber.sectionlabelTextColor = UIColor(red: 69/255, green: 67/255, blue: 76/255, alpha: 0.8)
+        scrubber.backgroundColor = .red
 
         return scrubber
     }()
@@ -77,6 +78,10 @@ class RemoteCollectionController: UICollectionViewController {
 
     override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         self.sectionScrubber.updateScrubberPosition()
+    }
+
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("indexPath: \(indexPath)")
     }
 }
 
