@@ -107,7 +107,7 @@ public class SectionScrubber: UIView {
         container.translatesAutoresizingMaskIntoConstraints = false
         container.isUserInteractionEnabled = true
         container.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        container.backgroundColor = .blue
+        container.backgroundColor = UIColor(red: 155.0/255.0, green: 102.0/255.0, blue: 229.0/255.0, alpha: 1)
         #if os(iOS)
             container.layer.cornerRadius = 4
         #else
@@ -144,7 +144,7 @@ public class SectionScrubber: UIView {
     fileprivate lazy var sectionScrubberTitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .green
+        label.textColor = .white
         #if os(iOS)
             label.font = UIFont.boldSystemFont(ofSize: 14)
         #else
