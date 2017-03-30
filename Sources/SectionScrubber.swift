@@ -11,7 +11,7 @@ public protocol SectionScrubberDataSource: class {
 }
 
 public class SectionScrubber: UIView {
-    public enum SectionScrubberState {
+    public enum State {
         case hidden
         case scrolling
         case scrubbing
@@ -132,11 +132,11 @@ public class SectionScrubber: UIView {
         return imageView
     }()
 
-    public var sectionScrubberState = SectionScrubberState.hidden {
+    public var state = State.hidden {
         didSet {
-            if self.sectionScrubberState != oldValue {
+            if self.state != oldValue {
                 self.updateSectionTitle()
-                self.animateSectionScrubberState(self.sectionScrubberState, animated: true)
+                self.animateState(self.state, animated: true)
             }
         }
     }
@@ -216,7 +216,7 @@ public class SectionScrubber: UIView {
 
     public override func didMoveToSuperview() {
         super.didMoveToSuperview()
-        self.animateSectionScrubberState(self.sectionScrubberState, animated: false)
+        self.animateState(self.state, animated: false)
 
         if let superview = self.superview {
             self.leftAnchor.constraint(equalTo: superview.leftAnchor).isActive = true
@@ -237,8 +237,8 @@ public class SectionScrubber: UIView {
         guard let collectionView = self.collectionView else { return }
         guard collectionView.contentSize.height != 0 else { return }
 
-        if sectionScrubberState == .hidden {
-            self.sectionScrubberState = .scrolling
+        if state == .hidden {
+            self.state = .scrolling
         }
         self.hideSectionScrubberAfterDelay()
 
@@ -342,7 +342,7 @@ public class SectionScrubber: UIView {
         return newPercentage
     }
 
-    private func animateSectionScrubberState(_ state: SectionScrubberState, animated: Bool) {
+    private func animateState(_ state: State, animated: Bool) {
         let duration = animated ? self.animationDuration : 0.0
         var titleAlpha: CGFloat = 1
 
@@ -372,21 +372,21 @@ public class SectionScrubber: UIView {
 
     private func startScrubbing() {
         self.delegate?.sectionScrubberDidStartScrubbing(self)
-        self.sectionScrubberState = .scrubbing
+        self.state = .scrubbing
     }
 
     private func stopScrubbing() {
         self.delegate?.sectionScrubberDidStopScrubbing(self)
 
-        guard sectionScrubberState == .scrubbing else {
+        guard state == .scrubbing else {
             return
         }
 
-        self.sectionScrubberState = .scrolling
+        self.state = .scrolling
     }
 
     func hideSectionScrubber() {
-        self.sectionScrubberState = .hidden
+        self.state = .hidden
     }
 }
 
