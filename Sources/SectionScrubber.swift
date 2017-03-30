@@ -17,11 +17,24 @@ public class SectionScrubber: UIView {
         case scrubbing
     }
 
+    #if os(iOS)
     private let sectionScrubberHeight: CGFloat = 42
+    #else
+    private let sectionScrubberHeight: CGFloat = 100
+    #endif
 
     private let sectionScrubberWidthHiding: CGFloat = 4
-    private let sectionScrubberWidthScrolling: CGFloat = 140
     private let sectionScrubberWidthScrubbing: CGFloat = 200
+
+    private let sectionScrubberRightMarginHidden: CGFloat = 1
+
+    #if os(iOS)
+    private let sectionScrubberWidthScrolling: CGFloat = 140
+    private let sectionScrubberRightMarginScrolling: CGFloat = 1
+    #else
+    private let sectionScrubberWidthScrolling: CGFloat = 280
+    private let sectionScrubberRightMarginScrolling: CGFloat = -120
+    #endif
 
     private let animationDuration: TimeInterval = 0.4
     private let animationDamping: CGFloat = 0.8
@@ -85,13 +98,21 @@ public class SectionScrubber: UIView {
         self.sectionScrubberContainer.widthAnchor.constraint(equalToConstant: 4)
     }()
 
+    private lazy var sectionScrubberRightConstraint: NSLayoutConstraint = {
+        self.sectionScrubberContainer.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 1)
+    }()
+
     fileprivate lazy var sectionScrubberContainer: UIView = {
         let container = UIView()
         container.translatesAutoresizingMaskIntoConstraints = false
         container.isUserInteractionEnabled = true
         container.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         container.backgroundColor = .blue
-        container.layer.cornerRadius = 4
+        #if os(iOS)
+            container.layer.cornerRadius = 4
+        #else
+            container.layer.cornerRadius = 12
+        #endif
         container.layer.masksToBounds = true
 
         container.heightAnchor.constraint(equalToConstant: self.sectionScrubberHeight).isActive = true
@@ -107,7 +128,6 @@ public class SectionScrubber: UIView {
         imageView.heightAnchor.constraint(equalToConstant: 18).isActive = true
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
-        // imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
         return imageView
     }()
@@ -124,12 +144,13 @@ public class SectionScrubber: UIView {
     fileprivate lazy var sectionScrubberTitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         label.textColor = .green
-        label.font = UIFont.boldSystemFont(ofSize: 14)
-        label.textAlignment = .right
+        #if os(iOS)
+            label.font = UIFont.boldSystemFont(ofSize: 14)
+        #else
+            label.font = UIFont.boldSystemFont(ofSize: 30)
+        #endif
 
-        label.widthAnchor.constraint(equalToConstant: 80).isActive = true
         label.heightAnchor.constraint(equalToConstant: self.sectionScrubberHeight).isActive = true
 
         return label
@@ -153,17 +174,21 @@ public class SectionScrubber: UIView {
         addGestureRecognizer(self.longPressGestureRecognizer)
 
         addSubview(self.sectionScrubberContainer)
-        self.sectionScrubberContainer.rightAnchor.constraint(equalTo: rightAnchor, constant: 1).isActive = true
+        self.sectionScrubberRightConstraint.isActive = true
         self.sectionScrubberContainer.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         self.sectionScrubberWidthConstraint.isActive = true
 
-        self.sectionScrubberContainer.addSubview(self.sectionScrubberImageView)
-        self.sectionScrubberImageView.centerYAnchor.constraint(equalTo: self.sectionScrubberContainer.centerYAnchor).isActive = true
-        self.sectionScrubberImageView.trailingAnchor.constraint(equalTo: self.sectionScrubberContainer.trailingAnchor, constant: -3).isActive = true
+        #if os(iOS)
+            self.sectionScrubberContainer.addSubview(self.sectionScrubberImageView)
+            self.sectionScrubberImageView.centerYAnchor.constraint(equalTo: self.sectionScrubberContainer.centerYAnchor).isActive = true
+            self.sectionScrubberImageView.trailingAnchor.constraint(equalTo: self.sectionScrubberContainer.trailingAnchor, constant: -3).isActive = true
+        #endif
 
         self.sectionScrubberContainer.addSubview(self.sectionScrubberTitle)
+
+        self.sectionScrubberTitle.rightAnchor.constraint(equalTo: self.sectionScrubberContainer.rightAnchor).isActive = true
+        self.sectionScrubberTitle.leftAnchor.constraint(lessThanOrEqualTo: self.sectionScrubberContainer.leftAnchor, constant: 20).isActive = true
         self.sectionScrubberTitle.centerYAnchor.constraint(equalTo: self.sectionScrubberContainer.centerYAnchor).isActive = true
-        self.sectionScrubberTitle.leadingAnchor.constraint(equalTo: self.sectionScrubberContainer.leadingAnchor, constant: 5).isActive = true
     }
 
     public required init?(coder _: NSCoder) {
@@ -304,11 +329,14 @@ public class SectionScrubber: UIView {
 
         switch state {
         case .hidden:
-            self.sectionScrubberWidthConstraint.constant = sectionScrubberWidthHiding
+            self.sectionScrubberRightConstraint.constant = self.sectionScrubberRightMarginHidden
+            self.sectionScrubberWidthConstraint.constant = self.sectionScrubberWidthHiding
             titleAlpha = 0
         case .scrolling:
+            self.sectionScrubberRightConstraint.constant = self.sectionScrubberRightMarginScrolling
             self.sectionScrubberWidthConstraint.constant = self.sectionScrubberWidthScrolling
         case .scrubbing:
+            self.sectionScrubberRightConstraint.constant = self.sectionScrubberRightMarginHidden
             self.sectionScrubberWidthConstraint.constant = self.sectionScrubberWidthScrubbing
         }
 
