@@ -144,7 +144,7 @@ public class SectionScrubber: UIView {
     public var font: UIFont? {
         didSet {
             if let font = self.font {
-                self.sectionScrubberTitle.font = font
+                self.titleLabel.font = font
             }
         }
     }
@@ -152,7 +152,7 @@ public class SectionScrubber: UIView {
     public var textColor: UIColor? {
         didSet {
             if let textColor = self.textColor {
-                 self.sectionScrubberTitle.textColor = textColor
+                 self.titleLabel.textColor = textColor
             }
         }
     }
@@ -165,7 +165,7 @@ public class SectionScrubber: UIView {
         }
     }
 
-    fileprivate lazy var sectionScrubberTitle: UILabel = {
+    fileprivate lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = self.textColor
@@ -203,11 +203,11 @@ public class SectionScrubber: UIView {
             self.sectionScrubberImageView.trailingAnchor.constraint(equalTo: self.sectionScrubberContainer.trailingAnchor, constant: -3).isActive = true
         #endif
 
-        self.sectionScrubberContainer.addSubview(self.sectionScrubberTitle)
+        self.sectionScrubberContainer.addSubview(self.titleLabel)
 
-        self.sectionScrubberTitle.rightAnchor.constraint(equalTo: self.sectionScrubberContainer.rightAnchor).isActive = true
-        self.sectionScrubberTitle.leftAnchor.constraint(lessThanOrEqualTo: self.sectionScrubberContainer.leftAnchor, constant: 20).isActive = true
-        self.sectionScrubberTitle.centerYAnchor.constraint(equalTo: self.sectionScrubberContainer.centerYAnchor).isActive = true
+        self.titleLabel.rightAnchor.constraint(equalTo: self.sectionScrubberContainer.rightAnchor).isActive = true
+        self.titleLabel.leftAnchor.constraint(lessThanOrEqualTo: self.sectionScrubberContainer.leftAnchor, constant: 20).isActive = true
+        self.titleLabel.centerYAnchor.constraint(equalTo: self.sectionScrubberContainer.centerYAnchor).isActive = true
     }
 
     public required init?(coder _: NSCoder) {
@@ -299,7 +299,7 @@ public class SectionScrubber: UIView {
     }
 
     private func updateSectionTitle(with title: String) {
-        self.sectionScrubberTitle.text = title.uppercased()
+        self.titleLabel.text = title.uppercased()
     }
 
     private var previousLocation: CGFloat = 0
@@ -360,7 +360,7 @@ public class SectionScrubber: UIView {
         }
 
         UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: self.animationDamping, initialSpringVelocity: self.animationSpringVelocity, options: [.allowUserInteraction, .beginFromCurrentState, .curveEaseOut], animations: {
-            self.sectionScrubberTitle.alpha = titleAlpha
+            self.titleLabel.alpha = titleAlpha
             let isIPhone5OrBelow = max(UIScreen.main.bounds.width, UIScreen.main.bounds.height) <= 568.0
             if isIPhone5OrBelow {
                 self.sectionScrubberContainer.layoutIfNeeded()
