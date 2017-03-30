@@ -179,20 +179,20 @@ public class SectionScrubber: UIView {
         self.collectionView = collectionView
 
         super.init(frame: CGRect.zero)
-        translatesAutoresizingMaskIntoConstraints = false
+        self.translatesAutoresizingMaskIntoConstraints = false
 
-        heightAnchor.constraint(equalToConstant: self.sectionScrubberHeight).isActive = true
+        self.heightAnchor.constraint(equalToConstant: self.sectionScrubberHeight).isActive = true
 
         self.panGestureRecognizer.addTarget(self, action: #selector(self.handleScrub))
         self.panGestureRecognizer.delegate = self
-        addGestureRecognizer(self.panGestureRecognizer)
+        self.addGestureRecognizer(self.panGestureRecognizer)
 
         self.longPressGestureRecognizer.addTarget(self, action: #selector(self.handleScrub))
         self.longPressGestureRecognizer.minimumPressDuration = 0.001
         self.longPressGestureRecognizer.delegate = self
-        addGestureRecognizer(self.longPressGestureRecognizer)
+        self.addGestureRecognizer(self.longPressGestureRecognizer)
 
-        addSubview(self.sectionScrubberContainer)
+        self.addSubview(self.sectionScrubberContainer)
         self.sectionScrubberRightConstraint.isActive = true
         self.sectionScrubberContainer.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         self.sectionScrubberWidthConstraint.isActive = true
@@ -230,7 +230,7 @@ public class SectionScrubber: UIView {
 
     private func hideSectionScrubberAfterDelay() {
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(self.hideSectionScrubber), object: nil)
-        perform(#selector(self.hideSectionScrubber), with: nil, afterDelay: 2)
+        self.perform(#selector(self.hideSectionScrubber), with: nil, afterDelay: 2)
     }
 
     public func updateScrubberPosition() {
@@ -292,7 +292,7 @@ public class SectionScrubber: UIView {
                 self.updateSectionTitle(with: title)
             }
         } else if center.y < self.collectionView?.contentInset.top ?? 0 {
-            if let title = dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: IndexPath.init(item: 0, section: 0)) {
+            if let title = dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: IndexPath(item: 0, section: 0)) {
                 self.updateSectionTitle(with: title)
             }
         }
@@ -307,7 +307,7 @@ public class SectionScrubber: UIView {
     func handleScrub(_ gesture: UIPanGestureRecognizer) {
         guard let collectionView = self.collectionView else { return }
         guard let window = collectionView.window else { return }
-        guard containingViewFrame.height != 0 else { return }
+        guard self.containingViewFrame.height != 0 else { return }
 
         if gesture.state == .began {
             self.startScrubbing()
@@ -378,7 +378,7 @@ public class SectionScrubber: UIView {
     private func stopScrubbing() {
         self.delegate?.sectionScrubberDidStopScrubbing(self)
 
-        guard state == .scrubbing else {
+        guard self.state == .scrubbing else {
             return
         }
 
