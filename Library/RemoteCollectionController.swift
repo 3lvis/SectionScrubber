@@ -23,10 +23,10 @@ class RemoteCollectionController: UICollectionViewController {
         let scrubber = SectionScrubber(collectionView: self.collectionView)
         scrubber.delegate = self
         scrubber.dataSource = self
-        scrubber.scrubberImage = UIImage(named: "date-scrubber")
-        scrubber.sectionLabelImage = UIImage(named: "section-label")
-        scrubber.sectionLabelFont = UIFont(name: "DINNextLTPro-Light", size: 18)
-        scrubber.sectionlabelTextColor = UIColor(red: 69/255, green: 67/255, blue: 76/255, alpha: 0.8)
+//        scrubber.scrubberImage = UIImage(named: "date-scrubber")
+//        scrubber.sectionLabelImage = UIImage(named: "section-label")
+//        scrubber.sectionLabelFont = UIFont(name: "DINNextLTPro-Light", size: 18)
+//        scrubber.sectionlabelTextColor = UIColor(red: 69/255, green: 67/255, blue: 76/255, alpha: 0.8)
 
         return scrubber
     }()
@@ -80,11 +80,11 @@ class RemoteCollectionController: UICollectionViewController {
         overlayFrame.origin.y = scrollView.contentOffset.y
         self.overlayView.frame = overlayFrame
 
-        self.sectionScrubber.updateScrubberPosition()
+        self.sectionScrubber.collectionViewHasScrolled()
     }
 
     override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        self.sectionScrubber.updateScrubberPosition()
+        self.sectionScrubber.collectionViewHasScrolled()
     }
 }
 
