@@ -83,11 +83,11 @@ class RemoteCollectionController: UICollectionViewController {
         overlayFrame.origin.y = scrollView.contentOffset.y
         self.overlayView.frame = overlayFrame
 
-        self.sectionScrubber.collectionViewHasScrolled()
+        self.sectionScrubber.updateScrubberPosition()
     }
 
     override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        self.sectionScrubber.collectionViewHasScrolled()
+        self.sectionScrubber.updateScrubberPosition()
     }
 }
 

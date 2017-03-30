@@ -233,7 +233,7 @@ public class SectionScrubber: UIView {
         perform(#selector(self.hideSectionScrubber), with: nil, afterDelay: 2)
     }
 
-    public func collectionViewHasScrolled() {
+    public func updateScrubberPosition() {
         guard let collectionView = self.collectionView else { return }
         guard collectionView.contentSize.height != 0 else { return }
 
