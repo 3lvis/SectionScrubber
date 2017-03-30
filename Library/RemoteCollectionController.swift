@@ -3,6 +3,14 @@ import UIKit
 class RemoteCollectionController: UICollectionViewController {
     var sections = Photo.constructRemoteElements()
 
+    init() {
+        super.init(collectionViewLayout: PhotosCollectionLayout())
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     lazy var overlayView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.black

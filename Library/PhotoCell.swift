@@ -7,13 +7,19 @@ class PhotoCell: UICollectionViewCell {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
 
+        #if os(iOS)
+            view.clipsToBounds = true
+        #else
+            view.clipsToBounds = false
+            view.adjustsImageWhenAncestorFocused = true
+        #endif
+
         return view
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.clipsToBounds = true
         self.backgroundColor = UIColor.black
         self.addSubview(self.imageView)
     }
