@@ -17,23 +17,20 @@ public class SectionScrubber: UIView {
         case scrubbing
     }
 
-    #if os(iOS)
-    private let sectionScrubberHeight: CGFloat = 42
-    #else
-    private let sectionScrubberHeight: CGFloat = 100
-    #endif
-
-    private let sectionScrubberWidthHiding: CGFloat = 4
-    private let sectionScrubberWidthScrubbing: CGFloat = 200
-
-    private let sectionScrubberRightMarginHidden: CGFloat = 1
+    private let widthHiding: CGFloat = 4
+    private let widthScrubbing: CGFloat = 200
+    private let rightMarginHidden: CGFloat = 1
 
     #if os(iOS)
-    private let sectionScrubberWidthScrolling: CGFloat = 140
-    private let sectionScrubberRightMarginScrolling: CGFloat = 1
+    private let leftMargin: CGFloat = 10
+    private let height: CGFloat = 42
+    private let widthScrolling: CGFloat = 140
+    private let rightMarginScrolling: CGFloat = 1
     #else
-    private let sectionScrubberWidthScrolling: CGFloat = 280
-    private let sectionScrubberRightMarginScrolling: CGFloat = -120
+    private let leftMargin: CGFloat = 20
+    private let height: CGFloat = 100
+    private let widthScrolling: CGFloat = 280
+    private let rightMarginScrolling: CGFloat = -120
     #endif
 
     private let animationDuration: TimeInterval = 0.4
@@ -115,7 +112,7 @@ public class SectionScrubber: UIView {
         #endif
         container.layer.masksToBounds = true
 
-        container.heightAnchor.constraint(equalToConstant: self.sectionScrubberHeight).isActive = true
+        container.heightAnchor.constraint(equalToConstant: self.height).isActive = true
 
         return container
     }()
@@ -170,7 +167,7 @@ public class SectionScrubber: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = self.textColor
         label.font = self.font
-        label.heightAnchor.constraint(equalToConstant: self.sectionScrubberHeight).isActive = true
+        label.heightAnchor.constraint(equalToConstant: self.height).isActive = true
 
         return label
     }()
@@ -181,7 +178,7 @@ public class SectionScrubber: UIView {
         super.init(frame: CGRect.zero)
         self.translatesAutoresizingMaskIntoConstraints = false
 
-        self.heightAnchor.constraint(equalToConstant: self.sectionScrubberHeight).isActive = true
+        self.heightAnchor.constraint(equalToConstant: self.height).isActive = true
 
         self.panGestureRecognizer.addTarget(self, action: #selector(self.handleScrub))
         self.panGestureRecognizer.delegate = self
@@ -206,7 +203,7 @@ public class SectionScrubber: UIView {
         self.sectionScrubberContainer.addSubview(self.titleLabel)
 
         self.titleLabel.rightAnchor.constraint(equalTo: self.sectionScrubberContainer.rightAnchor).isActive = true
-        self.titleLabel.leftAnchor.constraint(lessThanOrEqualTo: self.sectionScrubberContainer.leftAnchor, constant: 20).isActive = true
+        self.titleLabel.leftAnchor.constraint(lessThanOrEqualTo: self.sectionScrubberContainer.leftAnchor, constant: self.leftMargin).isActive = true
         self.titleLabel.centerYAnchor.constraint(equalTo: self.sectionScrubberContainer.centerYAnchor).isActive = true
     }
 
@@ -348,15 +345,15 @@ public class SectionScrubber: UIView {
 
         switch state {
         case .hidden:
-            self.sectionScrubberRightConstraint.constant = self.sectionScrubberRightMarginHidden
-            self.sectionScrubberWidthConstraint.constant = self.sectionScrubberWidthHiding
+            self.sectionScrubberRightConstraint.constant = self.rightMarginHidden
+            self.sectionScrubberWidthConstraint.constant = self.widthHiding
             titleAlpha = 0
         case .scrolling:
-            self.sectionScrubberRightConstraint.constant = self.sectionScrubberRightMarginScrolling
-            self.sectionScrubberWidthConstraint.constant = self.sectionScrubberWidthScrolling
+            self.sectionScrubberRightConstraint.constant = self.rightMarginScrolling
+            self.sectionScrubberWidthConstraint.constant = self.widthScrolling
         case .scrubbing:
-            self.sectionScrubberRightConstraint.constant = self.sectionScrubberRightMarginHidden
-            self.sectionScrubberWidthConstraint.constant = self.sectionScrubberWidthScrubbing
+            self.sectionScrubberRightConstraint.constant = self.rightMarginHidden
+            self.sectionScrubberWidthConstraint.constant = self.widthScrubbing
         }
 
         UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: self.animationDamping, initialSpringVelocity: self.animationSpringVelocity, options: [.allowUserInteraction, .beginFromCurrentState, .curveEaseOut], animations: {
