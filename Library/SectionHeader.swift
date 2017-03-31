@@ -5,6 +5,7 @@ class SectionHeader: UICollectionReusableView {
 
     lazy var titleLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .black
 
         return label
     }()
@@ -22,6 +23,6 @@ class SectionHeader: UICollectionReusableView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        self.titleLabel.frame = CGRect(x: 10, y: 20, width: self.frame.width, height: self.frame.height)
+        self.titleLabel.frame = CGRect(x: 25, y: 20, width: self.frame.width, height: self.frame.height)
     }
 }
