@@ -281,15 +281,22 @@ public class SectionScrubber: UIView {
     }
 
     private func updateSectionTitle() {
-        // This makes too many assumptions about the collection view layout. 😔
-        // It just uses 0, because it works for now, but we might need to come up with a better method for this.
-        let centerPoint = CGPoint(x: 0, y: center.y)
-        if let indexPath = self.indexPath(at: centerPoint) {
-            if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: indexPath) {
-                self.updateSectionTitle(with: title)
-            }
-        } else if center.y < self.collectionView?.contentInset.top ?? 0 {
-            if let title = dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: IndexPath(item: 0, section: 0)) {
+        var currentIndexPath: IndexPath?
+
+        let centerIsAboveContentInset = self.center.y < self.collectionView?.contentInset.top ?? 0
+        if centerIsAboveContentInset {
+            currentIndexPath = IndexPath(item: 0, section: 0)
+        } else if let focusedCell = UIScreen.main.focusedView as? UICollectionViewCell, let indexPath = self.collectionView?.indexPath(for: focusedCell) {
+            // Only will work on the Apple TV since iOS doesn't have a focused item.
+            currentIndexPath = indexPath
+        } else if let indexPath = self.indexPath(at: CGPoint(x: 0, y: self.center.y)) {
+            // This makes too many assumptions about the collection view layout. It just uses CGPoint x: 0, 
+            // because it works for now, but we might need to come up with a better method for this.
+            currentIndexPath = indexPath
+        }
+
+        if let currentIndexPath = currentIndexPath {
+            if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: currentIndexPath) {
                 self.updateSectionTitle(with: title)
             }
         }
