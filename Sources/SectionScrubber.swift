@@ -205,6 +205,8 @@ public class SectionScrubber: UIView {
         self.titleLabel.rightAnchor.constraint(equalTo: self.sectionScrubberContainer.rightAnchor).isActive = true
         self.titleLabel.leftAnchor.constraint(lessThanOrEqualTo: self.sectionScrubberContainer.leftAnchor, constant: self.leftMargin).isActive = true
         self.titleLabel.centerYAnchor.constraint(equalTo: self.sectionScrubberContainer.centerYAnchor).isActive = true
+
+        self.backgroundColor = UIColor.red.withAlphaComponent(0.3)
     }
 
     public required init?(coder _: NSCoder) {
@@ -234,7 +236,7 @@ public class SectionScrubber: UIView {
         guard let collectionView = self.collectionView else { return }
         guard collectionView.contentSize.height != 0 else { return }
 
-        if state == .hidden {
+        if self.state == .hidden {
             self.state = .scrolling
         }
         self.hideSectionScrubberAfterDelay()
@@ -243,7 +245,9 @@ public class SectionScrubber: UIView {
         let newY = self.adjustedContainerOffset + (self.adjustedContainerBoundsHeight * percentage)
         self.topConstraint?.constant = newY
 
-        updateSectionTitle()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.updateSectionTitle()
+        }
     }
 
     /*
@@ -280,30 +284,37 @@ public class SectionScrubber: UIView {
         return nil
     }
 
+
     private func updateSectionTitle() {
         var currentIndexPath: IndexPath?
 
         let centerIsAboveContentInset = self.center.y < self.collectionView?.contentInset.top ?? 0
         if centerIsAboveContentInset {
             currentIndexPath = IndexPath(item: 0, section: 0)
-        } else if let focusedCell = UIScreen.main.focusedView as? UICollectionViewCell, let indexPath = self.collectionView?.indexPath(for: focusedCell) {
+        } else {
             // Only will work on the Apple TV since iOS doesn't have a focused item.
-            currentIndexPath = indexPath
-        } else if let indexPath = self.indexPath(at: CGPoint(x: 0, y: self.center.y)) {
-            // This makes too many assumptions about the collection view layout. It just uses CGPoint x: 0, 
-            // because it works for now, but we might need to come up with a better method for this.
-            currentIndexPath = indexPath
+            if let focusedCell = UIScreen.main.focusedView as? UICollectionViewCell, let indexPath = self.collectionView?.indexPath(for: focusedCell) {
+                currentIndexPath = indexPath
+            } else {
+                // This makes too many assumptions about the collection view layout. It just uses CGPoint x: 0,
+                // because it works for now, but we might need to come up with a better method for this.
+                let centerPoint = CGPoint(x: 0, y: self.center.y)
+                if let indexPath = self.indexPath(at: centerPoint) {
+                    currentIndexPath = indexPath
+                } else {
+                    let elements = self.collectionView?.collectionViewLayout.layoutAttributesForElements(in: self.frame)?.flatMap { $0.indexPath } ?? [IndexPath]()
+                    if let indexPath = elements.last {
+                        currentIndexPath = indexPath
+                    }
+                }
+            }
         }
 
         if let currentIndexPath = currentIndexPath {
             if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: currentIndexPath) {
-                self.updateSectionTitle(with: title)
+                self.titleLabel.text = title.uppercased()
             }
         }
-    }
-
-    private func updateSectionTitle(with title: String) {
-        self.titleLabel.text = title.uppercased()
     }
 
     private var previousLocation: CGFloat = 0
