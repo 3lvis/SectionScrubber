@@ -205,8 +205,6 @@ public class SectionScrubber: UIView {
         self.titleLabel.rightAnchor.constraint(equalTo: self.sectionScrubberContainer.rightAnchor).isActive = true
         self.titleLabel.leftAnchor.constraint(lessThanOrEqualTo: self.sectionScrubberContainer.leftAnchor, constant: self.leftMargin).isActive = true
         self.titleLabel.centerYAnchor.constraint(equalTo: self.sectionScrubberContainer.centerYAnchor).isActive = true
-
-        self.backgroundColor = UIColor.red.withAlphaComponent(0.3)
     }
 
     public required init?(coder _: NSCoder) {
