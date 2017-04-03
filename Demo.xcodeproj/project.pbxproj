@@ -57,6 +57,15 @@
 		14DB483B1E8BF853008B6E30 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DB483A1E8BF853008B6E30 /* AppDelegate.swift */; };
 		14DB483C1E8BF853008B6E30 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DB483A1E8BF853008B6E30 /* AppDelegate.swift */; };
 		14DB483D1E8BF853008B6E30 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DB483A1E8BF853008B6E30 /* AppDelegate.swift */; };
+		14E8D2F71E8CF600006C1BFD /* scrubber-arrows.png in Resources */ = {isa = PBXBuildFile; fileRef = 14E8D2F41E8CF600006C1BFD /* scrubber-arrows.png */; };
+		14E8D2F81E8CF600006C1BFD /* scrubber-arrows.png in Resources */ = {isa = PBXBuildFile; fileRef = 14E8D2F41E8CF600006C1BFD /* scrubber-arrows.png */; };
+		14E8D2F91E8CF600006C1BFD /* scrubber-arrows.png in Resources */ = {isa = PBXBuildFile; fileRef = 14E8D2F41E8CF600006C1BFD /* scrubber-arrows.png */; };
+		14E8D2FA1E8CF600006C1BFD /* scrubber-arrows@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14E8D2F51E8CF600006C1BFD /* scrubber-arrows@2x.png */; };
+		14E8D2FB1E8CF600006C1BFD /* scrubber-arrows@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14E8D2F51E8CF600006C1BFD /* scrubber-arrows@2x.png */; };
+		14E8D2FC1E8CF600006C1BFD /* scrubber-arrows@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14E8D2F51E8CF600006C1BFD /* scrubber-arrows@2x.png */; };
+		14E8D2FD1E8CF600006C1BFD /* scrubber-arrows@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14E8D2F61E8CF600006C1BFD /* scrubber-arrows@3x.png */; };
+		14E8D2FE1E8CF600006C1BFD /* scrubber-arrows@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14E8D2F61E8CF600006C1BFD /* scrubber-arrows@3x.png */; };
+		14E8D2FF1E8CF600006C1BFD /* scrubber-arrows@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14E8D2F61E8CF600006C1BFD /* scrubber-arrows@3x.png */; };
 		E61D29A11D05BDB5007C5DF2 /* SectionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61D29A01D05BDB5007C5DF2 /* SectionLabel.swift */; };
 		E61D29A21D05BDBA007C5DF2 /* SectionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61D29A01D05BDB5007C5DF2 /* SectionLabel.swift */; };
 /* End PBXBuildFile section */
@@ -92,6 +101,9 @@
 		14C984061C0DE79200B5E515 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14DB48361E8BF620008B6E30 /* PhotosCollectionLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosCollectionLayout.swift; sourceTree = "<group>"; };
 		14DB483A1E8BF853008B6E30 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		14E8D2F41E8CF600006C1BFD /* scrubber-arrows.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scrubber-arrows.png"; sourceTree = "<group>"; };
+		14E8D2F51E8CF600006C1BFD /* scrubber-arrows@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scrubber-arrows@2x.png"; sourceTree = "<group>"; };
+		14E8D2F61E8CF600006C1BFD /* scrubber-arrows@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scrubber-arrows@3x.png"; sourceTree = "<group>"; };
 		189BAD888FD0F3E10BD13B5F /* Pods_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E61D29A01D05BDB5007C5DF2 /* SectionLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -199,6 +211,9 @@
 		14B9050F1E8BEF5B00214247 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				14E8D2F41E8CF600006C1BFD /* scrubber-arrows.png */,
+				14E8D2F51E8CF600006C1BFD /* scrubber-arrows@2x.png */,
+				14E8D2F61E8CF600006C1BFD /* scrubber-arrows@3x.png */,
 				14B905101E8BEF5C00214247 /* 0.jpg */,
 				14B905111E8BEF5C00214247 /* 1.jpg */,
 				14B905121E8BEF5C00214247 /* 2.jpg */,
@@ -308,6 +323,7 @@
 				TargetAttributes = {
 					14036DC51E8BE9A5005FCBB2 = {
 						CreatedOnToolsVersion = 8.3;
+						DevelopmentTeam = 29X3GG489T;
 						ProvisioningStyle = Automatic;
 					};
 					146D72AB1AB782920058798C = {
@@ -317,6 +333,7 @@
 					};
 					14C983FC1C0DE79200B5E515 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = 29X3GG489T;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 					};
@@ -350,7 +367,10 @@
 				14B905261E8BEF5C00214247 /* 4.jpg in Resources */,
 				14B9052F1E8BEF5C00214247 /* DINNextLTPro-Light.otf in Resources */,
 				14B905231E8BEF5C00214247 /* 3.jpg in Resources */,
+				14E8D2FF1E8CF600006C1BFD /* scrubber-arrows@3x.png in Resources */,
+				14E8D2F91E8CF600006C1BFD /* scrubber-arrows.png in Resources */,
 				14B9051D1E8BEF5C00214247 /* 1.jpg in Resources */,
+				14E8D2FC1E8CF600006C1BFD /* scrubber-arrows@2x.png in Resources */,
 				14B9052C1E8BEF5C00214247 /* clear.png in Resources */,
 				14B9051A1E8BEF5C00214247 /* 0.jpg in Resources */,
 				14B905291E8BEF5C00214247 /* 5.png in Resources */,
@@ -368,9 +388,12 @@
 				14B9052A1E8BEF5C00214247 /* clear.png in Resources */,
 				14B9051B1E8BEF5C00214247 /* 1.jpg in Resources */,
 				14B905271E8BEF5C00214247 /* 5.png in Resources */,
+				14E8D2F71E8CF600006C1BFD /* scrubber-arrows.png in Resources */,
+				14E8D2FA1E8CF600006C1BFD /* scrubber-arrows@2x.png in Resources */,
 				14B9052D1E8BEF5C00214247 /* DINNextLTPro-Light.otf in Resources */,
 				14B905241E8BEF5C00214247 /* 4.jpg in Resources */,
 				14B905211E8BEF5C00214247 /* 3.jpg in Resources */,
+				14E8D2FD1E8CF600006C1BFD /* scrubber-arrows@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,11 +403,14 @@
 			files = (
 				14B9052B1E8BEF5C00214247 /* clear.png in Resources */,
 				14B905191E8BEF5C00214247 /* 0.jpg in Resources */,
+				14E8D2FB1E8CF600006C1BFD /* scrubber-arrows@2x.png in Resources */,
+				14E8D2FE1E8CF600006C1BFD /* scrubber-arrows@3x.png in Resources */,
 				14B905251E8BEF5C00214247 /* 4.jpg in Resources */,
 				14B9051C1E8BEF5C00214247 /* 1.jpg in Resources */,
 				14B9051F1E8BEF5C00214247 /* 2.jpg in Resources */,
 				14B905221E8BEF5C00214247 /* 3.jpg in Resources */,
 				14B905281E8BEF5C00214247 /* 5.png in Resources */,
+				14E8D2F81E8CF600006C1BFD /* scrubber-arrows.png in Resources */,
 				14C984021C0DE79200B5E515 /* Assets.xcassets in Resources */,
 				14C984051C0DE79200B5E515 /* LaunchScreen.storyboard in Resources */,
 				14B9052E1E8BEF5C00214247 /* DINNextLTPro-Light.otf in Resources */,
@@ -463,6 +489,7 @@
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 29X3GG489T;
 				INFOPLIST_FILE = tvOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.tvOS;
@@ -485,6 +512,7 @@
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 29X3GG489T;
 				INFOPLIST_FILE = tvOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.tvOS;
@@ -620,7 +648,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 29X3GG489T;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -642,7 +670,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 29X3GG489T;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

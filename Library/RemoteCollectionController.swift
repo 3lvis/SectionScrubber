@@ -23,10 +23,13 @@ class RemoteCollectionController: UICollectionViewController {
         let scrubber = SectionScrubber(collectionView: self.collectionView)
         scrubber.delegate = self
         scrubber.dataSource = self
-        scrubber.scrubberImage = UIImage(named: "date-scrubber")
-        scrubber.sectionLabelImage = UIImage(named: "section-label")
-        scrubber.sectionLabelFont = UIFont(name: "DINNextLTPro-Light", size: 18)
-        scrubber.sectionlabelTextColor = UIColor(red: 69/255, green: 67/255, blue: 76/255, alpha: 0.8)
+        #if os(iOS)
+            scrubber.font = UIFont.boldSystemFont(ofSize: 14)
+        #else
+            scrubber.font = UIFont.boldSystemFont(ofSize: 30)
+        #endif
+        scrubber.textColor = UIColor.white
+        scrubber.containerColor = UIColor(red: 155.0/255.0, green: 102.0/255.0, blue: 229.0/255.0, alpha: 1)
 
         return scrubber
     }()
