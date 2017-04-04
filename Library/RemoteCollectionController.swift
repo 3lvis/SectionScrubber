@@ -1,4 +1,5 @@
 import UIKit
+import SectionScrubber
 
 class RemoteCollectionController: UICollectionViewController {
     var sections = Photo.constructRemoteElements()
