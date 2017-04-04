@@ -40,7 +40,7 @@ override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate 
 }
 
 extension RemoteCollectionController: SectionScrubberDataSource {
-    func sectionScrubber(sectionScrubber: SectionScrubber, titleForSectionAtIndexPath indexPath: NSIndexPath) -> String {
+    func sectionScrubber(sectionScrubber: SectionScrubber, titleForSectionAt indexPath: NSIndexPath) -> String {
         return Photo.title(index: indexPath.section)
     }
 }

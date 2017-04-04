@@ -7,7 +7,7 @@ public protocol SectionScrubberDelegate: class {
 }
 
 public protocol SectionScrubberDataSource: class {
-    func sectionScrubber(_ sectionScrubber: SectionScrubber, titleForSectionAtIndexPath indexPath: IndexPath) -> String
+    func sectionScrubber(_ sectionScrubber: SectionScrubber, titleForSectionAt indexPath: IndexPath) -> String
 }
 
 public class SectionScrubber: UIView {
@@ -309,7 +309,7 @@ public class SectionScrubber: UIView {
         }
 
         if let currentIndexPath = currentIndexPath {
-            if let title = self.dataSource?.sectionScrubber(self, titleForSectionAtIndexPath: currentIndexPath) {
+            if let title = self.dataSource?.sectionScrubber(self, titleForSectionAt: currentIndexPath) {
                 self.titleLabel.text = title.uppercased()
             }
         }
