@@ -22,7 +22,6 @@ lazy var sectionScrubber: SectionScrubber = {
     let scrubber = SectionScrubber(collectionView: self.collectionView)
     scrubber.scrubberImage = UIImage(named: "date-scrubber")
     scrubber.sectionLabelImage = UIImage(named: "section-label")
-    scrubber.sectionLabelFont = UIFont(name: "DINNextLTPro-Light", size: 18)
     scrubber.sectionlabelTextColor = UIColor(red: 69/255, green: 67/255, blue: 76/255, alpha: 0.8)
     scrubber.dataSource = self
 
