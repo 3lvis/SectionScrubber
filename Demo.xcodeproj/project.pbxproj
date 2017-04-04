@@ -32,8 +32,6 @@
 		14BDCD591E939E3C00FD41A0 /* SectionScrubber.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14BDCD451E939CFE00FD41A0 /* SectionScrubber.framework */; };
 		14BDCD5B1E939FC900FD41A0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14BDCD5A1E939FC900FD41A0 /* Images.xcassets */; };
 		14BDCD5C1E939FC900FD41A0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14BDCD5A1E939FC900FD41A0 /* Images.xcassets */; };
-		14BDCD5E1E93A00D00FD41A0 /* FrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 14BDCD5D1E93A00D00FD41A0 /* FrameworkInfo.plist */; };
-		14BDCD5F1E93A00D00FD41A0 /* FrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 14BDCD5D1E93A00D00FD41A0 /* FrameworkInfo.plist */; };
 		14BDCD611E93A05800FD41A0 /* Resources.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14BDCD601E93A05800FD41A0 /* Resources.xcassets */; };
 		14BDCD621E93A05800FD41A0 /* Resources.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14BDCD601E93A05800FD41A0 /* Resources.xcassets */; };
 		14C984021C0DE79200B5E515 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14C984011C0DE79200B5E515 /* Assets.xcassets */; };
@@ -428,7 +426,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14BDCD5E1E93A00D00FD41A0 /* FrameworkInfo.plist in Resources */,
 				14BDCD611E93A05800FD41A0 /* Resources.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -437,7 +434,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14BDCD5F1E93A00D00FD41A0 /* FrameworkInfo.plist in Resources */,
 				14BDCD621E93A05800FD41A0 /* Resources.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
