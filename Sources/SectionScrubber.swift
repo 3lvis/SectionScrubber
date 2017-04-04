@@ -121,7 +121,7 @@ public class SectionScrubber: UIView {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.isUserInteractionEnabled = true
-        imageView.image = UIImage(named: "scrubber-arrows", in: Bundle(for: self.classForCoder), compatibleWith: nil)
+        imageView.image = UIImage(named: "Arrows", in: Bundle(for: self.classForCoder), compatibleWith: nil)
         imageView.heightAnchor.constraint(equalToConstant: 18).isActive = true
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
