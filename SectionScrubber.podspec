@@ -11,4 +11,5 @@ Pod::Spec.new do |s|
   s.tvos.deployment_target = '9.0'  
   s.requires_arc = true
   s.source_files = 'Sources/**/*'
+  s.resource_bundles = { 'SectionScrubberResources' => ['Resources/**/*'] }
 end
