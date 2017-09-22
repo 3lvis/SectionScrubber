@@ -35,17 +35,14 @@ class SectionLabel: UIView {
         self.sectionLabelImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         self.sectionLabelImageView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1).isActive = true
         self.sectionLabelImageView.widthAnchor.constraint(equalTo: self.textLabel.widthAnchor, constant: 48).isActive = true
-
         self.sectionLabelImageView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
 
         self.widthAnchor.constraint(equalTo: self.textLabel.widthAnchor).isActive = true
-
         self.textLabel.centerYAnchor.constraint(equalTo: self.sectionLabelImageView.centerYAnchor, constant: 1).isActive = true
         self.textLabel.centerXAnchor.constraint(equalTo: self.sectionLabelImageView.centerXAnchor, constant: -5).isActive = true
         self.textLabel.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1).isActive = true
-
-        self.textLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
-        self.textLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        self.textLabel.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
+        self.textLabel.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
     }
 
     required init?(coder aDecoder: NSCoder) {
