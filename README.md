@@ -7,7 +7,7 @@
 
 * The scrubber will move along when scrolling the `UICollectionView` it has been added to.
 * When you pan the scrubber you 'scrub' over the `UICollectionView`.
-* While scrubbing you can choose with title will be shown in the scrubber.
+* While scrubbing you can choose the title that will be shown in the scrubber.
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/bakkenbaeck/SectionScrubber/master/GitHub/demo.gif"/>
