@@ -317,7 +317,7 @@ public class SectionScrubber: UIView {
 
     private var previousLocation: CGFloat = 0
 
-    func handleScrub(_ gesture: UIPanGestureRecognizer) {
+    @objc func handleScrub(_ gesture: UIPanGestureRecognizer) {
         guard let collectionView = self.collectionView else { return }
         guard let window = collectionView.window else { return }
         guard self.containingViewFrame.height != 0 else { return }
@@ -398,7 +398,7 @@ public class SectionScrubber: UIView {
         self.state = .scrolling
     }
 
-    func hideSectionScrubber() {
+    @objc func hideSectionScrubber() {
         self.state = .hidden
     }
 }
