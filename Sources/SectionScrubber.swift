@@ -63,7 +63,12 @@ public class SectionScrubber: UIView {
 
     private var adjustedContainerHeight: CGFloat {
         guard let collectionView = self.collectionView else { return 0 }
-        return collectionView.contentSize.height - collectionView.bounds.height + (collectionView.contentInset.top + collectionView.contentInset.bottom)
+
+        if #available(iOS 11.0, *) {
+            return collectionView.contentSize.height - collectionView.bounds.height + (collectionView.contentInset.top + collectionView.contentInset.bottom) - collectionView.adjustedContentInset.top - collectionView.adjustedContentInset.bottom
+        } else {
+            return collectionView.contentSize.height - collectionView.bounds.height + (collectionView.contentInset.top + collectionView.contentInset.bottom)
+        }
     }
 
     private var adjustedContainerOffset: CGFloat {
@@ -205,6 +210,8 @@ public class SectionScrubber: UIView {
         self.titleLabel.rightAnchor.constraint(equalTo: self.sectionScrubberContainer.rightAnchor).isActive = true
         self.titleLabel.leftAnchor.constraint(lessThanOrEqualTo: self.sectionScrubberContainer.leftAnchor, constant: self.leftMargin).isActive = true
         self.titleLabel.centerYAnchor.constraint(equalTo: self.sectionScrubberContainer.centerYAnchor).isActive = true
+
+        self.backgroundColor = .red
     }
 
     public required init?(coder _: NSCoder) {
@@ -239,9 +246,27 @@ public class SectionScrubber: UIView {
         }
         self.hideSectionScrubberAfterDelay()
 
-        let percentage = boundedPercentage(collectionView.contentOffset.y / self.adjustedContainerHeight)
+        let percentage = roundedPercentage(collectionView.contentOffset.y / self.adjustedContainerHeight)
+
         let newY = self.adjustedContainerOffset + (self.adjustedContainerBoundsHeight * percentage)
-        self.topConstraint?.constant = newY
+        if #available(iOS 11.0, *) {
+            print("collectionView.adjustedContentInset " + String(describing: collectionView.adjustedContentInset))
+            self.topConstraint?.constant = newY + collectionView.adjustedContentInset.top
+        } else {
+            self.topConstraint?.constant = newY
+        }
+
+
+        print("collectionView.contentOffset.y " + String(describing: collectionView.contentOffset.y))
+        print("self.adjustedContainerHeight " + String(describing: self.adjustedContainerHeight))
+        print("percentage " + String(describing: percentage))
+        print("newY " + String(describing: newY))
+        print(" ")
+        print(" ")
+        print(" ")
+        print(" ")
+        print(" ")
+        print(" ")
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.updateSectionTitle()
@@ -332,7 +357,7 @@ public class SectionScrubber: UIView {
             let location = locationInWindow.y - (self.adjustedContainerOrigin + collectionView.contentInset.top + collectionView.contentInset.bottom)
 
             if gesture.state != .began && location != self.previousLocation {
-                let gesturePercentage = self.boundedPercentage(location / self.adjustedContainerBoundsHeight)
+                let gesturePercentage = self.roundedPercentage(location / self.adjustedContainerBoundsHeight)
                 let y = (self.adjustedContainerHeight * gesturePercentage) - collectionView.contentInset.top
                 collectionView.setContentOffset(CGPoint(x: collectionView.contentOffset.x, y: y), animated: false)
             }
@@ -346,7 +371,7 @@ public class SectionScrubber: UIView {
         }
     }
 
-    private func boundedPercentage(_ percentage: CGFloat) -> CGFloat {
+    private func roundedPercentage(_ percentage: CGFloat) -> CGFloat {
         var newPercentage = percentage
 
         newPercentage = max(newPercentage, 0.0)
