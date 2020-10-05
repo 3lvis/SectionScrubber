@@ -211,7 +211,6 @@ public class SectionScrubber: UIView {
         self.titleLabel.leftAnchor.constraint(lessThanOrEqualTo: self.sectionScrubberContainer.leftAnchor, constant: self.leftMargin).isActive = true
         self.titleLabel.centerYAnchor.constraint(equalTo: self.sectionScrubberContainer.centerYAnchor).isActive = true
 
-        self.backgroundColor = .red
     }
 
     public required init?(coder _: NSCoder) {
@@ -255,18 +254,6 @@ public class SectionScrubber: UIView {
         } else {
             self.topConstraint?.constant = newY
         }
-
-        print("collectionView.contentOffset.y " + String(describing: collectionView.contentOffset.y))
-        print("self.adjustedContainerHeight " + String(describing: self.adjustedContainerHeight))
-        print("percentage " + String(describing: percentage))
-        print("newY " + String(describing: newY))
-        print(" ")
-        print(" ")
-        print(" ")
-        print(" ")
-        print(" ")
-        print(" ")
-
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.updateSectionTitle()
         }
@@ -274,7 +261,8 @@ public class SectionScrubber: UIView {
 
     /*
      * Only process touch events if we're hitting the actual sectionScrubber image.
-     * Every other touch is ignored.
+     * Every other touch is igno
+    .
      */
     public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
 
