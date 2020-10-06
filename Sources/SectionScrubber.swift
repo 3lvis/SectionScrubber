@@ -64,11 +64,7 @@ public class SectionScrubber: UIView {
     private var adjustedContainerHeight: CGFloat {
         guard let collectionView = self.collectionView else { return 0 }
 
-        if #available(iOS 11.0, *) {
-            return collectionView.contentSize.height - collectionView.bounds.height + (collectionView.contentInset.top + collectionView.contentInset.bottom) - collectionView.adjustedContentInset.top - collectionView.adjustedContentInset.bottom
-        } else {
-            return collectionView.contentSize.height - collectionView.bounds.height + (collectionView.contentInset.top + collectionView.contentInset.bottom)
-        }
+        return collectionView.contentSize.height - collectionView.bounds.height + (collectionView.contentInset.top + collectionView.contentInset.bottom) - collectionView.adjustedContentInset.top - collectionView.adjustedContentInset.bottom
     }
 
     private var adjustedContainerOffset: CGFloat {
@@ -248,12 +244,7 @@ public class SectionScrubber: UIView {
         let percentage = roundedPercentage(collectionView.contentOffset.y / self.adjustedContainerHeight)
 
         let newY = self.adjustedContainerOffset + (self.adjustedContainerBoundsHeight * percentage)
-        if #available(iOS 11.0, *) {
-            print("collectionView.adjustedContentInset " + String(describing: collectionView.adjustedContentInset))
-            self.topConstraint?.constant = newY + collectionView.adjustedContentInset.top
-        } else {
-            self.topConstraint?.constant = newY
-        }
+        self.topConstraint?.constant = newY + collectionView.adjustedContentInset.top
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.updateSectionTitle()
         }
