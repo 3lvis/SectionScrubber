@@ -10,6 +10,8 @@ class PhotosCollectionLayout: UICollectionViewFlowLayout {
                 isPortrait = true
             case .landscapeLeft, .landscapeRight:
                 isPortrait = false
+            @unknown default:
+                isPortrait = true
             }
 
             var numberOfColumns = 0

@@ -23,12 +23,12 @@ public class SectionScrubber: UIView {
 
     #if os(iOS)
     private let leftMargin: CGFloat = 10
-    private let height: CGFloat = 42
+    private let scrubHeight: CGFloat = 42
     private let widthScrolling: CGFloat = 140
     private let rightMarginScrolling: CGFloat = 1
     #else
     private let leftMargin: CGFloat = 20
-    private let height: CGFloat = 100
+    private let scrubHeight: CGFloat = 100
     private let widthScrolling: CGFloat = 280
     private let rightMarginScrolling: CGFloat = -120
     #endif
@@ -63,6 +63,7 @@ public class SectionScrubber: UIView {
 
     private var adjustedContainerHeight: CGFloat {
         guard let collectionView = self.collectionView else { return 0 }
+
         return collectionView.contentSize.height - collectionView.bounds.height + (collectionView.contentInset.top + collectionView.contentInset.bottom)
     }
 
@@ -112,7 +113,7 @@ public class SectionScrubber: UIView {
         #endif
         container.layer.masksToBounds = true
 
-        container.heightAnchor.constraint(equalToConstant: self.height).isActive = true
+        container.heightAnchor.constraint(equalToConstant: self.scrubHeight).isActive = true
 
         return container
     }()
@@ -167,7 +168,7 @@ public class SectionScrubber: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = self.textColor
         label.font = self.font
-        label.heightAnchor.constraint(equalToConstant: self.height).isActive = true
+        label.heightAnchor.constraint(equalToConstant: self.scrubHeight).isActive = true
 
         return label
     }()
@@ -178,7 +179,7 @@ public class SectionScrubber: UIView {
         super.init(frame: CGRect.zero)
         self.translatesAutoresizingMaskIntoConstraints = false
 
-        self.heightAnchor.constraint(equalToConstant: self.height).isActive = true
+        self.heightAnchor.constraint(equalToConstant: self.scrubHeight).isActive = true
 
         self.panGestureRecognizer.addTarget(self, action: #selector(self.handleScrub))
         self.panGestureRecognizer.delegate = self
@@ -239,7 +240,7 @@ public class SectionScrubber: UIView {
         }
         self.hideSectionScrubberAfterDelay()
 
-        let percentage = boundedPercentage(collectionView.contentOffset.y / self.adjustedContainerHeight)
+        let percentage = roundedPercentage(collectionView.contentOffset.y / self.adjustedContainerHeight)
         let newY = self.adjustedContainerOffset + (self.adjustedContainerBoundsHeight * percentage)
         self.topConstraint?.constant = newY
 
@@ -251,6 +252,7 @@ public class SectionScrubber: UIView {
     /*
      * Only process touch events if we're hitting the actual sectionScrubber image.
      * Every other touch is ignored.
+    .
      */
     public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
 
@@ -273,15 +275,14 @@ public class SectionScrubber: UIView {
         if let indexPath = collectionView.indexPathForItem(at: point) {
             return indexPath
         }
-        for indexPath in collectionView.indexPathsForVisibleSupplementaryElements(ofKind: UICollectionElementKindSectionHeader) {
-            guard let view = collectionView.supplementaryView(forElementKind: UICollectionElementKindSectionHeader, at: indexPath) else { continue }
+        for indexPath in collectionView.indexPathsForVisibleSupplementaryElements(ofKind: UICollectionView.elementKindSectionHeader) {
+            guard let view = collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionHeader, at: indexPath) else { continue }
             if view.frame.contains(point) {
                 return indexPath
             }
         }
         return nil
     }
-
 
     private func updateSectionTitle() {
         var currentIndexPath: IndexPath?
@@ -300,7 +301,7 @@ public class SectionScrubber: UIView {
                 if let indexPath = self.indexPath(at: centerPoint) {
                     currentIndexPath = indexPath
                 } else {
-                    let elements = self.collectionView?.collectionViewLayout.layoutAttributesForElements(in: self.frame)?.flatMap { $0.indexPath } ?? [IndexPath]()
+                    let elements = self.collectionView?.collectionViewLayout.layoutAttributesForElements(in: self.frame)?.compactMap { $0.indexPath } ?? [IndexPath]()
                     if let indexPath = elements.last {
                         currentIndexPath = indexPath
                     }
@@ -332,7 +333,7 @@ public class SectionScrubber: UIView {
             let location = locationInWindow.y - (self.adjustedContainerOrigin + collectionView.contentInset.top + collectionView.contentInset.bottom)
 
             if gesture.state != .began && location != self.previousLocation {
-                let gesturePercentage = self.boundedPercentage(location / self.adjustedContainerBoundsHeight)
+                let gesturePercentage = self.roundedPercentage(location / self.adjustedContainerBoundsHeight)
                 let y = (self.adjustedContainerHeight * gesturePercentage) - collectionView.contentInset.top
                 collectionView.setContentOffset(CGPoint(x: collectionView.contentOffset.x, y: y), animated: false)
             }
@@ -346,7 +347,7 @@ public class SectionScrubber: UIView {
         }
     }
 
-    private func boundedPercentage(_ percentage: CGFloat) -> CGFloat {
+    private func roundedPercentage(_ percentage: CGFloat) -> CGFloat {
         var newPercentage = percentage
 
         newPercentage = max(newPercentage, 0.0)
@@ -405,11 +406,11 @@ public class SectionScrubber: UIView {
 
 extension SectionScrubber: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        
+
         if gestureRecognizer.view != self || otherGestureRecognizer.view == self {
             return false
         }
-        
+
         return true
     }
 }
