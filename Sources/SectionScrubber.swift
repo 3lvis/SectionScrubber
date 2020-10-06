@@ -42,7 +42,7 @@ public class SectionScrubber: UIView {
 
     private var adjustedContainerBoundsHeight: CGFloat {
         guard let collectionView = self.collectionView else { return 0 }
-        return collectionView.bounds.height - (collectionView.contentInset.top + collectionView.contentInset.bottom + self.frame.height)
+        return collectionView.bounds.height - (collectionView.adjustedContentInset.top + collectionView.adjustedContentInset.bottom + self.frame.height)
     }
 
     private var adjustedContainerOrigin: CGFloat {
@@ -63,13 +63,12 @@ public class SectionScrubber: UIView {
 
     private var adjustedContainerHeight: CGFloat {
         guard let collectionView = self.collectionView else { return 0 }
-
-        return collectionView.contentSize.height - collectionView.bounds.height + (collectionView.contentInset.top + collectionView.contentInset.bottom)
+        return collectionView.contentSize.height - collectionView.bounds.height + (collectionView.adjustedContentInset.top + collectionView.adjustedContentInset.bottom)
     }
 
     private var adjustedContainerOffset: CGFloat {
         guard let collectionView = self.collectionView else { return 0 }
-        return collectionView.contentOffset.y + collectionView.contentInset.top
+        return collectionView.contentOffset.y + collectionView.adjustedContentInset.top
     }
 
     private var containingViewFrame: CGRect {
@@ -287,7 +286,7 @@ public class SectionScrubber: UIView {
     private func updateSectionTitle() {
         var currentIndexPath: IndexPath?
 
-        let centerIsAboveContentInset = self.center.y < self.collectionView?.contentInset.top ?? 0
+        let centerIsAboveContentInset = self.center.y < self.collectionView?.adjustedContentInset.top ?? 0
         if centerIsAboveContentInset {
             currentIndexPath = IndexPath(item: 0, section: 0)
         } else {
@@ -330,11 +329,11 @@ public class SectionScrubber: UIView {
         if gesture.state == .began || gesture.state == .changed || gesture.state == .ended {
             let locationInCollectionView = gesture.location(in: collectionView)
             let locationInWindow = collectionView.convert(locationInCollectionView, to: window)
-            let location = locationInWindow.y - (self.adjustedContainerOrigin + collectionView.contentInset.top + collectionView.contentInset.bottom)
+            let location = locationInWindow.y - (self.adjustedContainerOrigin + collectionView.adjustedContentInset.top + collectionView.adjustedContentInset.bottom)
 
             if gesture.state != .began && location != self.previousLocation {
                 let gesturePercentage = self.roundedPercentage(location / self.adjustedContainerBoundsHeight)
-                let y = (self.adjustedContainerHeight * gesturePercentage) - collectionView.contentInset.top
+                let y = (self.adjustedContainerHeight * gesturePercentage) - collectionView.adjustedContentInset.top
                 collectionView.setContentOffset(CGPoint(x: collectionView.contentOffset.x, y: y), animated: false)
             }
 
