@@ -251,7 +251,7 @@ public class SectionScrubber: UIView {
 
     /*
      * Only process touch events if we're hitting the actual sectionScrubber image.
-     * Every other touch is igno
+     * Every other touch is ignored.
     .
      */
     public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
