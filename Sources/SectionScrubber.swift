@@ -28,7 +28,7 @@ public class SectionScrubber: UIView {
     private let rightMarginScrolling: CGFloat = 1
     #else
     private let leftMargin: CGFloat = 20
-    private let height: CGFloat = 100
+    private let scrubHeight: CGFloat = 100
     private let widthScrolling: CGFloat = 280
     private let rightMarginScrolling: CGFloat = -120
     #endif
