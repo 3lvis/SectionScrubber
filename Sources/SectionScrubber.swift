@@ -311,7 +311,7 @@ public class SectionScrubber: UIView {
                 if let indexPath = self.indexPath(at: centerPoint) {
                     currentIndexPath = indexPath
                 } else {
-                    let elements = self.collectionView?.collectionViewLayout.layoutAttributesForElements(in: self.frame)?.flatMap { $0.indexPath } ?? [IndexPath]()
+                    let elements = self.collectionView?.collectionViewLayout.layoutAttributesForElements(in: self.frame)?.compactMap { $0.indexPath } ?? [IndexPath]()
                     if let indexPath = elements.last {
                         currentIndexPath = indexPath
                     }

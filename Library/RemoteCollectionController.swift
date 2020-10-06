@@ -40,7 +40,7 @@ class RemoteCollectionController: UICollectionViewController {
 
         self.collectionView?.backgroundColor = UIColor.white
         self.collectionView?.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.Identifier)
-        self.collectionView?.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: SectionHeader.Identifier)
+        self.collectionView?.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeader.Identifier)
         self.collectionView?.showsVerticalScrollIndicator = false
 
         var count = 0
